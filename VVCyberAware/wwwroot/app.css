@@ -49,3 +49,37 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+.section {
+    margin: 1vh;
+    align-items: center;
+    border-radius: 2vh;
+    background-color: blanchedalmond;
+    color: black;
+    width:100%;
+}
+
+.section p {
+    height: 100%;
+    margin: 0;
+}
+
+.section button {
+    border-radius: 2vh;
+    margin-left: auto;
+}
+.category{
+    color: whitesmoke;
+    padding: 2vh;
+    background-color:dimgrey;
+    border-radius: 2vh;
+    margin-bottom: 2vh;
+}
+.category-header {
+    background-color:darkgray;
+    cursor: pointer;
+}
+.arrow-icon{
+    padding:0px;
+    font-size: 50px;
+}

@@ -1,7 +1,75 @@
-﻿@page "/"
+﻿@page "/home"
+@rendermode InteractiveServer
+
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Kategorier:</h1>
 
-Welcome to your new app.
+<ul>
+    <li class="category text-center">
+        <div class="row category-header text-center" @onclick="ToggleInfo">
+            <div class="text-center col-8" style="height:100%;">
+                <h3 class="category-title col-8 text-center">Kategori namn 1 (Procent avklarat %)</h3>
+            </div>
+            
+            <button class="btn col-2">
+                <ion-icon class="arrow-icon " name="arrow-@arrow"></ion-icon>
+            </button>
+        </div>
+        @if (showInfo)
+        {
+            <div class="row">
+                <p class="category-text">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Sed eu rhoncus nisl. Mauris feugiat dolor diam, vel vestibulum mauris finibus vitae.
+                    Nullam et varius nulla. Maecenas posuere massa sed est tincidunt volutpat.
+                    Fusce blandit placerat porta. Phasellus vehicula semper odio nec commodo.
+                    Nam eget metus urna. Quisque vitae ante sed arcu mattis condimentum at at lectus.
+                    Vivamus rhoncus dictum neque eget suscipit.
+                    Nunc porta, lacus aliquam ultrices faucibus, libero nulla feugiat quam, nec molestie magna dolor ac eros.
+                    Proin vitae lacus efficitur, malesuada leo non, finibus justo. Proin sed pulvinar augue.
+                    Pellentesque gravida elit ac metus tincidunt, et cursus magna laoreet.
+                </p>
+            </div>
+            <div class="row text-center">
+                <ul>
+                    <li class="section row">
+                        <p class="col-8">Sektion namn 1</p><button class="btn btn-primary col-4">Gå till sektion</button>
+                    </li>
+                    <li class="section row">
+                        <p class="col-8">Sektion namn 2</p><button class="btn btn-primary col-4">Gå till sektion</button>
+                    </li>
+                    <li class="section row">
+                        <p class="col-8">Sektion namn 3</p><button class="btn btn-primary col-4">Gå till sektion</button>
+                    </li>
+                    <!-- TODO For loop to add sections -->
+                </ul>
+            </div>
+        }
+    </li>
+    <li class="category text-center">
+        <h3>Kategori namn 2</h3>
+    </li>
+    <li class="category text-center">
+        <h3>Kategori namn 3</h3>
+    </li>
+    <li class="category text-center">
+        <h3>Kategori namn 4</h3>
+    </li>
+    <li class="category text-center">
+        <h3>Kategori namn 5</h3>
+    </li>
+</ul>
+
+@code {
+    private string arrow = "down"; // Note: Change to down for the other arrow
+    private bool showInfo = false;
+
+    private void ToggleInfo()
+    {
+        Console.WriteLine("Toggle!");
+        showInfo = !showInfo;
+        arrow = showInfo ? "up" : "down";
+    }
+}
