@@ -50,6 +50,9 @@ h1:focus {
     border-color: #929292;
 }
 
+.header{
+    margin-bottom:4vh;
+}
 .category-header {
     cursor: pointer;
 }

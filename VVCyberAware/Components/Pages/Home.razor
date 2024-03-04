@@ -4,39 +4,51 @@
 
 
 <PageTitle>Home</PageTitle>
-
-<h1>Kategorier:</h1>
+<div class="row text-center header">
+	<h1 class="col-10">Kategorier:</h1>
+    <span class="row col-2">
+		<label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
+	</span>
+</div>
 
 <ul class="list-group">
     @foreach (var category in categories)
     {
-        <li class="list-group-item">
-            <div class="d-flex justify-content-between align-items-center category-header" @onclick="(e) => ToggleInfo(category.Id)">
-                <h3 class="category-title not-selectable">@category.Name (Procent avklarat %)</h3>
-                <ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(category.Id) ? "up" : "down")"></ion-icon>
-            </div>
-            @if(IsCategoryVisible(category.Id)){
-               <div class="dropdown-content">
-                    <p class="category-text">@category.Description</p>
-                    <ul class="list-group">
-                        @foreach (var segment in category.Segments)
-                        {
-                            <div class="segment row align-items-center">
-                                <li class="col-6 not-selectable">@segment.Name</li>
-                                <button class="btn btn-secondary col-6">Gå till sektion</button>
-                            </div>
-                        }
-                    </ul>
-				</div>
-			}
-        </li>
+        if(category.Name.ToLower().Contains(searchText.ToLower())){
+
+            <li class="list-group-item">
+
+                <div class="d-flex justify-content-between align-items-center category-header" @onclick="(e) => ToggleInfo(category.Id)">
+                    <h3 class="category-title not-selectable">@category.Name (Procent avklarat %)</h3>
+                    <ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(category.Id) ? "up" : "down")"></ion-icon>
+                </div>
+
+                @if(IsCategoryVisible(category.Id)){
+                    <div class="dropdown-content">
+                        <p class="category-text">@category.Description</p>
+                        <ul class="list-group">
+
+                            @foreach (var segment in category.Segments)
+                            {
+                                <div class="segment row align-items-center">
+                                    <li class="col-6 not-selectable">@segment.Name</li>
+                                    <button class="btn btn-secondary col-6">Gå till sektion</button>
+                                </div>
+                            }
+
+                        </ul>
+				    </div>
+			    }
+            </li>
+        }
     }
 </ul>
 
 @code {
     private string arrowDirection = "down"; // Note: Change to down for the other arrow
-    private bool showInfo = false;
     private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
+    private string searchText = "";
+
 
     private void ToggleInfo(int id)
     {
@@ -49,6 +61,8 @@
     {
         return categoryVisibility.ContainsKey(categoryId) && categoryVisibility[categoryId];
     }
+
+    private void Search(string search) => searchText = search;
 
     protected override void OnInitialized()
     {
