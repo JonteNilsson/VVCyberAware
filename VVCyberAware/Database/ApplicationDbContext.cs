@@ -138,7 +138,7 @@ namespace VVCyberAware.Data
                 new SubCategoryModel()
                 {
                     Id = 1,
-                    Description = "Something",
+                    Description = "",
                     SegmentId = 1,
 
                 });
@@ -147,7 +147,7 @@ namespace VVCyberAware.Data
                 new QuestionModel()
                 {
                     Id = 1,
-                    QuestionText = "Vad är din favorit färg?",
+                    QuestionText = "",
                     Answers = new Dictionary<string, bool>
                     {
                         {"A), Ett legitimt försök från banken att skydda ditt konto", false }
@@ -155,10 +155,6 @@ namespace VVCyberAware.Data
                     SubCategoryId = 1,
 
                 });
-
-
-
-
         }
     }
 }
