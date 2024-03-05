@@ -1,0 +1,63 @@
+﻿@page "/segment/{id:int}"
+@using VVCyberAware.Shared.Models.DbModels
+<h1>@segment.Name</h1>
+
+
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+
+    //DUMMY SEGMENT
+
+    private SegmentModel segment = new SegmentModel
+    {
+            Id = 1,
+            Name = "Brandväggar och Intrångsdetektionssystem",
+            SubCategories = new List<SubCategoryModel>
+        {
+            new SubCategoryModel
+            {
+                Id = 1,
+                Description = "Konfigurera brandväggar och övervaka nätverkstrafik för att upptäcka och förhindra intrång.",
+                Questions = new List<QuestionModel>
+                {
+                    new QuestionModel
+                    {
+                        Id = 1,
+                        Description = "Använder du brandväggar och intrångsdetektionssystem för att skydda nätverket?",
+                        YesorNo = true
+                    },
+                    new QuestionModel
+                    {
+                        Id = 2,
+                        Description = "Har du implementerat säkerhetspolicyer för att begränsa oönskad nätverkstrafik?",
+                        YesorNo = false
+                    }
+                }
+            },
+            new SubCategoryModel
+                {
+                    Id = 2,
+                    Description = "Säkerhetskopiering och Återställning",
+                    Questions = new List<QuestionModel>
+                    {
+                        new QuestionModel
+                        {
+                            Id = 3,
+                            Description = "Tar du regelbundna säkerhetskopior av viktiga data?",
+                            YesorNo = true
+                        },
+                        new QuestionModel
+                        {
+                            Id = 4,
+                            Description = "Har du en plan för snabb återställning av data vid en nödsituation?",
+                            YesorNo = false
+                        }
+                    }
+                }
+        },
+            UserId = new List<string> { "användare1", "användare2" }
+    };
+}
+}
