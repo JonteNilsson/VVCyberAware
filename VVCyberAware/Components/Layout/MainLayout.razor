@@ -7,10 +7,12 @@
 
     <main>
 		<div class="top-row px-4">
-            <a class="top-row-home-btn" href="/home" target="_self">Home</a>
+			<a class="top-row-home-btn" href="/home" target="_self">Home</a>
+            <AuthorizeView Roles="Admin">
+                <a href="/admin" target="_self">Admin</a>
+			</AuthorizeView>
             <a href="/settings" target="_self">Inställningar</a>
         </div>
-
 
         <article class="content px-4">
             @Body

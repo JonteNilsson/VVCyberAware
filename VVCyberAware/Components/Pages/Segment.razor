@@ -1,5 +1,9 @@
 ﻿@page "/segment/{id:int}"
+@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Authorization
 @using VVCyberAware.Shared.Models.DbModels
+
 <h1>@segment.Name</h1>
 
 
