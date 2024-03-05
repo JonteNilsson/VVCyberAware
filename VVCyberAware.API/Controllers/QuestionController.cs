@@ -24,6 +24,17 @@ namespace VVCyberAware.API.Controllers
 
         };
 
+
+
+        [HttpGet("Questions")]
+        public ActionResult<List<QuestionModel>> GetQuestions()
+        {
+            return Ok(Questions);
+        }
+
+
+
+
         [HttpGet("Question/{id}")]
         public ActionResult<QuestionModel> GetSingleQuestion(int id)
         {
@@ -36,14 +47,6 @@ namespace VVCyberAware.API.Controllers
 
             return Ok(question);
         }
-
-
-        [HttpGet("Questions")]
-        public ActionResult<List<QuestionModel>> GetQuestions()
-        {
-            return Ok(Questions);
-        }
-
 
 
         [HttpPost("Question")]
@@ -63,7 +66,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpDelete("Question")]
+        [HttpDelete("Question/{id}")]
         public ActionResult DeleteQuestion(int id)
         {
             var questionToDelete = Questions.FirstOrDefault(q => q.Id == id);

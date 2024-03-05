@@ -24,6 +24,15 @@ namespace VVCyberAware.API.Controllers
             _categoryRepo = categoryRepo;
         }
 
+
+        [HttpGet("Categories")]
+        public ActionResult<List<CategoryModel>> GetAllCategories()
+        {
+            return Ok(Categories);
+        }
+
+
+
         [HttpGet("Category/{id}")]
         public ActionResult<CategoryModel> GetSingleCategory(int id)
         {
@@ -36,13 +45,6 @@ namespace VVCyberAware.API.Controllers
 
             return Ok(category);
         }
-
-        [HttpGet("Categories")]
-        public ActionResult<List<CategoryModel>> GetAllCategories()
-        {
-            return Ok(Categories);
-        }
-
 
 
         [HttpPost("Category")]
@@ -78,6 +80,8 @@ namespace VVCyberAware.API.Controllers
 
             return Ok(category);
         }
+
+
 
     }
 }

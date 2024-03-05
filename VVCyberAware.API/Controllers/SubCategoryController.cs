@@ -25,6 +25,15 @@ namespace VVCyberAware.API.Controllers
         };
 
 
+        [HttpGet("SubCategories")]
+        public ActionResult<List<SubCategoryModel>> GetSubCategories()
+        {
+            return Ok(SubCategories);
+        }
+
+
+
+
         [HttpGet("SubCategory/{id}")]
         public ActionResult<SubCategoryModel> GetSingleSubCategory(int id)
         {
@@ -39,11 +48,6 @@ namespace VVCyberAware.API.Controllers
 
         }
 
-        [HttpGet("SubCategories")]
-        public ActionResult<List<SubCategoryModel>> GetSubCategories()
-        {
-            return Ok(SubCategories);
-        }
 
         [HttpPost("SubCategory")]
         public ActionResult PostSubCategory(SubCategoryModel newSubCategory)
@@ -61,6 +65,8 @@ namespace VVCyberAware.API.Controllers
 
             return Ok(newSubCategory);
         }
+
+
 
 
         [HttpDelete("SubCategory/{id}")]

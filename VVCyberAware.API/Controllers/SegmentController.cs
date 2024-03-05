@@ -31,7 +31,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpGet("Segment")]
+        [HttpGet("Segment/{id}")]
         public ActionResult<SegmentModel> GetSingleSegment(int id)
         {
             var segment = Segments.FirstOrDefault(s => s.Id == id);
@@ -61,7 +61,7 @@ namespace VVCyberAware.API.Controllers
             return Ok(newSegment);
         }
 
-        [HttpDelete("Segment")]
+        [HttpDelete("Segment/{id}")]
         public ActionResult DeleteSegment(int id)
         {
             var segment = Segments.FirstOrDefault(s => s.Id == id);
