@@ -1,3 +1,6 @@
+using VVCyberAware.Database.Repositories;
+using VVCyberAware.Shared.Models.DbModels;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,23 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", options =>
+    {
+        options.AllowAnyHeader();
+        options.AllowAnyMethod();
+        options.AllowAnyOrigin();
+
+    });
+});
+
+builder.Services.AddScoped<GenericRepository<CategoryModel>>();
+builder.Services.AddScoped<GenericRepository<QuestionModel>>();
+builder.Services.AddScoped<GenericRepository<SegmentModel>>();
+builder.Services.AddScoped<GenericRepository<SubCategoryModel>>();
+
 
 var app = builder.Build();
 
@@ -21,5 +41,5 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseCors("AllowAll");
 app.Run();

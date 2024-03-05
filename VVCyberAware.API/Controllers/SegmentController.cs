@@ -3,6 +3,8 @@ using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.API.Controllers
 {
+    [Route("api/[controller]")]
+    [ApiController]
     public class SegmentController : Controller
     {
         public List<SegmentModel> Segments { get; set; } = new()
