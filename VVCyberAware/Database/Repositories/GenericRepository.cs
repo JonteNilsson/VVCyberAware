@@ -42,16 +42,14 @@ namespace VVCyberAware.Database.Repositories
 
         public void Update(T entity)
         {
-            var entityToUpdate = _dbSet.Find(entity);
-
-            if (entityToUpdate != null)
+            // Attach the entity to the context if it's not already being tracked
+            if (!_dbSet.Local.Any(e => e.Equals(entity)))
             {
-                _context.Attach(entityToUpdate);
-
-                _dbSet.Update(entityToUpdate);
-
-                _context.SaveChanges();
+                _dbSet.Attach(entity);
             }
+
+            _context.Entry(entity).State = EntityState.Modified;
+            _context.SaveChanges();
         }
     }
 }

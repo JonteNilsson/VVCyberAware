@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -13,16 +14,16 @@ namespace VVCyberAware.API.Controllers
         private readonly ApplicationDbContext _context;
         private readonly GenericRepository<CategoryModel> _categoryRepo;
 
-        public List<CategoryModel> Categories { get; set; } = new()
-        {
-
-        };
 
         public CategoryController(ApplicationDbContext context, GenericRepository<CategoryModel> categoryRepo)
         {
             _context = context;
             _categoryRepo = categoryRepo;
         }
+        public List<CategoryModel> Categories { get; set; } = new()
+        {
+
+        };
 
 
         [HttpGet("Categories")]
@@ -82,6 +83,49 @@ namespace VVCyberAware.API.Controllers
         }
 
 
+        [HttpPut("Category/{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryModel updatedCategory)
+        {
+            // Validate the input
+            if (id != updatedCategory.Id)
+            {
+                return BadRequest("ID's does not match");
+            }
 
+            // Try to find the existing category
+            var existingCategory = await _context.Categories
+                .Include(c => c.Segments) // Include related entities if necessary
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            // Check if the category exists
+            if (existingCategory == null)
+            {
+                return NotFound($"Category with ID {id} not found");
+            }
+
+            // Update properties of the existing category
+            existingCategory.Id = updatedCategory.Id;
+            existingCategory.Name = updatedCategory.Name;
+            existingCategory.Description = updatedCategory.Description;
+
+
+            _categoryRepo.Update(existingCategory);
+
+            // Save changes to the database
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok($"Category with ID {id} updated successfully");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Handle concurrency issues if needed
+                return StatusCode(500, "Concurrency error occurred");
+            }
+        }
     }
+
+
+
 }
+

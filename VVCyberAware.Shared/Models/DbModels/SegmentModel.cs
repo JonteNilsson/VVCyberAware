@@ -12,7 +12,6 @@ namespace VVCyberAware.Shared.Models.DbModels
         public List<SubCategoryModel>? SubCategories { get; set; }
 
 
-
     }
 
 }
