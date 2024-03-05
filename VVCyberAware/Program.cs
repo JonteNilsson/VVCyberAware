@@ -39,22 +39,40 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 //using (ServiceProvider sp = builder.Services.BuildServiceProvider())
 //{
+//	var context = sp.GetRequiredService<ApplicationDbContext>();
 //	var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
 //	var signInManager = sp.GetRequiredService<SignInManager<ApplicationUser>>();
 
-//	if (!roleManager.RoleExistsAsync("Admnin").GetAwaiter().GetResult())
-//	{
-//		IdentityRole adminRole = new()
-//		{
-//			Name = "Admin"
-//		};
-
-//		roleManager.CreateAsync(adminRole).GetAwaiter().GetResult();
-//	}
+//	context.Database.Migrate();
 
 //	// Skapa en vanlig user
+//	ApplicationUser newUser = new()
+//	{
+//		UserName = "Admin",
+//	};
 
+//	var user = signInManager.UserManager.FindByNameAsync(newUser.UserName).GetAwaiter().GetResult();
+
+//	if (user == null)
+//	{
+//		signInManager.UserManager.CreateAsync(newUser, "Admin789!").GetAwaiter().GetResult();
+
+//		//Checka adminrollen
+
+//		if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
+//		{
+//			IdentityRole adminRole = new()
+//			{
+//				Name = "Admin"
+//			};
+
+//			roleManager.CreateAsync(adminRole).GetAwaiter().GetResult();
+//		}
+
+//	}
 //	// Tilldela adminrollen till den usern
+//	signInManager.UserManager.AddToRoleAsync(newUser, "Admin").GetAwaiter().GetResult();
+
 //}
 
 var app = builder.Build();
