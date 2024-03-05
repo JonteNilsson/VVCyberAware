@@ -19,16 +19,20 @@ namespace VVCyberAware.API.Controllers
             _subCRepo = subCRepo;
         }
 
-        public List<SubCategoryModel> SubCategories { get; set; } = new()
-        {
 
-        };
 
 
         [HttpGet("SubCategories")]
         public ActionResult<List<SubCategoryModel>> GetSubCategories()
         {
-            return Ok(SubCategories);
+            var subCategories = _subCRepo.GetAll();
+
+            if (subCategories != null)
+            {
+                return Ok(subCategories);
+            }
+
+            return BadRequest();
         }
 
 
@@ -37,7 +41,7 @@ namespace VVCyberAware.API.Controllers
         [HttpGet("SubCategory/{id}")]
         public ActionResult<SubCategoryModel> GetSingleSubCategory(int id)
         {
-            var subCategory = SubCategories.FirstOrDefault(sc => sc.Id == id);
+            var subCategory = _subCRepo.GetModelById(id);
 
             if (subCategory == null)
             {
@@ -57,7 +61,7 @@ namespace VVCyberAware.API.Controllers
                 return BadRequest();
             }
 
-            SubCategories.Add(newSubCategory);
+
 
             _subCRepo.Add(newSubCategory);
 
@@ -72,14 +76,13 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("SubCategory/{id}")]
         public ActionResult Delete(int id)
         {
-            var subCategory = SubCategories.FirstOrDefault(c => c.Id == id);
+            var subCategory = _subCRepo.GetModelById(id);
 
             if (subCategory == null)
             {
                 return NotFound();
             }
 
-            SubCategories.Remove(subCategory);
 
             _subCRepo.Delete(subCategory.Id);
 

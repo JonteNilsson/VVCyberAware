@@ -20,16 +20,19 @@ namespace VVCyberAware.API.Controllers
             _context = context;
             _categoryRepo = categoryRepo;
         }
-        public List<CategoryModel> Categories { get; set; } = new()
-        {
-
-        };
 
 
         [HttpGet("Categories")]
         public ActionResult<List<CategoryModel>> GetAllCategories()
         {
-            return Ok(Categories);
+            var categories = _categoryRepo.GetAll();
+
+            if (categories != null)
+            {
+                return Ok(categories);
+            }
+
+            return BadRequest();
         }
 
 
@@ -37,7 +40,7 @@ namespace VVCyberAware.API.Controllers
         [HttpGet("Category/{id}")]
         public ActionResult<CategoryModel> GetSingleCategory(int id)
         {
-            var category = Categories.FirstOrDefault(c => c.Id == id);
+            var category = _categoryRepo.GetModelById(id);
 
             if (category == null)
             {
@@ -56,8 +59,6 @@ namespace VVCyberAware.API.Controllers
                 return BadRequest();
             }
 
-            Categories.Add(newCategory);
-
             _categoryRepo.Add(newCategory);
             _context.SaveChanges();
 
@@ -67,14 +68,13 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("Category/{id}")]
         public ActionResult DeleteCategory(int id)
         {
-            var category = Categories.FirstOrDefault(c => c.Id == id);
+            var category = _categoryRepo.GetModelById(id);
 
             if (category == null)
             {
                 return NoContent();
             }
 
-            Categories.Remove(category);
 
             _categoryRepo.Delete(category.Id);
             _context.SaveChanges();

@@ -1,7 +1,7 @@
-
-
 @page "/home"
+@attribute [Authorize]
 
+@using Microsoft.AspNetCore.Authorization
 @using VVCyberAware.Shared.Models.DbModels
 @rendermode InteractiveServer
 
@@ -74,128 +74,7 @@
         {
             categoryVisibility.Add(category.Id, false);
         }
-        
+
     }
 
-    //Dummy data:
-
-    private List<CategoryModel> categories = new List<CategoryModel>
-{
-    new CategoryModel
-    {
-        Id = 1,
-        Name = "Nätverkssäkerhet",
-        Description = "Skyddar nätverk och data mot attacker från internet, intrång och andra hot.",
-        Segments = new List<SegmentModel>
-        {
-            new SegmentModel
-            {
-                Id = 1,
-                Name = "Brandväggar och Intrångsdetektionssystem",
-                SubCategories = new List<SubCategoryModel>
-                {
-                    new SubCategoryModel
-                    {
-                        Id = 1,
-                        Description = "Konfigurera brandväggar och övervaka nätverkstrafik för att upptäcka och förhindra intrång.",
-                        Questions = new List<QuestionModel>
-                        {
-                            new QuestionModel
-                            {
-                                Id = 1,
-                                Description = "Använder du brandväggar och intrångsdetektionssystem för att skydda nätverket?",
-                                YesorNo = true
-                            },
-                            new QuestionModel
-                            {
-                                Id = 2,
-                                Description = "Har du implementerat säkerhetspolicyer för att begränsa oönskad nätverkstrafik?",
-                                YesorNo = false
-                            }
-                        }
-                    },
-                    new SubCategoryModel
-                    {
-                        Id = 2,
-                        Description = "Säkerhetskopiering och Återställning",
-                        Questions = new List<QuestionModel>
-                        {
-                            new QuestionModel
-                            {
-                                Id = 3,
-                                Description = "Tar du regelbundna säkerhetskopior av viktiga data?",
-                                YesorNo = true
-                            },
-                            new QuestionModel
-                            {
-                                Id = 4,
-                                Description = "Har du en plan för snabb återställning av data vid en nödsituation?",
-                                YesorNo = false
-                            }
-                        }
-                    }
-                },
-                UserId = new List<string> { "användare1", "användare2" }
-            }
-        }
-    },
-    new CategoryModel
-    {
-        Id = 2,
-        Name = "Mobil säkerhet",
-        Description = "Skyddar enheter och appar mot säkerhetshot i mobiltelefoner och surfplattor.",
-        Segments = new List<SegmentModel>
-        {
-            new SegmentModel
-            {
-                Id = 2,
-                Name = "Appar och Datahantering",
-                SubCategories = new List<SubCategoryModel>
-                {
-                    new SubCategoryModel
-                    {
-                        Id = 3,
-                        Description = "Granska och hantera åtkomstbehörigheter för installerade appar.",
-                        Questions = new List<QuestionModel>
-                        {
-                            new QuestionModel
-                            {
-                                Id = 5,
-                                Description = "Har du granskat och begränsat åtkomstbehörigheter för installerade appar?",
-                                YesorNo = true
-                            },
-                            new QuestionModel
-                            {
-                                Id = 6,
-                                Description = "Använder du kryptering för att skydda känsliga data på mobila enheter?",
-                                YesorNo = false
-                            }
-                        }
-                    },
-                    new SubCategoryModel
-                    {
-                        Id = 4,
-                        Description = "Säkerhetskopiering och Fjärrborttagning",
-                        Questions = new List<QuestionModel>
-                        {
-                            new QuestionModel
-                            {
-                                Id = 7,
-                                Description = "Har du en mekanism för fjärrborttagning av data från förlorade eller stulna enheter?",
-                                YesorNo = true
-                            },
-                            new QuestionModel
-                            {
-                                Id = 8,
-                                Description = "Tar du regelbundna säkerhetskopior av mobila enheters data?",
-                                YesorNo = false
-                            }
-                        }
-                    }
-                },
-                UserId = new List<string> { "användare3", "användare4" }
-            }
-        }
-    }
-};
-}
+   }

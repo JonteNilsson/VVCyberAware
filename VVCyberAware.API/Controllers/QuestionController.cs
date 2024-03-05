@@ -19,17 +19,19 @@ namespace VVCyberAware.API.Controllers
             _questionRepo = questionRepo;
         }
 
-        public List<QuestionModel> Questions { get; set; } = new()
-        {
-
-        };
-
 
 
         [HttpGet("Questions")]
         public ActionResult<List<QuestionModel>> GetQuestions()
         {
-            return Ok(Questions);
+            var questions = _questionRepo.GetAll();
+
+            if (questions != null)
+            {
+                return Ok(questions);
+            }
+
+            return BadRequest();
         }
 
 
@@ -38,7 +40,7 @@ namespace VVCyberAware.API.Controllers
         [HttpGet("Question/{id}")]
         public ActionResult<QuestionModel> GetSingleQuestion(int id)
         {
-            var question = Questions.FirstOrDefault(q => q.Id == id);
+            var question = _questionRepo.GetModelById(id);
 
             if (question == null)
             {
@@ -57,7 +59,6 @@ namespace VVCyberAware.API.Controllers
                 return BadRequest();
             }
 
-            Questions.Add(newQuestion);
 
             _questionRepo.Add(newQuestion);
             _context.SaveChanges();
@@ -69,14 +70,13 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("Question/{id}")]
         public ActionResult DeleteQuestion(int id)
         {
-            var questionToDelete = Questions.FirstOrDefault(q => q.Id == id);
+            var questionToDelete = _questionRepo.GetModelById(id);
 
             if (questionToDelete == null)
             {
                 return NotFound();
             }
 
-            Questions.Remove(questionToDelete);
 
             _questionRepo.Delete(questionToDelete.Id);
 
