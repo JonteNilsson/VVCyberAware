@@ -4,6 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Components;
 using VVCyberAware.Components.Account;
 using VVCyberAware.Data;
+using VVCyberAware.Shared.Models.Services.CategoryService;
+using VVCyberAware.Shared.Models.Services.QuestionService;
+using VVCyberAware.Shared.Models.Services.SegmentService;
+using VVCyberAware.Shared.Models.Services.SubCategoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -34,6 +38,10 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
     .AddDefaultTokenProviders();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<ISegmentService, SegmentService>();
+builder.Services.AddScoped<ISubCService, SubCService>();
 
 var app = builder.Build();
 
