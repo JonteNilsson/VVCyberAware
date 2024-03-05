@@ -1,11 +1,42 @@
-﻿@page "/segment/{id:int}"
-@attribute [Authorize]
+﻿@page "/segment/{id:int?}"
+@* @attribute [Authorize] *@
 
 @using Microsoft.AspNetCore.Authorization
 @using VVCyberAware.Shared.Models.DbModels
 
-<h1>@segment.Name</h1>
+<div class="main-container">
+<h1 class="text-center">@category.Name</h1>
 
+@foreach(var segment in category.Segments)
+{
+    <div class="segment-container">
+	<h1>@segment.Name</h1>
+    @foreach(var sub in segment.SubCategories)
+    {
+        
+        <h3>@sub.Description</h3>
+        @foreach(var question in sub.Questions)
+        {
+            <div class="question-box">
+                <form>
+                    <p class="font-weight-bold">@question.Question</p>
+                    @for (int i = 0; i < question.Answers.Count(); i++)
+                    {
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="Question">
+                            <label class="form-check-label" for="Question">
+                                @question.Answers.ElementAt(i).Key
+                            </label>
+                        </div>
+                    }
+				</form>
+			</div>
+        }
+    }
+    <button class="btn btn-primary" >Submit</button>
+    </div>
+}
+</div>
 
 
 @code {
@@ -14,54 +45,126 @@
 
     //DUMMY SEGMENT
 
-    private SegmentModel segment = new SegmentModel
-    {
-            Id = 1,
-            Name = "Brandväggar och Intrångsdetektionssystem",
-            SubCategories = new List<SubCategoryModel>
+    private CategoryModel category = new CategoryModel
         {
-            new SubCategoryModel
+            Id = 1,
+            Name = "Att skydda sig mot bedrägerier",
+            Description = "Beskrivning för kategorin",
+            Segments = new List<SegmentModel>
+        {
+            new SegmentModel
             {
                 Id = 1,
-                Description = "Konfigurera brandväggar och övervaka nätverkstrafik för att upptäcka och förhindra intrång.",
-                Questions = new List<QuestionModel>
+                Name = "Del 1",
+                SubCategories = new List<SubCategoryModel>
                 {
-                    new QuestionModel
+                    new SubCategoryModel
                     {
                         Id = 1,
-                        Description = "Använder du brandväggar och intrångsdetektionssystem för att skydda nätverket?",
-                        YesorNo = true
+                        Description = "Kreditkortsbedrägeri",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 1,
+                                Question = "Du får ett oväntat telefonsamtal från någon som påstår sig vara från din bank. Personen ber dig bekräfta ditt kontonummer och lösenord för att 'säkerställa din kontos säkerhet' efter en påstådd säkerhetsincident. Hur bör du tolka denna situation?",
+                                Answers = new Dictionary<string, bool>
+                                {
+                                    { "A) Ett legitimt försök från banken att skydda ditt konto", false },
+                                    { "B) En informationsinsamling för en marknadsundersökning", false },
+                                    { "C) Ett potentiellt telefonbedrägeri", true }
+                                },
+                                Explanation = "Banker och andra finansiella institutioner begär aldrig känslig information såsom kontonummer eller lösenord via telefon. Detta är ett klassiskt tecken på telefonbedrägeri."
+                            },
+                            // Add more questions for this subcategory
+                        }
                     },
-                    new QuestionModel
+                    new SubCategoryModel
                     {
                         Id = 2,
-                        Description = "Har du implementerat säkerhetspolicyer för att begränsa oönskad nätverkstrafik?",
-                        YesorNo = false
-                    }
+                        Description = "Romansbedrägeri",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 2,
+                                Question = "Efter flera månader av daglig kommunikation med någon du träffade på en datingsida, börjar personen berätta om en plötslig finansiell kris och ber om din hjälp genom att överföra pengar. Vad indikerar detta mest sannolikt?",
+                                Answers = new Dictionary<string, bool>
+                                {
+                                    { "A) En legitim begäran om hjälp från en person i nöd", false },
+                                    { "B) Ett romansbedrägeri", true },
+                                    { "C) En tillfällig ekonomisk svårighet", false }
+                                },
+                                Explanation = "Begäran om pengar, särskilt under omständigheter där två personer aldrig har träffats fysiskt, är ett vanligt tecken på romansbedrägeri."
+                            },
+                            // Add more questions for this subcategory
+                        }
+                    },
+                    new SubCategoryModel
+                    {
+                        Id = 3,
+                        Description = "Investeringsbedrägeri",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 3,
+                                Question = "Du får ett e-postmeddelande/samtal om ett exklusivt erbjudande att investera i ett startup-företag som påstås ha en revolutionerande ny teknologi, med garantier om exceptionellt hög avkastning på mycket kort tid. Hur bör du förhålla dig till erbjudandet?",
+                                Answers = new Dictionary<string, bool>
+                                {
+                                    { "A) Genomföra omedelbar investering för att inte missa möjligheten", false },
+                                    { "B) Investeringsbedrägeri", true },
+                                    { "C) Begära mer information för att utföra en noggrann 'due diligence'", false }
+                                },
+                                Explanation = "Erbjudanden som lovar hög avkastning med liten eller ingen risk, särskilt via oönskade e-postmeddelanden, är ofta tecken på investeringsbedrägerier."
+                            },
+                            // Add more questions for this subcategory
+                        }
+                    },
+                    new SubCategoryModel
+                    {
+                        Id = 4,
+                        Description = "Telefonbedrägeri",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 4,
+                                Question = "Efter en online-shoppingrunda märker du oidentifierade transaktioner på ditt kreditkortsutdrag från företag du aldrig handlat från. Vad indikerar detta mest sannolikt?",
+                                Answers = new Dictionary<string, bool>
+                                {
+                                    { "A) Ett misstag av kreditkortsföretaget", false },
+                                    { "B) Kreditkortsbedrägeri", true },
+                                    { "C) Obehöriga köp av en familjemedlem", false }
+                                },
+                                Explanation = "Oidentifierade transaktioner på ditt kreditkortsutdrag är en stark indikation på att ditt kortnummer har komprometterats och använts för obehöriga köp, vilket är typiskt för kreditkortsbedrägeri."
+                            },
+                            // Add more questions for this subcategory
+                        }
+                    },
+                    // Add more subcategories for this segment
                 }
             },
-            new SubCategoryModel
+            new SegmentModel
+            {
+                Id = 2,
+                Name = "Del 2",
+                SubCategories = new List<SubCategoryModel>
                 {
-                    Id = 2,
-                    Description = "Säkerhetskopiering och Återställning",
-                    Questions = new List<QuestionModel>
+                    new SubCategoryModel
                     {
-                        new QuestionModel
+                        Id = 5,
+                        Description = "Bedrägerier i hemmet",
+                        Questions = new List<QuestionModel>
                         {
-                            Id = 3,
-                            Description = "Tar du regelbundna säkerhetskopior av viktiga data?",
-                            YesorNo = true
-                        },
-                        new QuestionModel
-                        {
-                            Id = 4,
-                            Description = "Har du en plan för snabb återställning av data vid en nödsituation?",
-                            YesorNo = false
+                            // Add questions for this subcategory
                         }
-                    }
+                    },
+                    // Add more subcategories for this segment
                 }
-        },
-            UserId = new List<string> { "användare1", "användare2" }
+            },
+            // Add more segments for this category
+        }
     };
 }
-}
+
