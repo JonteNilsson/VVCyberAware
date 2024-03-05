@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VVCyberAware.Data;
+using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.API.Controllers
@@ -7,6 +9,14 @@ namespace VVCyberAware.API.Controllers
     [ApiController]
     public class SegmentController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly GenericRepository<SegmentModel> _segmentRepo;
+
+        public SegmentController(ApplicationDbContext context, GenericRepository<SegmentModel> segmentRepo)
+        {
+            _context = context;
+            _segmentRepo = segmentRepo;
+        }
         public List<SegmentModel> Segments { get; set; } = new()
         {
 
@@ -21,7 +31,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpGet("Segment")]
+        [HttpGet("Segment/{id}")]
         public ActionResult<SegmentModel> GetSingleSegment(int id)
         {
             var segment = Segments.FirstOrDefault(s => s.Id == id);
@@ -34,7 +44,24 @@ namespace VVCyberAware.API.Controllers
             return Ok(segment);
         }
 
-        [HttpDelete("Segment")]
+
+        [HttpPost("Segment")]
+        public ActionResult PostSegment(SegmentModel newSegment)
+        {
+            if (newSegment == null)
+            {
+                return BadRequest();
+            }
+
+            Segments.Add(newSegment);
+
+            _segmentRepo.Add(newSegment);
+            _context.SaveChanges();
+
+            return Ok(newSegment);
+        }
+
+        [HttpDelete("Segment/{id}")]
         public ActionResult DeleteSegment(int id)
         {
             var segment = Segments.FirstOrDefault(s => s.Id == id);
@@ -45,6 +72,11 @@ namespace VVCyberAware.API.Controllers
             }
 
             Segments.Remove(segment);
+
+            _segmentRepo.Delete(segment.Id);
+
+            _context.SaveChanges();
+
             return Ok();
         }
 
