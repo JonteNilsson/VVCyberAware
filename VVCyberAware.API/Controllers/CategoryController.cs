@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VVCyberAware.Data;
+using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.API.Controllers
@@ -8,11 +10,19 @@ namespace VVCyberAware.API.Controllers
     [ApiController]
     public class CategoryController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly GenericRepository<CategoryModel> _categoryRepo;
 
         public List<CategoryModel> Categories { get; set; } = new()
         {
 
         };
+
+        public CategoryController(ApplicationDbContext context, GenericRepository<CategoryModel> categoryRepo)
+        {
+            _context = context;
+            _categoryRepo = categoryRepo;
+        }
 
         [HttpGet("Category/{id}")]
         public ActionResult<CategoryModel> GetSingleCategory(int id)
@@ -45,6 +55,9 @@ namespace VVCyberAware.API.Controllers
 
             Categories.Add(newCategory);
 
+            _categoryRepo.Add(newCategory);
+            _context.SaveChanges();
+
             return Ok(newCategory);
         }
 
@@ -59,6 +72,10 @@ namespace VVCyberAware.API.Controllers
             }
 
             Categories.Remove(category);
+
+            _categoryRepo.Delete(category.Id);
+            _context.SaveChanges();
+
             return Ok(category);
         }
 

@@ -39,5 +39,19 @@ namespace VVCyberAware.Database.Repositories
                 _dbSet.Remove(entityToDelete);
             }
         }
+
+        public void Update(T entity)
+        {
+            var entityToUpdate = _dbSet.Find(entity);
+
+            if (entityToUpdate != null)
+            {
+                _context.Attach(entityToUpdate);
+
+                _dbSet.Update(entityToUpdate);
+
+                _context.SaveChanges();
+            }
+        }
     }
 }
