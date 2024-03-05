@@ -4,6 +4,7 @@ using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.Data
 {
+
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
         public DbSet<CategoryModel> Categories { get; set; }
@@ -21,8 +22,8 @@ namespace VVCyberAware.Data
             //    new CategoryModel
             //    {
             //        Id = 1,
-            //        Name = "Kreditkortsbedrägeri",
-            //        Description = "Beskrivning för Kreditkortsbedrägeri",
+            //        Name = "Kreditkortsbedrï¿½geri",
+            //        Description = "Beskrivning fï¿½r Kreditkortsbedrï¿½geri",
             //        Segments = new List<SegmentModel> { new SegmentModel
             //        {
             //            Id = 1,
@@ -32,14 +33,14 @@ namespace VVCyberAware.Data
             //                new SubCategoryModel
             //                {
             //                    Id = 1,
-            //                    Description = "Hejsan detta är någonting",
+            //                    Description = "Hejsan detta ï¿½r nï¿½gonting",
             //                    Questions = new List<QuestionModel>
             //                    {
             //                        new QuestionModel
             //                        {
             //                            Id = 1,
             //                            YesorNo = false,
-            //                            Description = "Detta är en description"
+            //                            Description = "Detta ï¿½r en description"
             //                        }
             //                    }
             //                }
@@ -57,12 +58,12 @@ namespace VVCyberAware.Data
             //new CategoryModel
             //{
             //    Id = 2,
-            //    Name = "Romansbedrägeri",
-            //    Description = "Beskrivning för Romansbedrägeri"
+            //    Name = "Romansbedrï¿½geri",
+            //    Description = "Beskrivning fï¿½r Romansbedrï¿½geri"
             //});
 
 
 
         }
     }
-}
+

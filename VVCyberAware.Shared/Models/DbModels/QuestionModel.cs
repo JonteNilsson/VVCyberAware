@@ -13,8 +13,10 @@ namespace VVCyberAware.Shared.Models.DbModels
 		[Key]
 		public int Id { get; set; }
 
-		public string Description { get; set; } = null!;
+		public string Question { get; set; } = null!;
 
-		public bool YesorNo { get; set; }
+		public Dictionary<string, bool> Answers { get; set; } = new();
+
+		public string? Explanation { get; set; }
 	}
 }
