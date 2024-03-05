@@ -45,6 +45,7 @@ builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<ISegmentService, SegmentService>();
 builder.Services.AddScoped<ISubCService, SubCService>();
 
+
 //using (ServiceProvider sp = builder.Services.BuildServiceProvider())
 //{
 //    var context = sp.GetRequiredService<ApplicationDbContext>();
@@ -80,6 +81,7 @@ builder.Services.AddScoped<ISubCService, SubCService>();
 //    }
 //    // Tilldela adminrollen till den usern
 //    signInManager.UserManager.AddToRoleAsync(newUser, "Admin").GetAwaiter().GetResult();
+
 
 //}
 
