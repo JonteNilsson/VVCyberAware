@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using VVCyberAware.Data;
+using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.API.Controllers
@@ -8,11 +10,30 @@ namespace VVCyberAware.API.Controllers
     [ApiController]
     public class QuestionController : Controller
     {
+        private readonly ApplicationDbContext _context;
+        private readonly GenericRepository<QuestionModel> _questionRepo;
+
+        public QuestionController(ApplicationDbContext context, GenericRepository<QuestionModel> questionRepo)
+        {
+            _context = context;
+            _questionRepo = questionRepo;
+        }
 
         public List<QuestionModel> Questions { get; set; } = new()
         {
 
         };
+
+
+
+        [HttpGet("Questions")]
+        public ActionResult<List<QuestionModel>> GetQuestions()
+        {
+            return Ok(Questions);
+        }
+
+
+
 
         [HttpGet("Question/{id}")]
         public ActionResult<QuestionModel> GetSingleQuestion(int id)
@@ -28,14 +49,24 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpGet("Questions")]
-        public ActionResult<List<QuestionModel>> GetQuestions()
+        [HttpPost("Question")]
+        public ActionResult PostQuestion(QuestionModel newQuestion)
         {
-            return Ok(Questions);
+            if (newQuestion == null)
+            {
+                return BadRequest();
+            }
+
+            Questions.Add(newQuestion);
+
+            _questionRepo.Add(newQuestion);
+            _context.SaveChanges();
+
+            return Ok(newQuestion);
         }
 
 
-        [HttpDelete("Question")]
+        [HttpDelete("Question/{id}")]
         public ActionResult DeleteQuestion(int id)
         {
             var questionToDelete = Questions.FirstOrDefault(q => q.Id == id);
@@ -46,6 +77,11 @@ namespace VVCyberAware.API.Controllers
             }
 
             Questions.Remove(questionToDelete);
+
+            _questionRepo.Delete(questionToDelete.Id);
+
+            _context.SaveChanges();
+
             return Ok();
         }
     }

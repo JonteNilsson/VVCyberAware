@@ -10,8 +10,7 @@ namespace VVCyberAware.Shared.Models.DbModels
 		public string Name { get; set; } = null!;
 
 		public List<SubCategoryModel>? SubCategories { get; set; }
-
+    
 		public List<string> UserId { get; set; }
 	}
-
 }

@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
 
@@ -20,6 +22,9 @@ builder.Services.AddCors(options =>
 
     });
 });
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddScoped<GenericRepository<CategoryModel>>();
 builder.Services.AddScoped<GenericRepository<QuestionModel>>();
