@@ -1,3 +1,6 @@
+using VVCyberAware.Database.Repositories;
+using VVCyberAware.Shared.Models.DbModels;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -17,6 +20,11 @@ builder.Services.AddCors(options =>
 
     });
 });
+
+builder.Services.AddScoped<GenericRepository<CategoryModel>>();
+builder.Services.AddScoped<GenericRepository<QuestionModel>>();
+builder.Services.AddScoped<GenericRepository<SegmentModel>>();
+builder.Services.AddScoped<GenericRepository<SubCategoryModel>>();
 
 
 var app = builder.Build();

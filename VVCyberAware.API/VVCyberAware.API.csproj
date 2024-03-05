@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\VVCyberAware.Shared\VVCyberAware.Shared.csproj" />
+    <ProjectReference Include="..\VVCyberAware\VVCyberAware.csproj" />
   </ItemGroup>
 
 </Project>
