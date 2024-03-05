@@ -1,7 +1,198 @@
-﻿
+@page "/home"
+@using VVCyberAware.Shared.Models.DbModels
+@rendermode InteractiveServer
+
 
 <PageTitle>Home</PageTitle>
+<div class="row text-center header">
+	<h1 class="col-10">Kategorier:</h1>
+    <span class="row col-2">
+		<label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
+	</span>
+</div>
 
-<h1>Hello, world!</h1>
+<ul class="list-group">
+    @foreach (var category in categories)
+    {
+        if(category.Name.ToLower().Contains(searchText.ToLower())){
 
-Welcome to your new app.
+            <li class="list-group-item">
+
+                <div class="d-flex justify-content-between align-items-center category-header" @onclick="(e) => ToggleInfo(category.Id)">
+                    <h3 class="category-title not-selectable">@category.Name (Procent avklarat %)</h3>
+                    <ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(category.Id) ? "up" : "down")"></ion-icon>
+                </div>
+
+                @if(IsCategoryVisible(category.Id)){
+                    <div class="dropdown-content">
+                        <p class="category-text">@category.Description</p>
+                        <ul class="list-group">
+
+                            @foreach (var segment in category.Segments)
+                            {
+                                <div class="segment row align-items-center">
+                                    <li class="col-6 not-selectable">@segment.Name</li>
+                                    <button class="btn btn-secondary col-6">Gå till sektion</button>
+                                </div>
+                            }
+
+                        </ul>
+				    </div>
+			    }
+            </li>
+        }
+    }
+</ul>
+
+@code {
+    private string arrowDirection = "down"; // Note: Change to down for the other arrow
+    private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
+    private string searchText = "";
+
+
+    private void ToggleInfo(int id)
+    {
+        categoryVisibility[id] = !categoryVisibility[id];
+
+        arrowDirection = categoryVisibility[id] ? "up" : "down";
+    }
+
+    private bool IsCategoryVisible(int categoryId)
+    {
+        return categoryVisibility.ContainsKey(categoryId) && categoryVisibility[categoryId];
+    }
+
+    private void Search(string search) => searchText = search;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        foreach (var category in categories)
+        {
+            categoryVisibility.Add(category.Id, false);
+        }
+        
+    }
+
+    //Dummy data:
+
+    private List<CategoryModel> categories = new List<CategoryModel>
+{
+    new CategoryModel
+    {
+        Id = 1,
+        Name = "Nätverkssäkerhet",
+        Description = "Skyddar nätverk och data mot attacker från internet, intrång och andra hot.",
+        Segments = new List<SegmentModel>
+        {
+            new SegmentModel
+            {
+                Id = 1,
+                Name = "Brandväggar och Intrångsdetektionssystem",
+                SubCategories = new List<SubCategoryModel>
+                {
+                    new SubCategoryModel
+                    {
+                        Id = 1,
+                        Description = "Konfigurera brandväggar och övervaka nätverkstrafik för att upptäcka och förhindra intrång.",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 1,
+                                Description = "Använder du brandväggar och intrångsdetektionssystem för att skydda nätverket?",
+                                YesorNo = true
+                            },
+                            new QuestionModel
+                            {
+                                Id = 2,
+                                Description = "Har du implementerat säkerhetspolicyer för att begränsa oönskad nätverkstrafik?",
+                                YesorNo = false
+                            }
+                        }
+                    },
+                    new SubCategoryModel
+                    {
+                        Id = 2,
+                        Description = "Säkerhetskopiering och Återställning",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 3,
+                                Description = "Tar du regelbundna säkerhetskopior av viktiga data?",
+                                YesorNo = true
+                            },
+                            new QuestionModel
+                            {
+                                Id = 4,
+                                Description = "Har du en plan för snabb återställning av data vid en nödsituation?",
+                                YesorNo = false
+                            }
+                        }
+                    }
+                },
+                UserId = new List<string> { "användare1", "användare2" }
+            }
+        }
+    },
+    new CategoryModel
+    {
+        Id = 2,
+        Name = "Mobil säkerhet",
+        Description = "Skyddar enheter och appar mot säkerhetshot i mobiltelefoner och surfplattor.",
+        Segments = new List<SegmentModel>
+        {
+            new SegmentModel
+            {
+                Id = 2,
+                Name = "Appar och Datahantering",
+                SubCategories = new List<SubCategoryModel>
+                {
+                    new SubCategoryModel
+                    {
+                        Id = 3,
+                        Description = "Granska och hantera åtkomstbehörigheter för installerade appar.",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 5,
+                                Description = "Har du granskat och begränsat åtkomstbehörigheter för installerade appar?",
+                                YesorNo = true
+                            },
+                            new QuestionModel
+                            {
+                                Id = 6,
+                                Description = "Använder du kryptering för att skydda känsliga data på mobila enheter?",
+                                YesorNo = false
+                            }
+                        }
+                    },
+                    new SubCategoryModel
+                    {
+                        Id = 4,
+                        Description = "Säkerhetskopiering och Fjärrborttagning",
+                        Questions = new List<QuestionModel>
+                        {
+                            new QuestionModel
+                            {
+                                Id = 7,
+                                Description = "Har du en mekanism för fjärrborttagning av data från förlorade eller stulna enheter?",
+                                YesorNo = true
+                            },
+                            new QuestionModel
+                            {
+                                Id = 8,
+                                Description = "Tar du regelbundna säkerhetskopior av mobila enheters data?",
+                                YesorNo = false
+                            }
+                        }
+                    }
+                },
+                UserId = new List<string> { "användare3", "användare4" }
+            }
+        }
+    }
+};
+}
