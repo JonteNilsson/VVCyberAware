@@ -3,8 +3,12 @@ using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.API.Controllers
 {
+
+    [Route("api/[controller]")]
+    [ApiController]
     public class QuestionController : Controller
     {
+
         public List<QuestionModel> Questions { get; set; } = new()
         {
 
