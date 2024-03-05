@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34616.47
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVCyberAware", "VVCyberAware\VVCyberAware.csproj", "{10665070-0647-4BD4-9A20-B944EB255D12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVCyberAware", "VVCyberAware\VVCyberAware.csproj", "{10665070-0647-4BD4-9A20-B944EB255D12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVCyberAware.API", "VVCyberAware.API\VVCyberAware.API.csproj", "{9A49CEA8-8BF5-447E-AA37-4FED67DEAE02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVCyberAware.API", "VVCyberAware.API\VVCyberAware.API.csproj", "{9A49CEA8-8BF5-447E-AA37-4FED67DEAE02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VVCyberAware.Shared", "VVCyberAware.Shared\VVCyberAware.Shared.csproj", "{F7ABEE18-6445-448B-81A4-C10AC910555B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVCyberAware.Shared", "VVCyberAware.Shared\VVCyberAware.Shared.csproj", "{F7ABEE18-6445-448B-81A4-C10AC910555B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
