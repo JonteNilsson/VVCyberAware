@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -27,14 +28,21 @@ namespace VVCyberAware.API.Controllers
         [HttpGet("Segments")]
         public ActionResult<List<SegmentModel>> GetAllSegments()
         {
-            return Ok(Segments);
+            var segments = _context.Segments.ToListAsync();
+
+            if (segments != null)
+            {
+                return Ok(segments);
+            }
+
+            return BadRequest();
         }
 
 
         [HttpGet("Segment/{id}")]
-        public ActionResult<SegmentModel> GetSingleSegment(int id)
+        public async Task<ActionResult<SegmentModel>> GetSingleSegment(int id)
         {
-            var segment = Segments.FirstOrDefault(s => s.Id == id);
+            var segment = await _context.Segments.FirstOrDefaultAsync(x => x.Id == id);
 
             if (segment == null)
             {
