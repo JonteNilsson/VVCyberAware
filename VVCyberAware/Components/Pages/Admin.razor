@@ -1,0 +1,36 @@
+﻿@page "/admin/{id:int?}"
+ 
+@attribute [Authorize]
+
+@using Microsoft.AspNetCore.Authorization
+
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        <h1 class="text-center">Welcome to the Admin Page!</h1>
+
+        @if (!Id.HasValue)
+        {
+            <div class="main-container">
+                @* foreach *@
+                <div class="row text-center admin-category">
+                    <div class="col-10">
+                        <h2>Name</h2>
+                    </div>
+                    <div class="col-2">
+                        <button class="btn btn-warning admin-btn">Edit</button><button class="btn btn-danger">Delete</button> @* Add onclicks *@
+                    </div>
+                </div>
+            </div>
+        }
+        
+    </Authorized>
+    <NotAuthorized>
+        <p>You are not authorized to view this page.</p>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int? Id { get; set; }
+}
