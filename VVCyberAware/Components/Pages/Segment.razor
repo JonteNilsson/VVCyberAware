@@ -4,7 +4,7 @@
 @using Microsoft.AspNetCore.Authorization
 @using VVCyberAware.Shared.Models.DbModels
 
-<div class="main-container">
+@* <div class="main-container">
 <h1 class="text-center">@category.Name</h1>
 
 @foreach(var segment in category.Segments)
@@ -42,6 +42,8 @@
 @code {
     [Parameter]
     public int? Id { get; set; }
+
+    public List<QuestionModel> Questions { get; set; } = new();
 
     //DUMMY SEGMENT
 
@@ -165,6 +167,6 @@
             },
             // Add more segments for this category
         }
-    };
-}
+    }; *@
+
 

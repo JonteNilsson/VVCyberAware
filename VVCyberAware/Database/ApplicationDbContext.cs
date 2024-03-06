@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Shared.Models.DbModels;
@@ -17,24 +16,6 @@ namespace VVCyberAware.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
-            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
-            {
-                // Define the primary key for IdentityUserToken<string>
-                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
-            });
-
-            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
-            {
-                // Definiera primärnyckeln för IdentityUserLogin<string>
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
-            });
-
-            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
-            {
-                // Define the primary key for IdentityUserRole<string>
-                entity.HasKey(e => new { e.UserId, e.RoleId });
-            });
 
 
             base.OnModelCreating(modelBuilder);
@@ -67,70 +48,70 @@ namespace VVCyberAware.Data
                     Id = 1,
                     CategoryId = 1,
                     Name = "Del 1",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 2,
                     CategoryId = 1,
                     Name = "Del 2",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 3,
                     CategoryId = 1,
                     Name = "Del 3",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 4,
                     CategoryId = 2,
                     Name = "Del 1",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 5,
                     CategoryId = 2,
                     Name = "Del 2",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 6,
                     CategoryId = 2,
                     Name = "Del 3",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 7,
                     CategoryId = 2,
                     Name = "Del 4",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 8,
                     CategoryId = 3,
                     Name = "Del 1",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 9,
                     CategoryId = 3,
                     Name = "Del 2",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 },
                 new SegmentModel()
                 {
                     Id = 10,
                     CategoryId = 3,
                     Name = "Del 3",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
                 });
 
 
