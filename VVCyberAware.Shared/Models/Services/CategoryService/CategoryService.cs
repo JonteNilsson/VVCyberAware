@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
-using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.CategoryService
 {
@@ -11,7 +11,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
             BaseAddress = new Uri("https://localhost:7214/api/")
         };
 
-        public async Task<List<CategoryModel>> GetCategoriesAsync()
+        public async Task<List<CategoryApiModel>> GetCategoriesAsync()
         {
             var response = await client.GetAsync("Category/Categories");
 
@@ -19,7 +19,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
             {
                 string categoryJson = await response.Content.ReadAsStringAsync();
 
-                List<CategoryModel>? categories = JsonConvert.DeserializeObject<List<CategoryModel>>(categoryJson);
+                List<CategoryApiModel>? categories = JsonConvert.DeserializeObject<List<CategoryApiModel>>(categoryJson);
 
                 if (categories != null)
                 {
@@ -32,7 +32,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
             throw new HttpRequestException();
         }
 
-        public async Task<CategoryModel> GetCategoryByIdAsync(int id)
+        public async Task<CategoryApiModel> GetCategoryByIdAsync(int id)
         {
             var response = await client.GetAsync($"Category/{id}");
 
@@ -40,7 +40,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
             {
                 string categoryJson = await response.Content.ReadAsStringAsync();
 
-                CategoryModel? category = JsonConvert.DeserializeObject<CategoryModel>(categoryJson);
+                CategoryApiModel? category = JsonConvert.DeserializeObject<CategoryApiModel>(categoryJson);
 
                 if (category != null)
                 {
@@ -53,7 +53,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
             throw new HttpRequestException();
         }
 
-        public async Task PostCategory(CategoryModel category)
+        public async Task PostCategory(CategoryApiModel category)
         {
             await client.PostAsJsonAsync("Category/Post", category);
         }

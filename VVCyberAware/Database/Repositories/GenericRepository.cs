@@ -43,7 +43,7 @@ namespace VVCyberAware.Database.Repositories
 
         public void Update(T entity)
         {
-            // Attach the entity to the context if it's not already being tracked
+            // Attach the entity to the _context if it's not already being tracked
             if (!_dbSet.Local.Any(e => e.Equals(entity)))
             {
                 _dbSet.Attach(entity);
@@ -85,8 +85,14 @@ namespace VVCyberAware.Database.Repositories
             // Apply the predicate to filter the result
             query = query.Where(predicate);
 
+
             // Use FirstOrDefault to get the first or default result
             return await query.FirstOrDefaultAsync();
         }
+
+        //public CategoryApiModel CategoryMapAPIModel(CategoryModel categoryModel)
+        //{
+        //    CategoryApiModel mappedModel = categoryModel
+        //}
     }
 }
