@@ -2,6 +2,7 @@
 @attribute [Authorize]
 
 @using Microsoft.AspNetCore.Authorization
+@using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
 @using VVCyberAware.Shared.Models.Services.SegmentService
@@ -36,7 +37,7 @@
                             <p class="category-text">@category.Description</p>
                             <ul class="list-group">
 
-                                @foreach (var segment in segments)
+                                @foreach (var segment in segments.Where(s=>s.CategoryId == category.Id))
                                 {
                                     <div class="segment row align-items-center">
                                         <li class="col-6 not-selectable">@segment.Name</li>
@@ -58,8 +59,8 @@
     private string arrowDirection = "down"; // Note: Change to down for the other arrow
     private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
     private string searchText = "";
-    private List<CategoryModel>? categories;
-    private List<SegmentModel>? segments;
+    private List<CategoryApiModel> categories;
+    private List<SegmentModel> segments;
 
 
     private void ToggleInfo(int id)
@@ -76,9 +77,9 @@
 
     private void Search(string search) => searchText = search;
 
-    protected async override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        await base.OnInitializedAsync();
 
         categories = await categoryService.GetCategoriesAsync();
         segments = await segmentService.GetSegmentsAsync();
@@ -87,13 +88,7 @@
         {
             categoryVisibility.Add(category.Id, false);
         }
-
-        
     }
-
-
-
-
 
 //     //DUMMY DATA
 
