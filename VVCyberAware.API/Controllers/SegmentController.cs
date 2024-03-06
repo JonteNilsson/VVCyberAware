@@ -18,17 +18,14 @@ namespace VVCyberAware.API.Controllers
             _context = context;
             _segmentRepo = segmentRepo;
         }
-        public List<SegmentModel> Segments { get; set; } = new()
-        {
 
-        };
 
 
 
         [HttpGet("Segments")]
         public async Task<ActionResult<List<SegmentModel>>> GetAllSegments()
         {
-            var segments = await _context.Segments.ToListAsync();
+            var segments = await _segmentRepo.GetAll();
 
             if (segments != null)
             {

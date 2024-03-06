@@ -15,29 +15,30 @@ namespace VVCyberAware.Database.Repositories
             _dbSet = context.Set<T>();
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
-            return _dbSet.ToList();
+            return await _dbSet.ToListAsync();
         }
 
-        public T? GetModelById(int id)
+        public async Task<T?> GetModelById(int id)
         {
-            return _dbSet.Find(id);
+            return await _dbSet.FindAsync(id);
         }
 
-        public void Add(T entity)
+        public async Task Add(T entity)
         {
-            _dbSet.Add(entity);
-            _context.SaveChanges();
+            await _dbSet.AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            T? entityToDelete = GetModelById(id);
+            T? entityToDelete = await GetModelById(id);
 
             if (entityToDelete != null)
             {
                 _dbSet.Remove(entityToDelete);
+                await _context.SaveChangesAsync();
             }
         }
 
