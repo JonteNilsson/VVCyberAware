@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
+using VVCyberAware.Shared.Models.ApiModels;
 using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.API.Controllers
@@ -13,12 +14,13 @@ namespace VVCyberAware.API.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly GenericRepository<CategoryModel> _categoryRepo;
+        private readonly CategoryIncludeRepo _includeRepo;
 
-
-        public CategoryController(ApplicationDbContext context, GenericRepository<CategoryModel> categoryRepo)
+        public CategoryController(ApplicationDbContext context, GenericRepository<CategoryModel> categoryRepo, CategoryIncludeRepo includeRepo)
         {
             _context = context;
             _categoryRepo = categoryRepo;
+            _includeRepo = includeRepo;
         }
 
 
@@ -41,6 +43,19 @@ namespace VVCyberAware.API.Controllers
         public ActionResult<CategoryModel> GetSingleCategory(int id)
         {
             var category = _categoryRepo.GetModelById(id);
+
+            if (category == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(category);
+        }
+
+        [HttpGet("CategoryInclude/{id}")]
+        public async Task<ActionResult<CategoryApiModel>> GetCategoryInclude(int id)
+        {
+            var category = await _includeRepo.GetCategoryInclude(id);
 
             if (category == null)
             {

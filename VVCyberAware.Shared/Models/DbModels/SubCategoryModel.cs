@@ -12,5 +12,7 @@ namespace VVCyberAware.Shared.Models.DbModels
         public SegmentModel? Segment { get; set; } // Nav prop
         public int SegmentId { get; set; }
 
+        public List<QuestionModel>? Questions { get; set; }
+
     }
 }

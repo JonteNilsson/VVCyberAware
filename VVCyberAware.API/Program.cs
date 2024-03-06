@@ -30,6 +30,7 @@ builder.Services.AddScoped<GenericRepository<CategoryModel>>();
 builder.Services.AddScoped<GenericRepository<QuestionModel>>();
 builder.Services.AddScoped<GenericRepository<SegmentModel>>();
 builder.Services.AddScoped<GenericRepository<SubCategoryModel>>();
+builder.Services.AddScoped<CategoryIncludeRepo>();
 
 
 var app = builder.Build();
