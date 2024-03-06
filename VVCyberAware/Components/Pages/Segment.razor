@@ -47,8 +47,8 @@ else
 @code {
     [Parameter]
     public int? Id { get; set; }
-
     private SegmentModel segment;
+
 
     protected override void OnParametersSet()
     {
@@ -74,6 +74,7 @@ else
             Description = "Cyber is hyper",
             Id = 2
         }
+
     };
     private List<SegmentModel> segments = new()
     {
@@ -287,4 +288,5 @@ else
     }
 };
 }
+
 

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Shared.Models.DbModels;
@@ -18,24 +17,6 @@ namespace VVCyberAware.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-            modelBuilder.Entity<IdentityUserToken<string>>(entity =>
-            {
-                // Define the primary key for IdentityUserToken<string>
-                entity.HasKey(e => new { e.UserId, e.LoginProvider, e.Name });
-            });
-
-            modelBuilder.Entity<IdentityUserLogin<string>>(entity =>
-            {
-                // Definiera primärnyckeln för IdentityUserLogin<string>
-                entity.HasKey(e => new { e.LoginProvider, e.ProviderKey });
-            });
-
-            modelBuilder.Entity<IdentityUserRole<string>>(entity =>
-            {
-                // Define the primary key for IdentityUserRole<string>
-                entity.HasKey(e => new { e.UserId, e.RoleId });
-            });
-
 
             base.OnModelCreating(modelBuilder);
 
@@ -43,9 +24,22 @@ namespace VVCyberAware.Data
                 new CategoryModel()
                 {
                     Id = 1,
-                    Name = "Bedrägeri",
+                    Name = "Att skydda sig mot bedrägerier",
                     Description = "Info om bedrägeri"
+                },
+                new CategoryModel()
+                {
+                    Id = 2,
+                    Name = "Cybersäkerhet för företag",
+                    Description = "Digital säkerhet på företag"
+                },
+                new CategoryModel()
+                {
+                    Id = 3,
+                    Name = " Cyberspionage",
+                    Description = "Allmänt om cyberspionage"
                 });
+
 
 
             modelBuilder.Entity<SegmentModel>().HasData(
@@ -54,14 +48,78 @@ namespace VVCyberAware.Data
                     Id = 1,
                     CategoryId = 1,
                     Name = "Del 1",
-                    UserId = new List<string>()
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 2,
+                    CategoryId = 1,
+                    Name = "Del 2",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 3,
+                    CategoryId = 1,
+                    Name = "Del 3",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 4,
+                    CategoryId = 2,
+                    Name = "Del 1",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 5,
+                    CategoryId = 2,
+                    Name = "Del 2",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 6,
+                    CategoryId = 2,
+                    Name = "Del 3",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 7,
+                    CategoryId = 2,
+                    Name = "Del 4",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 8,
+                    CategoryId = 3,
+                    Name = "Del 1",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 9,
+                    CategoryId = 3,
+                    Name = "Del 2",
+                    UserIsComplete = new List<string>()
+                },
+                new SegmentModel()
+                {
+                    Id = 10,
+                    CategoryId = 3,
+                    Name = "Del 3",
+                    UserIsComplete = new List<string>()
                 });
+
 
             modelBuilder.Entity<SubCategoryModel>().HasData(
                 new SubCategoryModel()
                 {
                     Id = 1,
-                    Description = "Something",
+                    Description = "",
                     SegmentId = 1,
 
                 });
@@ -70,7 +128,7 @@ namespace VVCyberAware.Data
                 new QuestionModel()
                 {
                     Id = 1,
-                    QuestionText = "Vad är din favorit färg?",
+                    QuestionText = "",
                     Answers = new Dictionary<string, bool>
                     {
                         {"A), Ett legitimt försök från banken att skydda ditt konto", false }
@@ -78,10 +136,6 @@ namespace VVCyberAware.Data
                     SubCategoryId = 1,
 
                 });
-
-
-
-
         }
     }
 }

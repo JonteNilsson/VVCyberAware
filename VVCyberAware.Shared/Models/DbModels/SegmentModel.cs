@@ -14,6 +14,6 @@ namespace VVCyberAware.Shared.Models.DbModels
         public CategoryModel? Category { get; set; } // Navigation prop
         public int CategoryId { get; set; }
 
-        public List<string>? UserId { get; set; }
+        public List<string>? UserIsComplete { get; set; }
     }
 }
