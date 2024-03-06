@@ -461,17 +461,73 @@ namespace VVCyberAware.Data
                     }, 
                     SubCategoryId= 6,
                     Explanation = " Denna fråga riktar in sig på att identifiera varningssignaler som kan tyda på att någon obehörigt använder din personliga information. Genom att känna till dessa tecken kan individer agera snabbt för att skydda sin finansiella hälsa och juridiska ställning."
-                }
-                //new QuestionModel()
-                //{
-                //    //Id = 7,
-                //    //QuestionText = "Hur kan du känna igen ett nätfiske- eller bluffmejl?",
-                //    //Answers = new Dictionary<string, bool>
-                //    //{
-                //    //    {}
-                //    //}
+                },
+                new QuestionModel()
+                {
+                    Id = 7,
+                    QuestionText = "Hur kan du känna igen ett nätfiske- eller bluffmejl?",
+                    Answers = new Dictionary<string, bool>
+                    {
+                        {"A) Meddelandet erbjuder en kostnadsfri uppdatering till din programvara.",false},
+                        {"B) Meddelandet innehåller specifik och relevant information som bara du skulle känna till.",false },
+                        {"C) Meddelandet ber om omedelbar verifiering av personliga uppgifter via en länk eller ett bifogat formulär.",true }
+                    },
+                    SubCategoryId= 7,
+                    Explanation = "Denna fråga varnar för ett vanligt trick i nätfiske- och bluffmejl där avsändaren försöker få mottagaren att avslöja känslig information."
+                },
+                new QuestionModel()
+                {
+                    Id= 8,
+                    QuestionText = "Vilket av följande är en varningssignal för investeringsbedrägeri på nätet?",
+                    Answers = new Dictionary<string, bool>
+                    {
+                        {"A) En investering som erbjuder regelbundna utbetalningar utan risk.",true},
+                        {"B) En investering som stöds av stora, välkända finansinstitut.",false },
+                        {"C) En investering som kräver tid för forskning och övervägande innan du engagerar dig.",false }
+                    },
+                    SubCategoryId= 8,
+                    Explanation = "Denna fråga belyser hur löften om riskfria vinster ofta är ett tecken på investeringsbedrägeri, vilket är viktigt att känna till för att undvika ekonomiska förluster."
+                },
+                new QuestionModel()
+                {
+                    Id = 10,
+                    QuestionText = "Hur kan du bäst skydda dig mot ransomware-attacker?",
+                    Answers = new Dictionary<string, bool>
+    {
+        {"A) Betala lösensumman så fort som möjligt.", false},
+        {"B) Hålla ditt operativsystem och alla program uppdaterade med de senaste säkerhetsuppdateringarna.", true},
+        {"C) Öppna alla bilagor du får via e-post för att kontrollera innehållet.", false}
+    },
+                    SubCategoryId = 10,
+                    Explanation = "Att hålla programvara uppdaterad är avgörande för att förebygga ransomware-attacker eftersom det säkerställer att kända säkerhetsbrister åtgärdas."
+                },
+new QuestionModel()
+{
+    Id = 11,
+    QuestionText = "Vilka är de främsta tecknen på att du kan ha drabbats av en abonnemangsfälla eller mottagit en falsk faktura?",
+    Answers = new Dictionary<string, bool>
+    {
+        {"A) Du mottar en detaljerad faktura för en tjänst du regelbundet använder.", false},
+        {"B) Fakturan saknar detaljerad information och kontaktuppgifter.", true},
+        {"C) Du känner igen företagets namn och logotyp.", false}
+    },
+    SubCategoryId = 11,
+    Explanation = "En faktura som saknar detaljer eller kontaktuppgifter kan vara en indikation på en abonnemangsfälla eller en falsk faktura, vilket är en vanlig taktik bland bedragare."
+},
+new QuestionModel()
+{
+    Id = 12,
+    QuestionText = "På vilket sätt kan statistik över cyberbrott påverka ett företags förhållningssätt till cybersäkerhet?",
+    Answers = new Dictionary<string, bool>
+    {
+        {"A) Genom att ignorera statistiken för att fokusera på annan verksamhet.", false},
+        {"B) Genom att använda statistiken för att skrämma anställda till bättre efterlevnad.", false},
+        {"C) Genom att analysera trender och mönster för att förbättra säkerhetsåtgärderna.", true}
+    },
+    SubCategoryId = 12,
+    Explanation = "Användning av statistik för att förstå och åtgärda säkerhetshot kan hjälpa företag att utveckla mer effektiva cybersäkerhetsstrategier och minska risken för brott."
+},
 
-                
                 );
         }
     }
