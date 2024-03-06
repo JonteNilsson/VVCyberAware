@@ -54,7 +54,7 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("SubCategory")]
-        public ActionResult PostSubCategory(SubCategoryModel newSubCategory)
+        public async Task<ActionResult> PostSubCategory(SubCategoryModel newSubCategory)
         {
             if (newSubCategory == null)
             {
@@ -62,8 +62,7 @@ namespace VVCyberAware.API.Controllers
             }
 
 
-
-            _subCRepo.Add(newSubCategory);
+            await _subCRepo.Add(newSubCategory);
 
             _context.SaveChanges();
 
@@ -74,7 +73,7 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpDelete("SubCategory/{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             var subCategory = _subCRepo.GetModelById(id);
 
@@ -84,7 +83,7 @@ namespace VVCyberAware.API.Controllers
             }
 
 
-            _subCRepo.Delete(subCategory.Id);
+            await _subCRepo.Delete(subCategory.Id);
 
             _context.SaveChanges();
 
