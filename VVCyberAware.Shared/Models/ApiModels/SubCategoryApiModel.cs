@@ -6,7 +6,7 @@ namespace VVCyberAware.Shared.Models.ApiModels
     {
         public int Id { get; set; }
 
-        public string Description { get; set; } = null!;
+        public string? Description { get; set; }
 
         public SegmentModel? Segment { get; set; } // Nav prop
 

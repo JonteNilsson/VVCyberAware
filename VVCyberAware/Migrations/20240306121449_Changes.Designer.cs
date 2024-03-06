@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VVCyberAware.Data;
 
@@ -11,9 +12,11 @@ using VVCyberAware.Data;
 namespace VVCyberAware.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240306121449_Changes")]
+    partial class Changes
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,44 +292,8 @@ namespace VVCyberAware.Migrations
                         new
                         {
                             Id = 1,
-                            Explanation = "Banker och andra finansiella institutioner begär aldrig känslig information såsom kontonummer eller lösenord via telefon. Detta är ett klassiskt tecken på telefonbedrägeri.",
-                            QuestionText = "Du får ett oväntat telefonsamtal från någon som påstår sig vara från din bank. Personen ber dig bekräfta ditt kontonummer och lösenord för att \"säkerställa din kontos säkerhet\" efter en påstådd säkerhetsincident. Hur bör du tolka denna situation?",
+                            QuestionText = "",
                             SubCategoryId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Explanation = "Begäran om pengar, särskilt under omständigheter där två personer aldrig har träffats fysiskt, är ett vanligt tecken på romansbedrägeri.",
-                            QuestionText = "Efter flera månader av daglig kommunikation med någon du träffade på en datingsida, börjar personen berätta om en plötslig finansiell kris och ber om din hjälp genom att överföra pengar. Vad indikerar detta mest sannolikt?",
-                            SubCategoryId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Explanation = "Erbjudanden som lovar hög avkastning med liten eller ingen risk, särskilt via oönskade e-postmeddelanden, är ofta tecken på investeringsbedrägerier",
-                            QuestionText = "Du får ett e-postmeddelande/samtal om ett exklusivt erbjudande att investera i ett startup-företag som påstås ha en revolutionerande ny teknologi, med garantier om exceptionellt hög avkastning på mycket kort tid. Hur bör du förhålla dig till erbjudandet?\r\n",
-                            SubCategoryId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Explanation = "Oidentifierade transaktioner på ditt kreditkortsutdrag är en stark indikation på att ditt kortnummer har komprometterats och använts för obehöriga köp, vilket är typiskt för kreditkortsbedrägeri.",
-                            QuestionText = "Efter en online-shoppingrunda märker du oidentifierade transaktioner på ditt kreditkortsutdrag från företag du aldrig handlat från. Vad indikerar detta mest sannolikt?",
-                            SubCategoryId = 4
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Explanation = "Denna fråga syftar till att öka medvetenheten om hur bedragare kan försöka manipulera människor i sina egna hem, ofta genom att erbjuda något som verkar vara för bra för att vara sant, som gratisprodukter eller tjänster, i utbyte mot personlig information eller finansiell data.",
-                            QuestionText = "Vad är de vanligaste tecknen på att du kan vara måltavla för ett bedrägeri i hemmet?",
-                            SubCategoryId = 5
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Explanation = " Denna fråga riktar in sig på att identifiera varningssignaler som kan tyda på att någon obehörigt använder din personliga information. Genom att känna till dessa tecken kan individer agera snabbt för att skydda sin finansiella hälsa och juridiska ställning.",
-                            QuestionText = "Hur kan du upptäcka om någon har stulit din identitet?",
-                            SubCategoryId = 6
                         });
                 });
 
@@ -452,266 +419,8 @@ namespace VVCyberAware.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Kreditkortsbedrägeri",
+                            Description = "",
                             SegmentId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Romansbedrägeri",
-                            SegmentId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Investeringsbedrägeri",
-                            SegmentId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Description = "Telefonbedrägeri",
-                            SegmentId = 1
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Description = "Bedrägerier i hemmet",
-                            SegmentId = 2
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Identitetsstöld",
-                            SegmentId = 2
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Nätfiske och bluffmejl",
-                            SegmentId = 2
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "Investeringsbedrägeri på nätet",
-                            SegmentId = 2
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Description = "Abonnemangsfällor och falska fakturor",
-                            SegmentId = 3
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Description = "Ransomware",
-                            SegmentId = 3
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Description = "Statistik och förhållningssätt",
-                            SegmentId = 3
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Description = "Digital säkerhet på företag",
-                            SegmentId = 4
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Description = "Risker och beredskap",
-                            SegmentId = 4
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Description = "Aktörer inom cyberbrott",
-                            SegmentId = 4
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Description = "Ökad digital närvaro och distansarbete",
-                            SegmentId = 4
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Description = "Cyberangrepp mot känsliga sektorer",
-                            SegmentId = 4
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Description = "Cyberrånet mot Mersk",
-                            SegmentId = 4
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Description = "Social engineering",
-                            SegmentId = 5
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Description = "Nätfiske och skräppost",
-                            SegmentId = 5
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Description = "Vishing",
-                            SegmentId = 5
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Description = "Varning för vishing",
-                            SegmentId = 5
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Description = "Identifiera VD-mejl",
-                            SegmentId = 5
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Description = "Öneangrepp och presentkortsbluffar",
-                            SegmentId = 5
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Description = "Virus, maskar och trojaner",
-                            SegmentId = 6
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Description = "Nätverksintrång",
-                            SegmentId = 6
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Description = "Dataintrång",
-                            SegmentId = 6
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Description = "Hackad!",
-                            SegmentId = 6
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Description = "Vägarna in",
-                            SegmentId = 6
-                        },
-                        new
-                        {
-                            Id = 29,
-                            Description = "Utpressningsvirus",
-                            SegmentId = 7
-                        },
-                        new
-                        {
-                            Id = 30,
-                            Description = "Attacker mot servrar",
-                            SegmentId = 7
-                        },
-                        new
-                        {
-                            Id = 31,
-                            Description = "Cyberangrepp i Norden",
-                            SegmentId = 7
-                        },
-                        new
-                        {
-                            Id = 32,
-                            Description = "It-brottslingarnas verktyg",
-                            SegmentId = 7
-                        },
-                        new
-                        {
-                            Id = 33,
-                            Description = "Mirai, Wannacry och fallet Düsseldorf",
-                            SegmentId = 7
-                        },
-                        new
-                        {
-                            Id = 34,
-                            Description = "De sårbara molnen",
-                            SegmentId = 7
-                        },
-                        new
-                        {
-                            Id = 35,
-                            Description = "Allmänt om cyberspionage",
-                            SegmentId = 8
-                        },
-                        new
-                        {
-                            Id = 36,
-                            Description = "Metoder för cyberspionage",
-                            SegmentId = 8
-                        },
-                        new
-                        {
-                            Id = 37,
-                            Description = "Säkerhetsskyddslagen",
-                            SegmentId = 8
-                        },
-                        new
-                        {
-                            Id = 38,
-                            Description = "Cyberspionagets aktörer",
-                            SegmentId = 8
-                        },
-                        new
-                        {
-                            Id = 39,
-                            Description = "Värvningsförsök",
-                            SegmentId = 9
-                        },
-                        new
-                        {
-                            Id = 40,
-                            Description = "Affärsspionage",
-                            SegmentId = 9
-                        },
-                        new
-                        {
-                            Id = 41,
-                            Description = "Påverkanskampanjer",
-                            SegmentId = 9
-                        },
-                        new
-                        {
-                            Id = 42,
-                            Description = "Svensk underrättelsetjänst och cyberförsvar",
-                            SegmentId = 10
-                        },
-                        new
-                        {
-                            Id = 43,
-                            Description = "Signalspaning, informationssäkerhet och 5G",
-                            SegmentId = 10
-                        },
-                        new
-                        {
-                            Id = 44,
-                            Description = "Samverkan mot cyberspionage",
-                            SegmentId = 10
                         });
                 });
 
