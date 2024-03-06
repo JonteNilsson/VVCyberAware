@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VVCyberAware.Data;
 
@@ -12,11 +11,9 @@ using VVCyberAware.Data;
 namespace VVCyberAware.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240304124120_DbModels")]
-    partial class DbModels
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -242,6 +239,26 @@ namespace VVCyberAware.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Info om bedrägeri",
+                            Name = "Att skydda sig mot bedrägerier"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Digital säkerhet på företag",
+                            Name = "Cybersäkerhet för företag"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Allmänt om cyberspionage",
+                            Name = " Cyberspionage"
+                        });
                 });
 
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.QuestionModel", b =>
@@ -252,21 +269,29 @@ namespace VVCyberAware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Description")
+                    b.Property<string>("Explanation")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QuestionText")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubCategoryModelId")
+                    b.Property<int>("SubCategoryId")
                         .HasColumnType("int");
-
-                    b.Property<bool>("YesorNo")
-                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubCategoryModelId");
+                    b.HasIndex("SubCategoryId");
 
                     b.ToTable("Questions");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            QuestionText = "",
+                            SubCategoryId = 1
+                        });
                 });
 
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.SegmentModel", b =>
@@ -277,22 +302,93 @@ namespace VVCyberAware.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CategoryModelId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
+                    b.Property<string>("UserIsComplete")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryModelId");
+                    b.HasIndex("CategoryId");
 
                     b.ToTable("Segments");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CategoryId = 1,
+                            Name = "Del 1",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Name = "Del 2",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            Name = "Del 3",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 2,
+                            Name = "Del 1",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            Name = "Del 2",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 2,
+                            Name = "Del 3",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 2,
+                            Name = "Del 4",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 3,
+                            Name = "Del 1",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 3,
+                            Name = "Del 2",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 3,
+                            Name = "Del 3",
+                            UserIsComplete = "[]"
+                        });
                 });
 
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.SubCategoryModel", b =>
@@ -307,14 +403,22 @@ namespace VVCyberAware.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SegmentModelId")
+                    b.Property<int>("SegmentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SegmentModelId");
+                    b.HasIndex("SegmentId");
 
                     b.ToTable("SubCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "",
+                            SegmentId = 1
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -370,23 +474,35 @@ namespace VVCyberAware.Migrations
 
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.QuestionModel", b =>
                 {
-                    b.HasOne("VVCyberAware.Shared.Models.DbModels.SubCategoryModel", null)
-                        .WithMany("Questions")
-                        .HasForeignKey("SubCategoryModelId");
+                    b.HasOne("VVCyberAware.Shared.Models.DbModels.SubCategoryModel", "SubCategory")
+                        .WithMany()
+                        .HasForeignKey("SubCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("SubCategory");
                 });
 
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.SegmentModel", b =>
                 {
-                    b.HasOne("VVCyberAware.Shared.Models.DbModels.CategoryModel", null)
+                    b.HasOne("VVCyberAware.Shared.Models.DbModels.CategoryModel", "Category")
                         .WithMany("Segments")
-                        .HasForeignKey("CategoryModelId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
                 });
 
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.SubCategoryModel", b =>
                 {
-                    b.HasOne("VVCyberAware.Shared.Models.DbModels.SegmentModel", null)
+                    b.HasOne("VVCyberAware.Shared.Models.DbModels.SegmentModel", "Segment")
                         .WithMany("SubCategories")
-                        .HasForeignKey("SegmentModelId");
+                        .HasForeignKey("SegmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Segment");
                 });
 
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.CategoryModel", b =>
@@ -397,11 +513,6 @@ namespace VVCyberAware.Migrations
             modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.SegmentModel", b =>
                 {
                     b.Navigation("SubCategories");
-                });
-
-            modelBuilder.Entity("VVCyberAware.Shared.Models.DbModels.SubCategoryModel", b =>
-                {
-                    b.Navigation("Questions");
                 });
 #pragma warning restore 612, 618
         }

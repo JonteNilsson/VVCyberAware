@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VVCyberAware.Data;
 
@@ -11,9 +12,11 @@ using VVCyberAware.Data;
 namespace VVCyberAware.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240306083014_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,7 +248,19 @@ namespace VVCyberAware.Migrations
                         {
                             Id = 1,
                             Description = "Info om bedrägeri",
-                            Name = "Bedrägeri"
+                            Name = "Att skydda sig mot bedrägerier"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Digital säkerhet på företag",
+                            Name = "Cybersäkerhet för företag"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Description = "Allmänt om cyberspionage",
+                            Name = " Cyberspionage"
                         });
                 });
 
@@ -277,7 +292,7 @@ namespace VVCyberAware.Migrations
                         new
                         {
                             Id = 1,
-                            QuestionText = "Vad är din favorit färg?",
+                            QuestionText = "",
                             SubCategoryId = 1
                         });
                 });
@@ -297,7 +312,7 @@ namespace VVCyberAware.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UserId")
+                    b.Property<string>("UserIsComplete")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -312,7 +327,70 @@ namespace VVCyberAware.Migrations
                             Id = 1,
                             CategoryId = 1,
                             Name = "Del 1",
-                            UserId = "[]"
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CategoryId = 1,
+                            Name = "Del 2",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            CategoryId = 1,
+                            Name = "Del 3",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            CategoryId = 2,
+                            Name = "Del 1",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            CategoryId = 2,
+                            Name = "Del 2",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            CategoryId = 2,
+                            Name = "Del 3",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 7,
+                            CategoryId = 2,
+                            Name = "Del 4",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 8,
+                            CategoryId = 3,
+                            Name = "Del 1",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 9,
+                            CategoryId = 3,
+                            Name = "Del 2",
+                            UserIsComplete = "[]"
+                        },
+                        new
+                        {
+                            Id = 10,
+                            CategoryId = 3,
+                            Name = "Del 3",
+                            UserIsComplete = "[]"
                         });
                 });
 
@@ -341,7 +419,7 @@ namespace VVCyberAware.Migrations
                         new
                         {
                             Id = 1,
-                            Description = "Something",
+                            Description = "",
                             SegmentId = 1
                         });
                 });
