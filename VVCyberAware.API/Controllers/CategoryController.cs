@@ -67,21 +67,21 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("Category")]
-        public ActionResult PostCategory(CategoryModel newCategory)
+        public async Task<ActionResult> PostCategory(CategoryModel newCategory)
         {
             if (newCategory == null)
             {
                 return BadRequest();
             }
 
-            _categoryRepo.Add(newCategory);
+            await _categoryRepo.Add(newCategory);
             _context.SaveChanges();
 
             return Ok(newCategory);
         }
 
         [HttpDelete("Category/{id}")]
-        public ActionResult DeleteCategory(int id)
+        public async Task<ActionResult> DeleteCategory(int id)
         {
             var category = _categoryRepo.GetModelById(id);
 
@@ -91,7 +91,7 @@ namespace VVCyberAware.API.Controllers
             }
 
 
-            _categoryRepo.Delete(category.Id);
+            await _categoryRepo.Delete(category.Id);
             _context.SaveChanges();
 
             return Ok(category);

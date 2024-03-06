@@ -52,15 +52,14 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("Question")]
-        public ActionResult PostQuestion(QuestionModel newQuestion)
+        public async Task<ActionResult> PostQuestion(QuestionModel newQuestion)
         {
             if (newQuestion == null)
             {
                 return BadRequest();
             }
 
-
-            _questionRepo.Add(newQuestion);
+            await _questionRepo.Add(newQuestion);
             _context.SaveChanges();
 
             return Ok(newQuestion);
@@ -68,7 +67,7 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpDelete("Question/{id}")]
-        public ActionResult DeleteQuestion(int id)
+        public async Task<ActionResult> DeleteQuestion(int id)
         {
             var questionToDelete = _questionRepo.GetModelById(id);
 
@@ -78,7 +77,7 @@ namespace VVCyberAware.API.Controllers
             }
 
 
-            _questionRepo.Delete(questionToDelete.Id);
+            await _questionRepo.Delete(questionToDelete.Id);
 
             _context.SaveChanges();
 
