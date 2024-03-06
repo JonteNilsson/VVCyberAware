@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.Shared.Models.ApiModels
 {
-	public class SubCategoryModel
+	public class SubCategoryApiModel
 	{
 		public int Id { get; set; }
 

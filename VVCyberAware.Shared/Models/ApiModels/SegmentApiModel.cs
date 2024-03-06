@@ -8,7 +8,7 @@ using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.Shared.Models.ApiModels
 {
-	public class SegmentModel
+	public class SegmentApiModel
 	{
 		public int Id { get; set; }
 
