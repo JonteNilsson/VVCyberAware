@@ -31,7 +31,7 @@
                         <p class="category-text">@category.Description</p>
                         <ul class="list-group">
 
-                            @foreach (var segment in category.Segments)
+                            @foreach (var segment in segments)
                             {
                                 <div class="segment row align-items-center">
                                     <li class="col-6 not-selectable">@segment.Name</li>
@@ -77,4 +77,234 @@
 
     }
 
-   }
+
+    //DUMMY DATA
+
+
+    private List<CategoryModel> categories = new()
+    {
+        new CategoryModel()
+        {
+            Name = "Säkerhet",
+            Description ="Lite säkerhet",
+            Id = 1
+        },
+        new CategoryModel()
+        {
+            Name = "Cyber",
+            Description = "Cyber is hyper",
+            Id = 2
+        }
+    };
+    private List<SegmentModel> segments = new()
+    {
+        new SegmentModel()
+        {
+            Id = 1,
+            CategoryId = 1,
+            Name = "Del 1",
+        },
+        new SegmentModel()
+        {
+            Id = 2,
+            CategoryId = 1,
+            Name = "Del 2",
+        },
+        new SegmentModel()
+        {
+            Id = 3,
+            CategoryId = 2,
+            Name = "Del 1",
+        },
+        new SegmentModel()
+        {
+            Id = 4,
+            CategoryId = 2,
+            Name = "Del 2",
+        }
+    };
+    private List<SubCategoryModel> subCategories = new()
+    {
+        new SubCategoryModel()
+        {
+            Id = 1,
+            Description = "Säkerhet av dator",
+            SegmentId = 1
+        },
+        new SubCategoryModel()
+        {
+            Id = 2,
+            Description = "Säkerhet av dator",
+            SegmentId = 2
+        },
+        new SubCategoryModel()
+        {
+            Id = 3,
+            Description = "Säkerhet av dator",
+            SegmentId = 2
+        },
+        new SubCategoryModel()
+        {
+            Id = 4,
+            Description = "Säkerhet av dator",
+            SegmentId = 2
+        },
+        new SubCategoryModel()
+        {
+            Id = 5,
+            Description = "Säkerhet av dator",
+            SegmentId = 1
+        },
+        new SubCategoryModel()
+        {
+            Id = 6,
+            Description = "Säkerhet av dator",
+            SegmentId = 2
+        },
+        new SubCategoryModel()
+        {
+            Id = 7,
+            Description = "Säkerhet av dator",
+            SegmentId = 1
+        },
+        new SubCategoryModel()
+        {
+            Id = 8,
+            Description = "Säkerhet av dator",
+            SegmentId = 1
+        }
+    };
+    private List<QuestionModel> questions = new List<QuestionModel>
+{
+    new QuestionModel
+    {
+        QuestionText = "What is the capital of France?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Paris", true },
+            { "London", false },
+            { "Berlin", false },
+            { "Rome", false }
+        },
+        Explanation = "Paris is the capital of France.",
+        SubCategoryId = 1
+    },
+    new QuestionModel
+    {
+        QuestionText = "Who wrote 'To Kill a Mockingbird'?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Harper Lee", true },
+            { "F. Scott Fitzgerald", false },
+            { "Mark Twain", false },
+            { "Charles Dickens", false }
+        },
+        Explanation = "'To Kill a Mockingbird' was written by Harper Lee.",
+        SubCategoryId = 2
+    },
+    new QuestionModel
+    {
+        QuestionText = "What is the chemical symbol for water?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "H2O", true },
+            { "CO2", false },
+            { "O2", false },
+            { "H2SO4", false }
+        },
+        Explanation = "The chemical symbol for water is H2O.",
+        SubCategoryId = 3
+    },
+    new QuestionModel
+    {
+        QuestionText = "Which planet is known as the Red Planet?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Mars", true },
+            { "Venus", false },
+            { "Jupiter", false },
+            { "Mercury", false }
+        },
+        Explanation = "Mars is known as the Red Planet due to its reddish appearance.",
+        SubCategoryId = 4
+    },
+    new QuestionModel
+    {
+        QuestionText = "Who painted the Mona Lisa?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Leonardo da Vinci", true },
+            { "Pablo Picasso", false },
+            { "Vincent van Gogh", false },
+            { "Michelangelo", false }
+        },
+        Explanation = "The Mona Lisa was painted by Leonardo da Vinci.",
+        SubCategoryId = 5
+    },
+    new QuestionModel
+    {
+        QuestionText = "What is the largest mammal?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Blue whale", true },
+            { "Elephant", false },
+            { "Giraffe", false },
+            { "Hippo", false }
+        },
+        Explanation = "The blue whale is the largest mammal.",
+        SubCategoryId = 6
+    },
+    new QuestionModel
+    {
+        QuestionText = "Which country is the largest by land area?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Russia", true },
+            { "Canada", false },
+            { "China", false },
+            { "United States", false }
+        },
+        Explanation = "Russia is the largest country by land area.",
+        SubCategoryId = 7
+    },
+    new QuestionModel
+    {
+        QuestionText = "Who was the first man to step on the moon?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Neil Armstrong", true },
+            { "Buzz Aldrin", false },
+            { "Michael Collins", false },
+            { "Yuri Gagarin", false }
+        },
+        Explanation = "Neil Armstrong was the first man to step on the moon.",
+        SubCategoryId = 8
+    },
+    new QuestionModel
+    {
+        QuestionText = "What is the tallest mountain on Earth?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Mount Everest", true },
+            { "K2", false },
+            { "Kangchenjunga", false },
+            { "Lhotse", false }
+        },
+        Explanation = "Mount Everest is the tallest mountain on Earth.",
+        SubCategoryId = 9
+    },
+    new QuestionModel
+    {
+        QuestionText = "Who is known as the father of modern physics?",
+        Answers = new Dictionary<string, bool>
+        {
+            { "Isaac Newton", false },
+            { "Albert Einstein", true },
+            { "Galileo Galilei", false },
+            { "Niels Bohr", false }
+        },
+        Explanation = "Albert Einstein is known as the father of modern physics.",
+        SubCategoryId = 10
+    }
+};
+}
