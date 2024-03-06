@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
 
-        public string QuestionText { get; set; } = null!;
+        public string? QuestionText { get; set; }
 
         public Dictionary<string, bool> Answers { get; set; } = new();
 
