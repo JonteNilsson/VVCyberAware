@@ -1,3 +1,4 @@
+using Humanizer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
@@ -435,9 +436,48 @@ namespace VVCyberAware.Data
                     Explanation = "Oidentifierade transaktioner på ditt kreditkortsutdrag är en stark indikation på att ditt kortnummer har komprometterats och använts för obehöriga köp, vilket är typiskt för kreditkortsbedrägeri."
                 },
                 new QuestionModel()
+                {
+                    Id = 5,
+                    QuestionText = "Vad är de vanligaste tecknen på att du kan vara måltavla för ett bedrägeri i hemmet?",
+                    Answers = new Dictionary<string, bool>
+                    {
+                        {"A) Någon erbjuder dig en gratis produkt i utbyte mot detaljerad personlig information.",true},
+                        {"B) Din hund skäller mer än vanligt",false },
+                        { "C) Din granns bil ser annorlunda ut än den brukade.",false },
+                    },
+                    SubCategoryId = 5,
+                    Explanation = "Denna fråga syftar till att öka medvetenheten om hur bedragare kan försöka manipulera människor i sina egna hem, ofta genom att erbjuda något som verkar vara för bra för att vara sant, som gratisprodukter eller tjänster, i utbyte mot personlig information eller finansiell data."
 
+                },
+                new QuestionModel()
+                {
+                    Id = 6,
+                    QuestionText = "Hur kan du upptäcka om någon har stulit din identitet?",
+                    Answers = new Dictionary<string, bool>
+                    {
+                        {"A) Du får en större än väntad elräkning.",false },
+                        {"B) Du märker oväntade transaktioner på ditt bankkontoutdrag eller att dina kreditupplysningar visar konton du inte känner till.",true },
+                        {"C) Din favorit-TV-serie slutar plötsligt sändas.",false }
+                    }, 
+                    SubCategoryId= 6,
+                    Explanation = " Denna fråga riktar in sig på att identifiera varningssignaler som kan tyda på att någon obehörigt använder din personliga information. Genom att känna till dessa tecken kan individer agera snabbt för att skydda sin finansiella hälsa och juridiska ställning."
+                }
+                //new QuestionModel()
+                //{
+                //    //Id = 7,
+                //    //QuestionText = "Hur kan du känna igen ett nätfiske- eller bluffmejl?",
+                //    //Answers = new Dictionary<string, bool>
+                //    //{
+                //    //    {}
+                //    //}
+
+                
                 );
         }
     }
 }
+
+
+
+
 
