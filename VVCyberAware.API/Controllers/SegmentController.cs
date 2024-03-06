@@ -26,9 +26,9 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpGet("Segments")]
-        public ActionResult<List<SegmentModel>> GetAllSegments()
+        public async Task<ActionResult<List<SegmentModel>>> GetAllSegments()
         {
-            var segments = _context.Segments.ToListAsync();
+            var segments = await _context.Segments.ToListAsync();
 
             if (segments != null)
             {
