@@ -50,51 +50,51 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<ISegmentService, SegmentService>();
 builder.Services.AddScoped<ISubCService, SubCService>();
+//<<<<<<
 
+//using (ServiceProvider sp = builder.Services.BuildServiceProvider())
+//{
+//	var context = sp.GetRequiredService<ApplicationDbContext>();
+//	var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
+//	var signInManager = sp.GetRequiredService<SignInManager<ApplicationUser>>();
 
-using (ServiceProvider sp = builder.Services.BuildServiceProvider())
-{
-    var context = sp.GetRequiredService<ApplicationDbContext>();
-    var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
-    var signInManager = sp.GetRequiredService<SignInManager<ApplicationUser>>();
+//	context.Database.Migrate();
 
-    context.Database.Migrate();
+//	// Skapa en vanlig user
+//	ApplicationUser newUser = new()
+//	{
+//		UserName = "Admin",
+//	};
 
-    // Skapa en vanlig user
-    ApplicationUser newUser = new()
-    {
-        UserName = "Admin",
-    };
+//	ApplicationUser newUser1 = new()
+//	{
+//		UserName = "Member"
+//	};
 
-    ApplicationUser newUser1 = new()
-    {
-        UserName = "Member"
-    };
+//	signInManager.UserManager.CreateAsync(newUser1, "Member789!").GetAwaiter().GetResult();
 
-    signInManager.UserManager.CreateAsync(newUser1, "Member789!").GetAwaiter().GetResult();
+//	var user = signInManager.UserManager.FindByNameAsync(newUser.UserName).GetAwaiter().GetResult();
 
-    var user = signInManager.UserManager.FindByNameAsync(newUser.UserName).GetAwaiter().GetResult();
+//	if (user == null)
+//	{
+//		signInManager.UserManager.CreateAsync(newUser, "Admin789!").GetAwaiter().GetResult();
 
-    if (user == null)
-    {
-        signInManager.UserManager.CreateAsync(newUser, "Admin789!").GetAwaiter().GetResult();
+//		//Checka adminrollen
 
-        //Checka adminrollen
+//		if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
+//		{
+//			IdentityRole adminRole = new()
+//			{
+//				Name = "Admin"
+//			};
 
-        if (!roleManager.RoleExistsAsync("Admin").GetAwaiter().GetResult())
-        {
-            IdentityRole adminRole = new()
-            {
-                Name = "Admin"
-            };
+//			roleManager.CreateAsync(adminRole).GetAwaiter().GetResult();
+//		}
 
-            roleManager.CreateAsync(adminRole).GetAwaiter().GetResult();
-        }
-
-    }
-    // Tilldela adminrollen till den usern
-    signInManager.UserManager.AddToRoleAsync(newUser, "Admin").GetAwaiter().GetResult();
-}
+//	}
+//	// Tilldela adminrollen till den usern
+//	signInManager.UserManager.AddToRoleAsync(newUser, "Admin").GetAwaiter().GetResult();
+//}
 
 var app = builder.Build();
 
