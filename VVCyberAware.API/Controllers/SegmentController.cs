@@ -51,34 +51,33 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("Segment")]
-        public ActionResult PostSegment(SegmentModel newSegment)
+        public async Task<ActionResult> PostSegment(SegmentModel newSegment)
         {
             if (newSegment == null)
             {
                 return BadRequest();
             }
 
-            Segments.Add(newSegment);
 
-            _segmentRepo.Add(newSegment);
+
+            await _segmentRepo.Add(newSegment);
             _context.SaveChanges();
 
             return Ok(newSegment);
         }
 
         [HttpDelete("Segment/{id}")]
-        public ActionResult DeleteSegment(int id)
+        public async Task<ActionResult> DeleteSegment(int id)
         {
-            var segment = Segments.FirstOrDefault(s => s.Id == id);
+            var segment = _segmentRepo.GetModelById(id);
 
             if (segment == null)
             {
                 return NotFound();
             }
 
-            Segments.Remove(segment);
 
-            _segmentRepo.Delete(segment.Id);
+            await _segmentRepo.Delete(segment.Id);
 
             _context.SaveChanges();
 
