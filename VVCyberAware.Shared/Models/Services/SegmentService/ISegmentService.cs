@@ -1,4 +1,4 @@
-﻿using VVCyberAware.Shared.Models.DbModels;
+﻿using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.SegmentService
 {
@@ -6,10 +6,10 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
     {
         public HttpClient client { get; set; }
 
-        public Task<List<SegmentModel>> GetSegmentsAsync();
+        public Task<List<SegmentApiModel>> GetSegmentsAsync();
 
-        public Task<SegmentModel> GetSegmentByIdAsync(int id);
+        public Task<SegmentApiModel> GetSegmentByIdAsync(int id);
 
-        public Task PostSegment(SegmentModel category);
+        public Task PostSegment(SegmentApiModel category);
     }
 }

@@ -1,4 +1,4 @@
-﻿using VVCyberAware.Shared.Models.DbModels;
+﻿using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.SubCategoryService
 {
@@ -6,10 +6,10 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
     {
         public HttpClient client { get; set; }
 
-        public Task<List<SubCategoryModel>> GetSubCategoriesAsync();
+        public Task<List<SubCategoryApiModel>> GetSubCategoriesAsync();
 
-        public Task<SubCategoryModel> GetSubCategoryByIdAsync(int id);
+        public Task<SubCategoryApiModel> GetSubCategoryByIdAsync(int id);
 
-        public Task PostSubCategory(SubCategoryModel subCategory);
+        public Task PostSubCategory(SubCategoryApiModel subCategory);
     }
 }
