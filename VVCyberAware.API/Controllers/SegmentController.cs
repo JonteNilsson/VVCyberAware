@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -39,7 +38,7 @@ namespace VVCyberAware.API.Controllers
         [HttpGet("Segment/{id}")]
         public async Task<ActionResult<SegmentModel>> GetSingleSegment(int id)
         {
-            var segment = await _context.Segments.FirstOrDefaultAsync(x => x.Id == id);
+            var segment = await _segmentRepo.GetModelById(id);
 
             if (segment == null)
             {

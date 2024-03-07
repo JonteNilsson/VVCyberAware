@@ -23,9 +23,9 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpGet("SubCategories")]
-        public ActionResult<List<SubCategoryModel>> GetSubCategories()
+        public async Task<ActionResult<List<SubCategoryModel>>> GetSubCategories()
         {
-            var subCategories = _subCRepo.GetAll();
+            var subCategories = await _subCRepo.GetAll();
 
             if (subCategories != null)
             {
@@ -39,7 +39,7 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpGet("SubCategory/{id}")]
-        public ActionResult<SubCategoryModel> GetSingleSubCategory(int id)
+        public async Task<ActionResult<SubCategoryModel>> GetSingleSubCategory(int id)
         {
             var subCategory = _subCRepo.GetModelById(id);
 

@@ -25,9 +25,9 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpGet("Categories")]
-        public ActionResult<List<CategoryModel>> GetAllCategories()
+        public async Task<ActionResult<List<CategoryModel>>> GetAllCategories()
         {
-            var categories = _categoryRepo.GetAll();
+            var categories = await _categoryRepo.GetAll();
 
             if (categories != null)
             {
@@ -40,9 +40,9 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpGet("Category/{id}")]
-        public ActionResult<CategoryModel> GetSingleCategory(int id)
+        public async Task<ActionResult<CategoryModel>> GetSingleCategory(int id)
         {
-            var category = _categoryRepo.GetModelById(id);
+            var category = await _categoryRepo.GetModelById(id);
 
             if (category == null)
             {

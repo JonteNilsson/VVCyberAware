@@ -4,9 +4,11 @@
 @using Microsoft.AspNetCore.Authorization
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
+@using VVCyberAware.Shared.Models.Services.CategoryService
 @using VVCyberAware.Shared.Models.Services.QuestionService
 @using VVCyberAware.Shared.Models.Services.SegmentService
 @using VVCyberAware.Shared.Models.Services.SubCategoryService
+@inject ICategoryService categoryService
 @inject ISegmentService segmentService
 @inject IQuestionService questionService;
 @inject ISubCService subCService;
@@ -20,7 +22,7 @@ else
 {
     <div class="main-container">
 @*         <h1 class="text-center">@(segment.Category.Name == null ? "Ingen Kategori" : segment.Category.Name)</h1> *@
-        <h1 class="text-center">@segment.Category.Name</h1>
+        <h1 class="text-center">@categories.First(c => c.Id == segment.CategoryId).Name</h1>
 
 
         <div class="segment-container">
@@ -55,6 +57,8 @@ else
 @code {
     [Parameter]
     public int Id { get; set; }
+
+    private List<CategoryApiModel>? categories;
     private SegmentModel? segment;
     private List<SubCategoryModel>? subCategories;
     private List<QuestionModel>? questions;
@@ -62,6 +66,7 @@ else
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+        categories = await categoryService.GetCategoriesAsync();
         segment = await segmentService.GetSegmentByIdAsync(Id);
         subCategories = await subCService.GetSubCategoriesAsync();
         questions = await questionService.GetQuestionsAsync();
