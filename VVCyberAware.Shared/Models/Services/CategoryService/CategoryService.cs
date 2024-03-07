@@ -11,6 +11,14 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
             BaseAddress = new Uri("http://localhost:5142/api/")
         };
 
+
+        /// <summary>
+        /// Makes an API call and includes every relevant model that is connected to the inputed category
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns a model including Segments, Subcategories and Questions including Answers and the correct answer</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<CategoryApiModel> GetCategoryInclude(int id)
         {
             var response = await client.GetAsync($"Category/CategoryInclude/{id}");
