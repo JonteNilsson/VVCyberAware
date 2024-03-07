@@ -2,6 +2,7 @@
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.API.Controllers
 {
@@ -50,20 +51,27 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("Segment")]
-        public async Task<ActionResult> PostSegment(SegmentModel newSegment)
+        public async Task<ActionResult> PostSegment(SegmentViewModel newSegment)
         {
             if (newSegment == null)
             {
                 return BadRequest();
             }
 
+            SegmentModel model = new()
+            {
+                Name = newSegment.Name!,
+                UserIsComplete = newSegment.UserIsComplete,
+            };
 
-
-            await _segmentRepo.Add(newSegment);
+            await _segmentRepo.Add(model);
             _context.SaveChanges();
 
             return Ok(newSegment);
         }
+
+
+
 
         [HttpDelete("Segment/{id}")]
         public async Task<ActionResult> DeleteSegment(int id)

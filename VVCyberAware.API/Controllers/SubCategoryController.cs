@@ -2,6 +2,7 @@
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.API.Controllers
 {
@@ -54,15 +55,20 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("SubCategory")]
-        public async Task<ActionResult> PostSubCategory(SubCategoryModel newSubCategory)
+        public async Task<ActionResult> PostSubCategory(SubCategoryViewModel newSubCategory)
         {
             if (newSubCategory == null)
             {
                 return BadRequest();
             }
 
+            SubCategoryModel model = new()
+            {
+                Description = newSubCategory.Description!,
 
-            await _subCRepo.Add(newSubCategory);
+            };
+
+            await _subCRepo.Add(model);
 
             _context.SaveChanges();
 
