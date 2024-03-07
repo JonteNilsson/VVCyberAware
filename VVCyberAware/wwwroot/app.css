@@ -102,3 +102,15 @@ h1:focus {
     justify-content: center;
     text-align: center;
 }
+.background-image {
+    background-image: url(Image/cyber.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+    background-color: #929292;
+}
+
+
+
+
