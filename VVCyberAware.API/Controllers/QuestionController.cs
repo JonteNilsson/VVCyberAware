@@ -2,6 +2,7 @@
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.API.Controllers
 {
@@ -52,14 +53,21 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("Question")]
-        public async Task<ActionResult> PostQuestion(QuestionModel newQuestion)
+        public async Task<ActionResult> PostQuestion(QuestionViewModel newQuestion)
         {
             if (newQuestion == null)
             {
                 return BadRequest();
             }
 
-            await _questionRepo.Add(newQuestion);
+            QuestionModel model = new()
+            {
+                QuestionText = newQuestion.QuestionText!,
+                Explanation = newQuestion.Explanation,
+                Answers = newQuestion.Answers,
+            };
+
+            await _questionRepo.Add(model);
             _context.SaveChanges();
 
             return Ok(newQuestion);

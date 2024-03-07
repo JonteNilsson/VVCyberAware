@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VVCyberAware.Data;
 
@@ -11,9 +12,11 @@ using VVCyberAware.Data;
 namespace VVCyberAware.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240307110637_SeedmoreData")]
+    partial class SeedmoreData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,7 +296,7 @@ namespace VVCyberAware.Migrations
                         new
                         {
                             Id = 1,
-                            AnswersJson = "{\"A) Ett legitimt f\\u00F6rs\\u00F6k fr\\u00E5n banken att skydda ditt konto\":false,\"B) En informationsinsamling f\\u00F6r en marknadsunders\\u00F6kning\":false,\"C) Ett potentiellt telefonbedr\\u00E4geri\":true}",
+                            AnswersJson = "{\" A), Ett legitimt f\\u00F6rs\\u00F6k fr\\u00E5n banken att skydda ditt konto\":false,\" B), En informationsinsamling f\\u00F6r en marknadsunders\\u00F6kning\":false,\" C), Ett potentiellt telefonbedr\\u00E4geri\":true}",
                             Explanation = "Banker och andra finansiella institutioner begär aldrig känslig information såsom kontonummer eller lösenord via telefon. Detta är ett klassiskt tecken på telefonbedrägeri.",
                             QuestionText = "Du får ett oväntat telefonsamtal från någon som påstår sig vara från din bank. Personen ber dig bekräfta ditt kontonummer och lösenord för att \"säkerställa din kontos säkerhet\" efter en påstådd säkerhetsincident. Hur bör du tolka denna situation?",
                             SubCategoryId = 1
@@ -301,7 +304,7 @@ namespace VVCyberAware.Migrations
                         new
                         {
                             Id = 2,
-                            AnswersJson = "{\"A) Ett legitimt f\\u00F6rs\\u00F6k fr\\u00E5n banken att skydda ditt konto\":false,\"B) En informationsinsamling f\\u00F6r en marknadsunders\\u00F6kning\":false,\"C) Ett potentiellt telefonbedr\\u00E4geri\":true}",
+                            AnswersJson = "{\"A), Ett legitimt f\\u00F6rs\\u00F6k fr\\u00E5n banken att skydda ditt konto\":false,\" B), En informationsinsamling f\\u00F6r en marknadsunders\\u00F6kning\":false,\" C), Ett potentiellt telefonbedr\\u00E4geri\":true}",
                             Explanation = "Begäran om pengar, särskilt under omständigheter där två personer aldrig har träffats fysiskt, är ett vanligt tecken på romansbedrägeri.",
                             QuestionText = "Efter flera månader av daglig kommunikation med någon du träffade på en datingsida, börjar personen berätta om en plötslig finansiell kris och ber om din hjälp genom att överföra pengar. Vad indikerar detta mest sannolikt?",
                             SubCategoryId = 2
@@ -309,7 +312,7 @@ namespace VVCyberAware.Migrations
                         new
                         {
                             Id = 3,
-                            AnswersJson = "{\"A) Genomf\\u00F6ra omedelbar investering f\\u00F6r att inte missa m\\u00F6jligheten\":false,\"B) Investeringsbedr\\u00E4geri\":true,\"C) Beg\\u00E4ra mer information f\\u00F6r att utf\\u00F6ra en noggrann \\u2018\\u2019due diligence\":false}",
+                            AnswersJson = "{\" A), Genomf\\u00F6ra omedelbar investering f\\u00F6r att inte missa m\\u00F6jligheten\":false,\" B),Investeringsbedr\\u00E4geri\":true,\" C), Beg\\u00E4ra mer information f\\u00F6r att utf\\u00F6ra en noggrann \\u2018\\u2019due diligence\":false}",
                             Explanation = "Erbjudanden som lovar hög avkastning med liten eller ingen risk, särskilt via oönskade e-postmeddelanden, är ofta tecken på investeringsbedrägerier",
                             QuestionText = "Du får ett e-postmeddelande/samtal om ett exklusivt erbjudande att investera i ett startup-företag som påstås ha en revolutionerande ny teknologi, med garantier om exceptionellt hög avkastning på mycket kort tid. Hur bör du förhålla dig till erbjudandet?\r\n",
                             SubCategoryId = 3
@@ -356,7 +359,6 @@ namespace VVCyberAware.Migrations
                         },
                         new
                         {
-
                             Id = 10,
                             AnswersJson = "{\"A) Betala l\\u00F6sensumman s\\u00E5 fort som m\\u00F6jligt.\":false,\"B) H\\u00E5lla ditt operativsystem och alla program uppdaterade med de senaste s\\u00E4kerhetsuppdateringarna.\":true,\"C) \\u00D6ppna alla bilagor du f\\u00E5r via e-post f\\u00F6r att kontrollera inneh\\u00E5llet.\":false}",
                             Explanation = "Att hålla programvara uppdaterad är avgörande för att förebygga ransomware-attacker eftersom det säkerställer att kända säkerhetsbrister åtgärdas.",
