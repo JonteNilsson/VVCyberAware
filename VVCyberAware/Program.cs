@@ -20,6 +20,7 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<CategoryService>();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -58,7 +59,7 @@ using (ServiceProvider sp = builder.Services.BuildServiceProvider())
     var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
     var signInManager = sp.GetRequiredService<SignInManager<ApplicationUser>>();
 
-    context.Database.Migrate();
+    //context.Database.Migrate();
 
     // Skapa en vanlig user
     ApplicationUser newUser = new()

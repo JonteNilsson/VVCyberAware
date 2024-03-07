@@ -1,0 +1,13 @@
+﻿@using VVCyberAware.Shared.Models.ApiModels
+@using VVCyberAware.Shared.Models.DbModels
+@if (Segment != null)
+{
+    <div class="segment row align-items-center">
+        <li class="col-6 not-selectable">@Segment.Name</li>
+        <a class="btn btn-secondary col-6" href="/segment/@Segment.Id">Gå till sektion</a>
+    </div>
+}
+@code {
+	[Parameter]
+	public SegmentApiModel Segment { get; set; }
+}
