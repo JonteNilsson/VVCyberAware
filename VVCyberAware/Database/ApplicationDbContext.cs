@@ -393,9 +393,9 @@ namespace VVCyberAware.Data
                     QuestionText = "Du får ett oväntat telefonsamtal från någon som påstår sig vara från din bank. Personen ber dig bekräfta ditt kontonummer och lösenord för att \"säkerställa din kontos säkerhet\" efter en påstådd säkerhetsincident. Hur bör du tolka denna situation?",
                     Answers = new Dictionary<string, bool>
                     {
-                        {" A), Ett legitimt försök från banken att skydda ditt konto", false },
-                        {" B), En informationsinsamling för en marknadsundersökning", false },
-                        {" C), Ett potentiellt telefonbedrägeri", true }
+                        {"A) Ett legitimt försök från banken att skydda ditt konto", false },
+                        {"B) En informationsinsamling för en marknadsundersökning", false },
+                        {"C) Ett potentiellt telefonbedrägeri", true }
                     },
                     SubCategoryId = 1,
                     Explanation = "Banker och andra finansiella institutioner begär aldrig känslig information såsom kontonummer eller lösenord via telefon. Detta är ett klassiskt tecken på telefonbedrägeri.",
@@ -406,9 +406,9 @@ namespace VVCyberAware.Data
                     QuestionText = "Efter flera månader av daglig kommunikation med någon du träffade på en datingsida, börjar personen berätta om en plötslig finansiell kris och ber om din hjälp genom att överföra pengar. Vad indikerar detta mest sannolikt?",
                     Answers = new Dictionary<string, bool>
                     {
-                        {"A), Ett legitimt försök från banken att skydda ditt konto", false },
-                        {" B), En informationsinsamling för en marknadsundersökning", false },
-                        {" C), Ett potentiellt telefonbedrägeri", true }
+                        {"A) Ett legitimt försök från banken att skydda ditt konto", false },
+                        {"B) En informationsinsamling för en marknadsundersökning", false },
+                        {"C) Ett potentiellt telefonbedrägeri", true }
                     },
                     SubCategoryId = 2,
                     Explanation = "Begäran om pengar, särskilt under omständigheter där två personer aldrig har träffats fysiskt, är ett vanligt tecken på romansbedrägeri.",
@@ -419,9 +419,9 @@ namespace VVCyberAware.Data
                     QuestionText = "Du får ett e-postmeddelande/samtal om ett exklusivt erbjudande att investera i ett startup-företag som påstås ha en revolutionerande ny teknologi, med garantier om exceptionellt hög avkastning på mycket kort tid. Hur bör du förhålla dig till erbjudandet?\r\n",
                     Answers = new Dictionary<string, bool>
                     {
-                        {" A), Genomföra omedelbar investering för att inte missa möjligheten",false },
-                        {" B),Investeringsbedrägeri",true },
-                        {" C), Begära mer information för att utföra en noggrann ‘’due diligence",false  }
+                        {"A) Genomföra omedelbar investering för att inte missa möjligheten",false },
+                        {"B) Investeringsbedrägeri",true },
+                        {"C) Begära mer information för att utföra en noggrann ‘’due diligence",false  }
                     },
                     SubCategoryId = 3,
                     Explanation = "Erbjudanden som lovar hög avkastning med liten eller ingen risk, särskilt via oönskade e-postmeddelanden, är ofta tecken på investeringsbedrägerier"
@@ -447,7 +447,7 @@ namespace VVCyberAware.Data
                     {
                         {"A) Någon erbjuder dig en gratis produkt i utbyte mot detaljerad personlig information.",true},
                         {"B) Din hund skäller mer än vanligt",false },
-                        { "C) Din granns bil ser annorlunda ut än den brukade.",false },
+                        {"C) Din granns bil ser annorlunda ut än den brukade.",false },
                     },
                     SubCategoryId = 5,
                     Explanation = "Denna fråga syftar till att öka medvetenheten om hur bedragare kan försöka manipulera människor i sina egna hem, ofta genom att erbjuda något som verkar vara för bra för att vara sant, som gratisprodukter eller tjänster, i utbyte mot personlig information eller finansiell data."
@@ -494,7 +494,7 @@ namespace VVCyberAware.Data
                 },
                 new QuestionModel()
                 {
-                    Id = 10,
+                    Id = 9,
                     QuestionText = "Hur kan du bäst skydda dig mot ransomware-attacker?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -502,12 +502,12 @@ namespace VVCyberAware.Data
                         {"B) Hålla ditt operativsystem och alla program uppdaterade med de senaste säkerhetsuppdateringarna.", true},
                         {"C) Öppna alla bilagor du får via e-post för att kontrollera innehållet.", false}
                     },
-                    SubCategoryId = 10,
+                    SubCategoryId = 9,
                     Explanation = "Att hålla programvara uppdaterad är avgörande för att förebygga ransomware-attacker eftersom det säkerställer att kända säkerhetsbrister åtgärdas."
                 },
                 new QuestionModel()
                 {
-                    Id = 11,
+                    Id = 10,
                     QuestionText = "Vilka är de främsta tecknen på att du kan ha drabbats av en abonnemangsfälla eller mottagit en falsk faktura?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -515,12 +515,12 @@ namespace VVCyberAware.Data
                         {"B) Fakturan saknar detaljerad information och kontaktuppgifter.", true},
                         {"C) Du känner igen företagets namn och logotyp.", false}
                     },
-                    SubCategoryId = 11,
+                    SubCategoryId = 10,
                     Explanation = "En faktura som saknar detaljer eller kontaktuppgifter kan vara en indikation på en abonnemangsfälla eller en falsk faktura, vilket är en vanlig taktik bland bedragare."
                 },
                 new QuestionModel()
                 {
-                    Id = 12,
+                    Id = 11,
                     QuestionText = "På vilket sätt kan statistik över cyberbrott påverka ett företags förhållningssätt till cybersäkerhet?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -528,12 +528,12 @@ namespace VVCyberAware.Data
                         {"B) Genom att använda statistiken för att skrämma anställda till bättre efterlevnad.", false},
                         {"C) Genom att analysera trender och mönster för att förbättra säkerhetsåtgärderna.", true}
                     },
-                    SubCategoryId = 12,
+                    SubCategoryId = 11,
                     Explanation = "Användning av statistik för att förstå och åtgärda säkerhetshot kan hjälpa företag att utveckla mer effektiva cybersäkerhetsstrategier och minska risken för brott."
                 },
                 new QuestionModel()
                 {
-                    Id = 13,
+                    Id = 12,
                     QuestionText = "Inom företaget märker man att konfidentiella dokument regelbundet läcker ut till konkurrenter. Efter en intern granskning upptäcks det att en anställd omedvetet har installerat skadlig programvara genom att klicka på en länk i ett phishing-e-postmeddelande. Vilken åtgärd bör prioriteras för att förhindra framtida incidenter?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -541,12 +541,12 @@ namespace VVCyberAware.Data
                         {"B) Installera en starkare brandvägg", false},
                         {"C) Byta ut all IT-utrustning", false}
                     },
-                    SubCategoryId = 13,
+                    SubCategoryId = 12,
                     Explanation = "Utbildning i digital säkerhet är avgörande för att hjälpa anställda att känna igen och undvika säkerhetshot som phishing, vilket är en vanlig attackvektor."
                 },
                 new QuestionModel()
                 {
-                    Id = 14,
+                    Id = 13,
                     QuestionText = "Inom företaget upptäcks det en sårbarhet i vår programvara som kunde möjliggöra obehörig åtkomst till användardata. Företaget har inte omedelbart en lösning. Vilken är den mest lämpliga första åtgärden?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -554,12 +554,12 @@ namespace VVCyberAware.Data
                         {"B) Ignorera problemet tills en patch kan utvecklas", false},
                         {"C) Stänga ner tjänsten tillfälligt", false}
                     },
-                    SubCategoryId = 14,
+                    SubCategoryId = 13,
                     Explanation = "Transparent kommunikation och rådgivning om tillfälliga åtgärder är avgörande för att skydda användarna medan en permanent lösning utvecklas."
                 },
                 new QuestionModel()
                 {
-                    Id = 15,
+                    Id = 14,
                     QuestionText = "Vårt företag blir måltavla för en DDoS-attack som överväldigar våra servers och gör våra tjänster otillgängliga för kunder. Vilken typ av aktör är mest sannolikt ansvarig för denna typ av attack?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -567,12 +567,12 @@ namespace VVCyberAware.Data
                         {"B) En konkurrerande företagsentitet", false},
                         {"C) Organiserade cyberbrottsliga grupper", true}
                     },
-                    SubCategoryId = 15,
+                    SubCategoryId = 14,
                     Explanation = "DDoS-attacker kräver ofta betydande resurser och koordinering, vilket är karakteristiskt för organiserade cyberbrottsliga grupper."
                 },
                 new QuestionModel()
                 {
-                    Id = 16,
+                    Id = 15,
                     QuestionText = "Med övergången till distansarbete upptäcker vårt företag en ökning av säkerhetsincidenter, inklusive obehörig åtkomst till företagsdata. Vilken åtgärd bör företaget vidta för att adressera denna nya riskmiljö?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -580,12 +580,12 @@ namespace VVCyberAware.Data
                         {"B) Införa striktare lösenordspolicyer och tvåfaktorsautentisering för fjärråtkomst", true},
                         {"C) Förbjuda användning av personliga enheter för arbete", false}
                     },
-                    SubCategoryId = 16,
+                    SubCategoryId = 15,
                     Explanation = "Stärkt autentisering är kritisk för att säkra fjärråtkomst och skydda mot obehörig åtkomst i en distribuerad arbetsmiljö."
                 },
                 new QuestionModel()
                 {
-                    Id = 17,
+                    Id = 16,
                     QuestionText = "Hälsovårdsmyndigheten utsätts för ett cyberangrepp som krypterar patientdata och kräver lösen för att återställa åtkomsten. Vilken typ av angrepp har de sannolikt blivit utsatta för?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -593,12 +593,12 @@ namespace VVCyberAware.Data
                         {"B) Ransomware", true},
                         {"C) Spyware", false}
                     },
-                    SubCategoryId = 17,
+                    SubCategoryId = 16,
                     Explanation = "Ransomware-angrepp involverar kryptering av offerdata och kräver lösen för dekryptering, vilket är särskilt skadligt för kritiska sektorer som hälsovård."
                 },
                 new QuestionModel()
                 {
-                    Id = 18,
+                    Id = 17,
                     QuestionText = "Det globala fraktbolaget Maersk blev offer för ett omfattande cyberangrepp som avsevärt störde deras verksamhet världen över. Vilken typ av malware var primärt ansvarig för denna incident?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -606,25 +606,25 @@ namespace VVCyberAware.Data
                         {"B) Ransomware", true},
                         {"C) Adware", false}
                     },
-                    SubCategoryId = 18,
+                    SubCategoryId = 17,
                     Explanation = "Maersk utsattes för NotPetya ransomware-angreppet, som ledde till omfattande störningar och förluster genom att kryptera"
                 },
                 new QuestionModel()
                 {
-                    Id = 19,
+                    Id = 18,
                     QuestionText = "Vad är det primära målet med social engineering inom cybersäkerhet?",
                     Answers = new Dictionary<string, bool>
                 {
-                    {"A) Att förbättra företagets interna kommunikationsstrategier.", false},
-                    {"B) Att manipulera individer till att avslöja konfidentiell information eller utföra handlingar som komprometterar säkerheten.", true},
-                    {"C) Att uppgradera företagets hårdvara och mjukvara för att förbättra säkerheten.", false}
+                        {"A) Att förbättra företagets interna kommunikationsstrategier.", false},
+                        {"B) Att manipulera individer till att avslöja konfidentiell information eller utföra handlingar som komprometterar säkerheten.", true},
+                        {"C) Att uppgradera företagets hårdvara och mjukvara för att förbättra säkerheten.", false}
                 },
-                    SubCategoryId = 19,
+                    SubCategoryId = 18,
                     Explanation = "Social engineering använder mänskliga interaktioner för att få tillgång till konfidentiell information eller system. Att förstå detta är viktigt för att skydda sig."
                 },
                 new QuestionModel()
                 {
-                    Id = 20,
+                    Id = 19,
                     QuestionText = "Vilken är den bästa metoden för att skydda sig mot nätfiske och skräppost?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -632,12 +632,12 @@ namespace VVCyberAware.Data
                         {"B) Använda ett komplicerat lösenord för alla onlinekonton.", false},
                         {"C) Inte klicka på misstänkta länkar eller bilagor i e-postmeddelanden från okända avsändare.", true}
                     },
-                    SubCategoryId = 20,
+                    SubCategoryId = 19,
                     Explanation = "Att undvika att klicka på misstänkta länkar eller bilagor är en effektiv strategi för att skydda sig mot nätfiske och skräppost."
                 },
                 new QuestionModel()
                 {
-                    Id = 21,
+                    Id = 20,
                     QuestionText = "Vad karaktäriserar ett vishing-angrepp?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -645,12 +645,12 @@ namespace VVCyberAware.Data
                         {"B) Att genomföra bedrägliga telefonsamtal där avsändaren utger sig för att vara från en trovärdig organisation för att få tag på känslig information.", true},
                         {"C) Att använda fysisk säkerhetsutrustning för att skydda ett nätverk.", false}
                     },
-                    SubCategoryId = 21,
+                    SubCategoryId = 20,
                     Explanation = "Vishing involverar bedrägliga telefonsamtal för att lura mottagaren att avslöja personlig eller finansiell information."
                 },
                 new QuestionModel()
                 {
-                    Id = 22,
+                    Id = 21,
                     QuestionText = "Vilket är det bästa sättet att hantera ett misstänkt vishing-försök?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -658,25 +658,25 @@ namespace VVCyberAware.Data
                         {"B) Notera avsändarens information och avsluta samtalet omedelbart; rapportera sedan försöket till lämpliga myndigheter.", true},
                         {"C) Försök att spåra samtalet själv och konfrontera avsändaren.", false}
                     },
-                    SubCategoryId = 22,
+                    SubCategoryId = 21,
                     Explanation = "Det bästa sättet att hantera ett vishing-försök är att notera avsändarens information, avsluta samtalet omedelbart och sedan rapportera försöket."
                 },
                 new QuestionModel()
                 {
-                    Id = 23,
+                    Id = 22,
                     QuestionText = "Vad bör du göra för att korrekt identifiera ett falskt VD-mejl?",
                     Answers = new Dictionary<string, bool>
                 {
-                    {"A) Omedelbart följa instruktionerna i mailet för att visa lydnad.", false},
-                    {"B) Kontrollera avsändarens e-postadress noggrant och verifiera förfrågan genom en annan kommunikationskanal.", true},
-                    {"C) Skicka konfidentiell information som begärs för att upprätthålla goda relationer med VD:n.", false}
+                        {"A) Omedelbart följa instruktionerna i mailet för att visa lydnad.", false},
+                        {"B) Kontrollera avsändarens e-postadress noggrant och verifiera förfrågan genom en annan kommunikationskanal.", true},
+                        {"C) Skicka konfidentiell information som begärs för att upprätthålla goda relationer med VD:n.", false}
                 },
-                    SubCategoryId = 23,
+                    SubCategoryId = 22,
                     Explanation = "Att känna igen och reagera korrekt på försök till VD-bedrägerier är viktigt. Kontrollera avsändarens identitet och verifiera alla förfrågningar på ett säkert sätt för att undvika bedrägerier."
                 },
                 new QuestionModel()
                 {
-                    Id = 24,
+                    Id = 23,
                     QuestionText = "Vad är det bästa försvaret mot övertalningsangrepp och presentkortsbluffar?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -684,25 +684,25 @@ namespace VVCyberAware.Data
                         {"B) Ignorera alla förfrågningar om att köpa eller skicka presentkort som kommer via e-post eller telefon.", true},
                         {"C) Be om ytterligare personlig information från avsändaren för att bekräfta deras identitet.", false}
                     },
-                    SubCategoryId = 24,
+                    SubCategoryId = 23,
                     Explanation = "Övertalningsangrepp och presentkortsbluffar använder manipulation för att lura individer. Det bästa försvaret är att inte svara på dessa förfrågningar och rapportera dem till lämpliga myndigheter."
                 },
                 new QuestionModel()
                 {
-                    Id = 25,
+                    Id = 24,
                     QuestionText = "Vilket är det primära skiljetecknet mellan virus, maskar och trojaner?",
                     Answers = new Dictionary<string, bool>
                 {
-                    {"A) Virus behöver en värdfil för att spridas, medan maskar kan sprida sig självständigt och trojaner maskerar sig som legitima program.", true},
-                    {"B) Trojaner sprider sig självständigt via nätverk, medan virus och maskar är ofarliga filer.", false},
-                    {"C) Maskar är godartade program som hjälper till att skydda datorer mot virus.", false}
+                        {"A) Virus behöver en värdfil för att spridas, medan maskar kan sprida sig självständigt och trojaner maskerar sig som legitima program.", true},
+                        {"B) Trojaner sprider sig självständigt via nätverk, medan virus och maskar är ofarliga filer.", false},
+                        {"C) Maskar är godartade program som hjälper till att skydda datorer mot virus.", false}
                 },
-                    SubCategoryId = 25,
+                    SubCategoryId = 24,
                     Explanation = "Det primära skiljetecknet är att virus behöver en värdfil för att spridas, maskar sprider sig självständigt, och trojaner utger sig för att vara legitima program."
                 },
                 new QuestionModel()
                 {
-                    Id = 26,
+                    Id = 25,
                     QuestionText = "Vilken metod anses vara mest effektiv för att förebygga nätverksintrång?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -710,12 +710,12 @@ namespace VVCyberAware.Data
                         {"B) Att genomföra regelbundna säkerhetsgranskningar och uppdatera säkerhetssystem.", true},
                         {"C) Att hålla nätverket öppet för att kunna spåra potentiella hackare.", false}
                     },
-                    SubCategoryId = 26,
+                    SubCategoryId = 25,
                     Explanation = "Regelbundna säkerhetsgranskningar och uppdateringar av säkerhetssystem är mest effektiva för att förebygga nätverksintrång."
                 },
                 new QuestionModel()
                 {
-                    Id = 27,
+                    Id = 26,
                     QuestionText = "Vilka är de första stegen du bör ta vid upptäckt av ett dataintrång?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -723,12 +723,12 @@ namespace VVCyberAware.Data
                         {"B) Isolera det drabbade systemet och bedöm omfattningen av intrånget.", true},
                         {"C) Omedelbart informera alla sociala medier om intrånget.", false}
                     },
-                    SubCategoryId = 27,
+                    SubCategoryId = 26,
                     Explanation = "De första stegen inkluderar att isolera det drabbade systemet och bedöma omfattningen av intrånget."
                 },
                 new QuestionModel()
                 {
-                    Id = 28,
+                    Id = 27,
                     QuestionText = "Vad bör vara ditt första steg om du upptäcker att ditt företags nätverk har blivit hackat?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -736,12 +736,12 @@ namespace VVCyberAware.Data
                         {"B) Stäng av alla datorer och nätverksutrustning.", false},
                         {"C) Identifiera och isolera de drabbade delarna av nätverket.", true}
                     },
-                    SubCategoryId = 28,
+                    SubCategoryId = 27,
                     Explanation = "Det första steget bör vara att identifiera och isolera de drabbade delarna av nätverket för att förhindra ytterligare skada."
                 },
                 new QuestionModel()
                 {
-                    Id = 29,
+                    Id = 28,
                     QuestionText = "Vilka är de vanligaste vägarna in för cyberangripare?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -749,25 +749,25 @@ namespace VVCyberAware.Data
                         {"B) Genom phishing-e-post, svaga lösenord och osäkra nätverk.", true},
                         {"C) Genom att endast använda godkänd programvara.", false}
                     },
-                    SubCategoryId = 29,
+                    SubCategoryId = 28,
                     Explanation = "De vanligaste vägarna in för cyberangripare inkluderar phishing-e-post, svaga lösenord och osäkra nätverk."
                 },
                 new QuestionModel()
                 {
-                    Id = 30,
+                    Id = 29,
                     QuestionText = "Vad är den mest effektiva åtgärden för att skydda sig mot utpressningsvirus?",
                     Answers = new Dictionary<string, bool>
                 {
-                    {"A) Betala omedelbart lösensumman för att återfå tillgång till filerna.", false},
-                    {"B) Ignorera alla misstänkta e-postmeddelanden och hålla alla system uppdaterade.", true},
-                    {"C) Lagra känslig information på lättillgängliga offentliga servrar.", false}
+                        {"A) Betala omedelbart lösensumman för att återfå tillgång till filerna.", false},
+                        {"B) Ignorera alla misstänkta e-postmeddelanden och hålla alla system uppdaterade.", true},
+                        {"C) Lagra känslig information på lättillgängliga offentliga servrar.", false}
                 },
-                    SubCategoryId = 30,
+                    SubCategoryId = 29,
                     Explanation = "Den mest effektiva åtgärden för att skydda sig mot utpressningsvirus är att ignorera misstänkta e-postmeddelanden och hålla alla system uppdaterade."
                 },
                 new QuestionModel()
                 {
-                    Id = 31,
+                    Id = 30,
                     QuestionText = "Vilken är den vanligaste typen av attack mot servrar?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -775,12 +775,12 @@ namespace VVCyberAware.Data
                         {"B) DDoS-attacker som överväldigar serverns resurser.", true},
                         {"C) Attacker som endast riktar sig mot bärbara enheter.", false}
                     },
-                    SubCategoryId = 31,
+                    SubCategoryId = 30,
                     Explanation = "Den vanligaste typen av attack mot servrar är DDoS-attacker som överväldigar serverns resurser."
                 },
                 new QuestionModel()
                 {
-                    Id = 32,
+                    Id = 31,
                     QuestionText = "Vilket karaktärsdrag är vanligt för cyberangrepp i Norden?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -788,12 +788,12 @@ namespace VVCyberAware.Data
                         {"B) De är vanligtvis riktade mot mobila betalningssystem.", false},
                         {"C) De utnyttjar ofta social engineering och phishing.", true}
                     },
-                    SubCategoryId = 32,
+                    SubCategoryId = 31,
                     Explanation = "Ett vanligt karaktärsdrag för cyberangrepp i Norden är att de ofta utnyttjar social engineering och phishing."
                 },
                 new QuestionModel()
                 {
-                    Id = 33,
+                    Id = 32,
                     QuestionText = "Vilka är de mest använda verktygen av IT-brottslingar?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -801,12 +801,12 @@ namespace VVCyberAware.Data
                         {"B) Phishing, malware och nätverkssniffning.", true},
                         {"C) Lagliga programvaror för databasadministration.", false}
                     },
-                    SubCategoryId = 33,
+                    SubCategoryId = 32,
                     Explanation = "De mest använda verktygen av IT-brottslingar inkluderar phishing, malware och nätverkssniffning."
                 },
                 new QuestionModel()
                 {
-                    Id = 34,
+                    Id = 33,
                     QuestionText = "Vad har Mirai, Wannacry och incidenten i Düsseldorf gemensamt?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -814,12 +814,12 @@ namespace VVCyberAware.Data
                         {"B) De involverar alla skadlig programvara som sprids automatiskt över nätverk.", true},
                         {"C) De är kända fall av dataintrång via sociala medier.", false}
                     },
-                    SubCategoryId = 34,
+                    SubCategoryId = 33,
                     Explanation = "Mirai, Wannacry och incidenten i Düsseldorf har gemensamt att de involverar skadlig programvara som sprids automatiskt över nätverk."
                 },
                 new QuestionModel()
                 {
-                    Id = 35,
+                    Id = 34,
                     QuestionText = "Vad är den största säkerhetsutmaningen med molntjänster?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -827,25 +827,25 @@ namespace VVCyberAware.Data
                         {"B) Brister i fysisk säkerhet hos molnleverantörer.", false},
                         {"C) Otillräckliga åtkomstkontroller och datakryptering.", true}
                     },
-                    SubCategoryId = 35,
+                    SubCategoryId = 34,
                     Explanation = "Den största säkerhetsutmaningen med molntjänster är otillräckliga åtkomstkontroller och datakryptering."
                 },
                 new QuestionModel()
                 {
-                    Id = 36,
+                    Id = 35,
                     QuestionText = "Regeringen upptäcker att känslig politisk kommunikation har läckt och misstänker elektronisk övervakning. Vilket fenomen beskriver bäst denna situation?",
                     Answers = new Dictionary<string, bool>
                 {
-                    {"A) Cyberkriminalitet", false},
-                    {"B) Cyberspionage", true},
-                    {"C) Cyberterrorism", false}
+                        {"A) Cyberkriminalitet", false},
+                        {"B) Cyberspionage", true},
+                        {"C) Cyberterrorism", false}
                 },
-                    SubCategoryId = 36,
+                    SubCategoryId = 35,
                     Explanation = "Cyberspionage avser aktiviteter där aktörer, ofta statliga, engagerar sig i övervakning och datainsamling genom cybermedel för att erhålla hemlig information utan målets medgivande."
                 },
                 new QuestionModel()
                 {
-                    Id = 37,
+                    Id = 36,
                     QuestionText = "Regeringen blir varse om en sofistikerad skadeprogramskampanj som utnyttjar Zero-day sårbarheter för att infiltrera deras nätverk och stjäla oerhört viktig data. Vilken metod för cyberspionage används sannolikt här?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -853,12 +853,12 @@ namespace VVCyberAware.Data
                         {"B) Massövervakning", false},
                         {"C) Riktade cyberattacker", true}
                     },
-                    SubCategoryId = 37,
+                    SubCategoryId = 36,
                     Explanation = "Riktade cyberattacker som utnyttjar Zero-day sårbarheter är en avancerad metod för cyberspionage, specifikt riktad för att komma åt känslig information genom att utnyttja tidigare okända sårbarheter."
                 },
                 new QuestionModel()
                 {
-                    Id = 38,
+                    Id = 37,
                     QuestionText = "Regeringen i Sverige ökar sitt interna säkerhetsprotokoll för att skydda sig mot utländska underrättelsetjänsters infiltration. Vilken lagstiftning ger ramverket för detta skydd?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -866,12 +866,12 @@ namespace VVCyberAware.Data
                         {"B) Säkerhetsskyddslagen", true},
                         {"C) IT-säkerhetslagen", false}
                     },
-                    SubCategoryId = 38,
+                    SubCategoryId = 37,
                     Explanation = "Säkerhetsskyddslagen är en svensk lagstiftning som syftar till att skydda nationellt känslig information och ställer krav på säkerhetsskyddsåtgärder för verksamheter av betydelse för Sveriges säkerhet."
                 },
                 new QuestionModel()
                 {
-                    Id = 39,
+                    Id = 38,
                     QuestionText = "Lunds universitet upptäcker att forskningsdata om ny teknologi har stulits. Undersökningar tyder på en välorganiserad grupp med kopplingar till en utländsk stat. Vilken typ av aktör ligger sannolikt bakom detta?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -879,25 +879,25 @@ namespace VVCyberAware.Data
                         {"B) Aktivistgrupper", false},
                         {"C) Statssponsrade hackers", true}
                     },
-                    SubCategoryId = 39,
+                    SubCategoryId = 38,
                     Explanation = "Statssponsrade hackers är aktörer som arbetar på uppdrag av eller med stöd från en regering, ofta riktat mot strategiska mål som forskningsdata för att få strategiska fördelar."
                 },
                 new QuestionModel()
                 {
-                    Id = 40,
+                    Id = 39,
                     QuestionText = "Vad avses med värvningsförsök inom cybersäkerhetskontexten?",
                     Answers = new Dictionary<string, bool>
                 {
-                    {"A) Att rekrytera nya medarbetare via digitala kanaler.", false},
-                    {"B) Att övertyga befintliga anställda eller individer att medvetet läcka information eller ge tillgång till system.", true},
-                    {"C) Att erbjuda gratis programvara till företag som en del av en marknadsföringskampanj.", false}
+                        {"A) Att rekrytera nya medarbetare via digitala kanaler.", false},
+                        {"B) Att övertyga befintliga anställda eller individer att medvetet läcka information eller ge tillgång till system.", true},
+                        {"C) Att erbjuda gratis programvara till företag som en del av en marknadsföringskampanj.", false}
                 },
-                    SubCategoryId = 36,
+                    SubCategoryId = 39,
                     Explanation = "Värvningsförsök innebär att övertyga befintliga anställda eller individer att medvetet läcka information eller ge tillgång till system."
                 },
                 new QuestionModel()
                 {
-                    Id = 41,
+                    Id = 40,
                     QuestionText = "Hur definieras affärsspionage i en digital miljö?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -905,12 +905,12 @@ namespace VVCyberAware.Data
                         {"B) Användning av digital teknik för att otillbörligt inhämta konkurrenters företagshemligheter.", true},
                         {"C) Offentliggörande av företagsresultat på sociala medier.", false}
                     },
-                    SubCategoryId = 37,
+                    SubCategoryId = 40,
                     Explanation = "Affärsspionage i en digital miljö definieras som användningen av digital teknik för att otillbörligt inhämta konkurrenters företagshemligheter."
                 },
                 new QuestionModel()
                 {
-                    Id = 42,
+                    Id = 41,
                     QuestionText = "Vad är målet med digitala påverkanskampanjer?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -918,12 +918,12 @@ namespace VVCyberAware.Data
                         {"B) Att sprida desinformation och påverka allmänhetens åsikter eller val.", true},
                         {"C) Att förbättra företagets varumärkesimage genom reklam.", false}
                     },
-                    SubCategoryId = 38,
+                    SubCategoryId = 41,
                     Explanation = "Målet med digitala påverkanskampanjer är att sprida desinformation och påverka allmänhetens åsikter eller val."
                 },
                 new QuestionModel()
                 {
-                    Id = 43,
+                    Id = 42,
                     QuestionText = "Vilken roll spelar den svenska underrättelsetjänsten i landets cyberförsvar?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -931,12 +931,12 @@ namespace VVCyberAware.Data
                         {"B) Att samla in och analysera information om cyberhot och stärka nationens cyberförsvar.", true},
                         {"C) Att erbjuda IT-support till små och medelstora företag.", false}
                     },
-                    SubCategoryId = 39,
+                    SubCategoryId = 42,
                     Explanation = "Den svenska underrättelsetjänstens roll i landets cyberförsvar är att samla in och analysera information om cyberhot och därmed stärka nationens säkerhet."
                 },
                 new QuestionModel()
                 {
-                    Id = 44,
+                    Id = 43,
                     QuestionText = "Hur relaterar signalspaning och informationssäkerhet till utbyggnaden av 5G-nätverk?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -944,8 +944,21 @@ namespace VVCyberAware.Data
                         {"B) Utbyggnaden av 5G ställer högre krav på informationssäkerhet och kan påverka metoder för signalspaning.", true},
                         {"C) 5G är endast viktigt för förbättrad spelupplevelse och har inget samband med signalspaning eller informationssäkerhet.", false}
                     },
-                    SubCategoryId = 40,
+                    SubCategoryId = 43,
                     Explanation = "Utbyggnaden av 5G ställer högre krav på informationssäkerhet och kan påverka metoder för signalspaning."
+                },
+                new QuestionModel()
+                {
+                    Id = 44,
+                    QuestionText = "Vilken åtgärd är mest effektiv för samverkan mot cyberspionage?",
+                    Answers = new Dictionary<string, bool>
+                    {
+                        {"A) Använda endast antivirusprogram.", false},
+                        {"B) Blockera all inkommande trafik från utlandet.", false},
+                        {"C) Dela underrättelseinformation med andra organisationer.", true}
+                    },
+                    SubCategoryId = 44, 
+                    Explanation = "Att dela underrättelseinformation hjälper organisationer att identifiera och motverka cyberspionage mer effektivt genom förbättrad medvetenhet och koordinerade försvarsåtgärder."
                 });
         }
     }
