@@ -8,8 +8,29 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
     {
         public HttpClient client { get; set; } = new()
         {
-            BaseAddress = new Uri("https://localhost:7214/api/")
+            BaseAddress = new Uri("http://localhost:5142/api/")
         };
+
+        public async Task<CategoryApiModel> GetCategoryInclude(int id)
+        {
+            var response = await client.GetAsync($"Category/CategoryInclude/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                string categoryIncludeJson = await response.Content.ReadAsStringAsync();
+
+                CategoryApiModel? category = JsonConvert.DeserializeObject<CategoryApiModel>(categoryIncludeJson);
+
+                if (category != null)
+                {
+                    return category;
+                }
+
+                throw new JsonException();
+            }
+
+            throw new HttpRequestException();
+        }
 
         public async Task<List<CategoryApiModel>> GetCategoriesAsync()
         {

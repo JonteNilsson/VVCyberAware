@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
-using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.SegmentService
 {
@@ -8,10 +8,10 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
     {
         public HttpClient client { get; set; } = new()
         {
-            BaseAddress = new Uri("https://localhost:7214/api/")
+            BaseAddress = new Uri("http://localhost:5142/api/")
         };
 
-        public async Task<SegmentModel> GetSegmentByIdAsync(int id)
+        public async Task<SegmentApiModel> GetSegmentByIdAsync(int id)
         {
             var response = await client.GetAsync($"Segment/Segment/{id}");
 
@@ -19,7 +19,7 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
             {
                 string segmentJson = await response.Content.ReadAsStringAsync();
 
-                SegmentModel? segment = JsonConvert.DeserializeObject<SegmentModel>(segmentJson);
+                SegmentApiModel? segment = JsonConvert.DeserializeObject<SegmentApiModel>(segmentJson);
 
                 if (segment != null)
                 {
@@ -32,7 +32,7 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
             throw new HttpRequestException();
         }
 
-        public async Task<List<SegmentModel>> GetSegmentsAsync()
+        public async Task<List<SegmentApiModel>> GetSegmentsAsync()
         {
             var response = await client.GetAsync("Segment/Segments");
 
@@ -40,7 +40,7 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
             {
                 string segmentJson = await response.Content.ReadAsStringAsync();
 
-                List<SegmentModel>? segments = JsonConvert.DeserializeObject<List<SegmentModel>>(segmentJson);
+                List<SegmentApiModel>? segments = JsonConvert.DeserializeObject<List<SegmentApiModel>>(segmentJson);
 
                 if (segments != null)
                 {
@@ -53,7 +53,7 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
             throw new HttpRequestException();
         }
 
-        public async Task PostSegment(SegmentModel segment)
+        public async Task PostSegment(SegmentApiModel segment)
         {
             await client.PostAsJsonAsync("Segment/Post", segment);
         }

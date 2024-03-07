@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
-using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.QuestionService
 {
@@ -8,10 +8,10 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
     {
         public HttpClient client { get; set; } = new()
         {
-            BaseAddress = new Uri("https://localhost:7214/api/")
+            BaseAddress = new Uri("http://localhost:5142/api/")
         };
 
-        public async Task<QuestionModel> GetQuestionByIdAsync(int id)
+        public async Task<QuestionApiModel> GetQuestionByIdAsync(int id)
         {
             var response = await client.GetAsync($"Question/{id}");
 
@@ -19,7 +19,7 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             {
                 string questionJson = await response.Content.ReadAsStringAsync();
 
-                QuestionModel? question = JsonConvert.DeserializeObject<QuestionModel>(questionJson);
+                QuestionApiModel? question = JsonConvert.DeserializeObject<QuestionApiModel>(questionJson);
 
                 if (question != null)
                 {
@@ -32,7 +32,7 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             throw new HttpRequestException();
         }
 
-        public async Task<List<QuestionModel>> GetQuestionsAsync()
+        public async Task<List<QuestionApiModel>> GetQuestionsAsync()
         {
             var response = await client.GetAsync("Question/Questions");
 
@@ -40,7 +40,7 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             {
                 string questionJson = await response.Content.ReadAsStringAsync();
 
-                List<QuestionModel>? questions = JsonConvert.DeserializeObject<List<QuestionModel>>(questionJson);
+                List<QuestionApiModel>? questions = JsonConvert.DeserializeObject<List<QuestionApiModel>>(questionJson);
 
                 if (questions != null)
                 {
@@ -53,7 +53,7 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             throw new HttpRequestException();
         }
 
-        public async Task PostQuestion(QuestionModel question)
+        public async Task PostQuestion(QuestionApiModel question)
         {
             await client.PostAsJsonAsync("Question/Post", question);
         }
