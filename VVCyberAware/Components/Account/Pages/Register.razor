@@ -18,35 +18,38 @@
 
 <PageTitle>Register</PageTitle>
 
-<h2>Create a new account.</h2>
+<h2 class="text-center mb-4 text-white" >Create a new account</h2>
 <hr />
-
- <div class="row">
-    <div class="col-md-4">
+<body class="background-image" >
+ <div class="row justify-content-center ">
+    <div class="col-md-6 col-lg--4">
+        <section class="card shadow p-4" style="background-color: rgba(0, 0, 0, 0.6)" >
         <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
 
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-group mb-3">
-                <label for="email">Email</label>
+                <label for="email" class="text-primary" >Email</label>
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="name@example.com" />
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
             </div>
             <div class="form-group mb-3">
-                <label for="Username">Username</label>
+                <label for="Username" class="text-primary" >Username</label>
                 <InputText @bind-Value="Input.UserName" class="form-control" autocomplete="Username" aria-required="true" placeholder="Username" />
                 <ValidationMessage For="() => Input.UserName" class="text-danger" />
             </div>
             <div class="form-group mb-3">
-                <label for="password">Password</label>
+                <label for="password" class="text-primary" >Password</label>
                 <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
                 <ValidationMessage For="() => Input.Password" class="text-danger" />
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
+        </section>
     </div>
 </div> 
+</body>
 
 @code {
     private IEnumerable<IdentityError>? identityErrors;
