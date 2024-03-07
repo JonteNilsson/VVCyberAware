@@ -1,7 +1,5 @@
-using Humanizer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.Data
@@ -20,9 +18,15 @@ namespace VVCyberAware.Data
         {
 
 
-               base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
 
-                modelBuilder.Entity<CategoryModel>().HasData(
+            modelBuilder.Entity<QuestionModel>()
+                .Property(q => q.AnswersJson)
+                .HasColumnType("nvarchar(max)")
+                .IsRequired();
+
+            modelBuilder.Entity<CategoryModel>().HasData(
+
                 new CategoryModel()
                 {
                     Id = 1,
