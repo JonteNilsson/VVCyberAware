@@ -22,9 +22,9 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpGet("Questions")]
-        public ActionResult<List<QuestionModel>> GetQuestions()
+        public async Task<ActionResult<List<QuestionModel>>> GetQuestions()
         {
-            var questions = _questionRepo.GetAll();
+            var questions = await _questionRepo.GetAll();
 
             if (questions != null)
             {
@@ -38,9 +38,9 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpGet("Question/{id}")]
-        public ActionResult<QuestionModel> GetSingleQuestion(int id)
+        public async Task<ActionResult<QuestionModel>> GetSingleQuestion(int id)
         {
-            var question = _questionRepo.GetModelById(id);
+            var question = await _questionRepo.GetModelById(id);
 
             if (question == null)
             {

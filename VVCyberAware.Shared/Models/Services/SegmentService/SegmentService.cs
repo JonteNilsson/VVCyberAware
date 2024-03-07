@@ -13,7 +13,7 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
 
         public async Task<SegmentModel> GetSegmentByIdAsync(int id)
         {
-            var response = await client.GetAsync($"Segment/{id}");
+            var response = await client.GetAsync($"Segment/Segment/{id}");
 
             if (response.IsSuccessStatusCode)
             {
