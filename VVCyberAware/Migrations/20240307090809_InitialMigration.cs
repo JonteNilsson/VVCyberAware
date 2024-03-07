@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VVCyberAware.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -220,6 +220,7 @@ namespace VVCyberAware.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuestionText = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AnswersJson = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Explanation = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubCategoryId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -264,12 +265,66 @@ namespace VVCyberAware.Migrations
             migrationBuilder.InsertData(
                 table: "SubCategories",
                 columns: new[] { "Id", "Description", "SegmentId" },
-                values: new object[] { 1, "", 1 });
+                values: new object[,]
+                {
+                    { 1, "Kreditkortsbedrägeri", 1 },
+                    { 2, "Romansbedrägeri", 1 },
+                    { 3, "Investeringsbedrägeri", 1 },
+                    { 4, "Telefonbedrägeri", 1 },
+                    { 5, "Bedrägerier i hemmet", 2 },
+                    { 6, "Identitetsstöld", 2 },
+                    { 7, "Nätfiske och bluffmejl", 2 },
+                    { 8, "Investeringsbedrägeri på nätet", 2 },
+                    { 9, "Abonnemangsfällor och falska fakturor", 3 },
+                    { 10, "Ransomware", 3 },
+                    { 11, "Statistik och förhållningssätt", 3 },
+                    { 12, "Digital säkerhet på företag", 4 },
+                    { 13, "Risker och beredskap", 4 },
+                    { 14, "Aktörer inom cyberbrott", 4 },
+                    { 15, "Ökad digital närvaro och distansarbete", 4 },
+                    { 16, "Cyberangrepp mot känsliga sektorer", 4 },
+                    { 17, "Cyberrånet mot Mersk", 4 },
+                    { 18, "Social engineering", 5 },
+                    { 19, "Nätfiske och skräppost", 5 },
+                    { 20, "Vishing", 5 },
+                    { 21, "Varning för vishing", 5 },
+                    { 22, "Identifiera VD-mejl", 5 },
+                    { 23, "Öneangrepp och presentkortsbluffar", 5 },
+                    { 24, "Virus, maskar och trojaner", 6 },
+                    { 25, "Nätverksintrång", 6 },
+                    { 26, "Dataintrång", 6 },
+                    { 27, "Hackad!", 6 },
+                    { 28, "Vägarna in", 6 },
+                    { 29, "Utpressningsvirus", 7 },
+                    { 30, "Attacker mot servrar", 7 },
+                    { 31, "Cyberangrepp i Norden", 7 },
+                    { 32, "It-brottslingarnas verktyg", 7 },
+                    { 33, "Mirai, Wannacry och fallet Düsseldorf", 7 },
+                    { 34, "De sårbara molnen", 7 },
+                    { 35, "Allmänt om cyberspionage", 8 },
+                    { 36, "Metoder för cyberspionage", 8 },
+                    { 37, "Säkerhetsskyddslagen", 8 },
+                    { 38, "Cyberspionagets aktörer", 8 },
+                    { 39, "Värvningsförsök", 9 },
+                    { 40, "Affärsspionage", 9 },
+                    { 41, "Påverkanskampanjer", 9 },
+                    { 42, "Svensk underrättelsetjänst och cyberförsvar", 10 },
+                    { 43, "Signalspaning, informationssäkerhet och 5G", 10 },
+                    { 44, "Samverkan mot cyberspionage", 10 }
+                });
 
             migrationBuilder.InsertData(
                 table: "Questions",
-                columns: new[] { "Id", "Explanation", "QuestionText", "SubCategoryId" },
-                values: new object[] { 1, null, "", 1 });
+                columns: new[] { "Id", "AnswersJson", "Explanation", "QuestionText", "SubCategoryId" },
+                values: new object[,]
+                {
+                    { 1, "{\" A), Ett legitimt f\\u00F6rs\\u00F6k fr\\u00E5n banken att skydda ditt konto\":false,\" B), En informationsinsamling f\\u00F6r en marknadsunders\\u00F6kning\":false,\" C), Ett potentiellt telefonbedr\\u00E4geri\":true}", "Banker och andra finansiella institutioner begär aldrig känslig information såsom kontonummer eller lösenord via telefon. Detta är ett klassiskt tecken på telefonbedrägeri.", "Du får ett oväntat telefonsamtal från någon som påstår sig vara från din bank. Personen ber dig bekräfta ditt kontonummer och lösenord för att \"säkerställa din kontos säkerhet\" efter en påstådd säkerhetsincident. Hur bör du tolka denna situation?", 1 },
+                    { 2, "{\"A), Ett legitimt f\\u00F6rs\\u00F6k fr\\u00E5n banken att skydda ditt konto\":false,\" B), En informationsinsamling f\\u00F6r en marknadsunders\\u00F6kning\":false,\" C), Ett potentiellt telefonbedr\\u00E4geri\":true}", "Begäran om pengar, särskilt under omständigheter där två personer aldrig har träffats fysiskt, är ett vanligt tecken på romansbedrägeri.", "Efter flera månader av daglig kommunikation med någon du träffade på en datingsida, börjar personen berätta om en plötslig finansiell kris och ber om din hjälp genom att överföra pengar. Vad indikerar detta mest sannolikt?", 2 },
+                    { 3, "{\" A), Genomf\\u00F6ra omedelbar investering f\\u00F6r att inte missa m\\u00F6jligheten\":false,\" B),Investeringsbedr\\u00E4geri\":true,\" C), Beg\\u00E4ra mer information f\\u00F6r att utf\\u00F6ra en noggrann \\u2018\\u2019due diligence\":false}", "Erbjudanden som lovar hög avkastning med liten eller ingen risk, särskilt via oönskade e-postmeddelanden, är ofta tecken på investeringsbedrägerier", "Du får ett e-postmeddelande/samtal om ett exklusivt erbjudande att investera i ett startup-företag som påstås ha en revolutionerande ny teknologi, med garantier om exceptionellt hög avkastning på mycket kort tid. Hur bör du förhålla dig till erbjudandet?\r\n", 3 },
+                    { 4, "{\"A) Ett misstag av kreditkortsf\\u00F6retaget\":false,\"B) Kreditkortsbedr\\u00E4geri\":true,\"C) Obeh\\u00F6riga k\\u00F6p av en familjemedlem\":false}", "Oidentifierade transaktioner på ditt kreditkortsutdrag är en stark indikation på att ditt kortnummer har komprometterats och använts för obehöriga köp, vilket är typiskt för kreditkortsbedrägeri.", "Efter en online-shoppingrunda märker du oidentifierade transaktioner på ditt kreditkortsutdrag från företag du aldrig handlat från. Vad indikerar detta mest sannolikt?", 4 },
+                    { 5, "{\"A) N\\u00E5gon erbjuder dig en gratis produkt i utbyte mot detaljerad personlig information.\":true,\"B) Din hund sk\\u00E4ller mer \\u00E4n vanligt\":false,\"C) Din granns bil ser annorlunda ut \\u00E4n den brukade.\":false}", "Denna fråga syftar till att öka medvetenheten om hur bedragare kan försöka manipulera människor i sina egna hem, ofta genom att erbjuda något som verkar vara för bra för att vara sant, som gratisprodukter eller tjänster, i utbyte mot personlig information eller finansiell data.", "Vad är de vanligaste tecknen på att du kan vara måltavla för ett bedrägeri i hemmet?", 5 },
+                    { 6, "{\"A) Du f\\u00E5r en st\\u00F6rre \\u00E4n v\\u00E4ntad elr\\u00E4kning.\":false,\"B) Du m\\u00E4rker ov\\u00E4ntade transaktioner p\\u00E5 ditt bankkontoutdrag eller att dina kreditupplysningar visar konton du inte k\\u00E4nner till.\":true,\"C) Din favorit-TV-serie slutar pl\\u00F6tsligt s\\u00E4ndas.\":false}", " Denna fråga riktar in sig på att identifiera varningssignaler som kan tyda på att någon obehörigt använder din personliga information. Genom att känna till dessa tecken kan individer agera snabbt för att skydda sin finansiella hälsa och juridiska ställning.", "Hur kan du upptäcka om någon har stulit din identitet?", 6 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

@@ -1,7 +1,5 @@
-using Humanizer;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using VVCyberAware.Shared.Models.DbModels;
 
 namespace VVCyberAware.Data
@@ -19,8 +17,12 @@ namespace VVCyberAware.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
-
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<QuestionModel>()
+                .Property(q => q.AnswersJson)
+                .HasColumnType("nvarchar(max)")
+                .IsRequired();
 
             modelBuilder.Entity<CategoryModel>().HasData(
                 new CategoryModel()
@@ -185,7 +187,7 @@ namespace VVCyberAware.Data
                 },
                 new SubCategoryModel()
                 {
-                    Id= 12,
+                    Id = 12,
                     Description = "Digital säkerhet på företag",
                     SegmentId = 4 // börjar på del 1 igen
                 },
@@ -424,7 +426,7 @@ namespace VVCyberAware.Data
                 },
                 new QuestionModel()
                 {
-                    Id =4,
+                    Id = 4,
                     QuestionText = "Efter en online-shoppingrunda märker du oidentifierade transaktioner på ditt kreditkortsutdrag från företag du aldrig handlat från. Vad indikerar detta mest sannolikt?",
                     Answers = new Dictionary<string, bool>
                     {
@@ -432,7 +434,7 @@ namespace VVCyberAware.Data
                         {"B) Kreditkortsbedrägeri",true },
                         {"C) Obehöriga köp av en familjemedlem", false }
                     },
-                    SubCategoryId= 4,
+                    SubCategoryId = 4,
                     Explanation = "Oidentifierade transaktioner på ditt kreditkortsutdrag är en stark indikation på att ditt kortnummer har komprometterats och använts för obehöriga köp, vilket är typiskt för kreditkortsbedrägeri."
                 },
                 new QuestionModel()
@@ -458,8 +460,8 @@ namespace VVCyberAware.Data
                         {"A) Du får en större än väntad elräkning.",false },
                         {"B) Du märker oväntade transaktioner på ditt bankkontoutdrag eller att dina kreditupplysningar visar konton du inte känner till.",true },
                         {"C) Din favorit-TV-serie slutar plötsligt sändas.",false }
-                    }, 
-                    SubCategoryId= 6,
+                    },
+                    SubCategoryId = 6,
                     Explanation = " Denna fråga riktar in sig på att identifiera varningssignaler som kan tyda på att någon obehörigt använder din personliga information. Genom att känna till dessa tecken kan individer agera snabbt för att skydda sin finansiella hälsa och juridiska ställning."
                 }
                 //new QuestionModel()
@@ -471,7 +473,7 @@ namespace VVCyberAware.Data
                 //    //    {}
                 //    //}
 
-                
+
                 );
         }
     }
