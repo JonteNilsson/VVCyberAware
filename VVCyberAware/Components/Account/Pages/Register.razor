@@ -16,6 +16,7 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
+
 <PageTitle>Register</PageTitle>
 
 <h2 class="text-center mb-4 text-white" >Create a new account</h2>
@@ -41,12 +42,13 @@
             </div>
             <div class="form-group mb-3">
                 <label for="password" class="text-primary" >Password</label>
-                <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
                 <ValidationMessage For="() => Input.Password" class="text-danger" />
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </EditForm>
-        </section>
+        <a href="/account/Login" class="w-100 btn btn-lg btn-danger" >Back to Login</a>
+         </section>
     </div>
 </div> 
 </body>
@@ -85,6 +87,8 @@
         var callbackUrl = NavigationManager.GetUriWithQueryParameters(
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
+
+
 
         await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
 
