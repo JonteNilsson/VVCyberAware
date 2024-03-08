@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -88,6 +89,49 @@ namespace VVCyberAware.API.Controllers
             await _questionRepo.Delete(questionToDelete.Id);
 
             return Ok(questionToDelete);
+        }
+
+        [HttpPut("Question/{id}")]
+        public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionViewModel updatedQuestion)
+        {
+            // Validate the input
+            if (id != updatedQuestion.Id)
+            {
+                return BadRequest("ID's do not match");
+            }
+
+            // Try to find the existing question
+            var existingQuestion = await _context.Questions
+                .FirstOrDefaultAsync(q => q.Id == id);
+
+            // Check if the question exists
+            if (existingQuestion == null)
+            {
+                return NotFound($"Question with ID {id} not found");
+            }
+
+            // Update properties of the existing question
+            existingQuestion.Id = updatedQuestion.Id;
+            existingQuestion.Explanation = updatedQuestion.Explanation;
+            existingQuestion.SubCategoryId = updatedQuestion.SubCategoryId;
+            existingQuestion.Answers = updatedQuestion.Answers;
+
+
+            // Update other properties as needed
+
+            _questionRepo.Update(existingQuestion);
+
+            // Save changes to the database
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok($"Question with ID {id} updated successfully");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                // Handle concurrency issues if needed
+                return StatusCode(500, "Concurrency error occurred");
+            }
         }
     }
 }

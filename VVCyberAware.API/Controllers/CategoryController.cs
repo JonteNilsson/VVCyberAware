@@ -109,7 +109,7 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPut("Category/{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryModel updatedCategory)
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryViewModel updatedCategory)
         {
             // Validate the input
             if (id != updatedCategory.Id)
@@ -119,7 +119,6 @@ namespace VVCyberAware.API.Controllers
 
             // Try to find the existing category
             var existingCategory = await _context.Categories
-                .Include(c => c.Segments) // Include related entities if necessary
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             // Check if the category exists
@@ -130,8 +129,8 @@ namespace VVCyberAware.API.Controllers
 
             // Update properties of the existing category
             existingCategory.Id = updatedCategory.Id;
-            existingCategory.Name = updatedCategory.Name;
-            existingCategory.Description = updatedCategory.Description;
+            existingCategory.Name = updatedCategory.Name!;
+            existingCategory.Description = updatedCategory.Description!;
 
 
             _categoryRepo.Update(existingCategory);
