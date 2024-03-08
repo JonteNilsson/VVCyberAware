@@ -23,27 +23,23 @@
             </span>
         </div>
 
-        @if (!Id.HasValue)
+        @if(categories != null)
         {
-            @if(categories != null)
+            <ul class="list-group">
+            @foreach (var category in categories)
             {
-                <ul class="list-group">
-                @foreach (var category in categories)
+                if(category.Name.ToLower().Contains(searchText.ToLower()))
                 {
-                    if(category.Name.ToLower().Contains(searchText.ToLower()))
-                    {
-                        <AdminCategoryComponent Category="category"
-                                           Segments="@segments"
-                                           ToggleInfo="@ToggleInfo"
-                                           IsCategoryVisible="@IsCategoryVisible" />
-                    }
+                    <AdminCategoryComponent Category="category"
+                                        Segments="@segments"
+                                        ToggleInfo="@ToggleInfo"
+                                        IsCategoryVisible="@IsCategoryVisible" />
                 }
-                </ul>
-
-                <button class="btn btn-success">Lägg till kategori</button>
             }
+            </ul>
+
+            <button class="btn btn-success mt-5 mb-5">Lägg till kategori</button>
         }
-        
     </Authorized>
     <NotAuthorized>
         <h4>You are not authorized to view this page.</h4>
@@ -51,8 +47,6 @@
 </AuthorizeView>
 
 @code {
-    [Parameter]
-    public int? Id { get; set; }
 
     private string arrowDirection = "down"; // Note: Change to down for the other arrow
     private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
