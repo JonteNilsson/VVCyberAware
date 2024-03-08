@@ -4,6 +4,7 @@ namespace VVCyberAware.Shared.Models.ViewModels
 {
     public class SegmentViewModel
     {
+        public int Id { get; set; }
         public string? Name { get; set; }
         public List<string>? UserIsComplete { get; set; }
 
@@ -23,6 +24,7 @@ namespace VVCyberAware.Shared.Models.ViewModels
                 Name = apiModel.Name,
                 UserIsComplete = apiModel.UserIsComplete,
                 CategoryId = apiModel.CategoryId,
+                Id = apiModel.Id
             };
         }
     }

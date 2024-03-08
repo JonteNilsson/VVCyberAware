@@ -8,7 +8,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
         public Task<CategoryApiModel> GetCategoryInclude(int id);
 
-        public Task<List<CategoryApiModel>> GetCategoriesAsync();
+        public Task<List<CategoryApiModel>> GetAllCategoriesAsync();
 
         public Task<CategoryApiModel> GetCategoryByIdAsync(int id);
 

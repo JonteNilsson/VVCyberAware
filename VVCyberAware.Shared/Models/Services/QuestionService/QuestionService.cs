@@ -11,6 +11,13 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             BaseAddress = new Uri("http://localhost:5142/api/")
         };
 
+        /// <summary>
+        /// Makes an API call looking for a specific Question with its inputted ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns the Question matching the ID</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<QuestionApiModel> GetQuestionByIdAsync(int id)
         {
             var response = await client.GetAsync($"Question/{id}");
@@ -31,7 +38,12 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
 
             throw new HttpRequestException();
         }
-
+        /// <summary>
+        /// Make an API call to get all Questions
+        /// </summary>
+        /// <returns>Returns a list of Questions</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<List<QuestionApiModel>> GetQuestionsAsync()
         {
             var response = await client.GetAsync("Question/Questions");
@@ -53,6 +65,11 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             throw new HttpRequestException();
         }
 
+        /// <summary>
+        /// Posts a Question and stores it in Database
+        /// </summary>
+        /// <param name="question"></param>
+        /// <returns></returns>
         public async Task PostQuestion(QuestionApiModel question)
         {
             await client.PostAsJsonAsync("Question/Post", question);

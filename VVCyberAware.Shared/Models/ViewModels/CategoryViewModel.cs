@@ -4,6 +4,7 @@ namespace VVCyberAware.Shared.Models.ViewModels
 {
     public class CategoryViewModel
     {
+        public int Id { get; set; }
         public string? Name { get; set; }
 
         public string? Description { get; set; }
@@ -21,6 +22,7 @@ namespace VVCyberAware.Shared.Models.ViewModels
             {
                 Name = apiModel.Name,
                 Description = apiModel.Description,
+                Id = apiModel.Id,
             };
         }
 

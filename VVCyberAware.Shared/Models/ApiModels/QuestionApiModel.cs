@@ -8,6 +8,7 @@
 
         public Dictionary<string, bool> Answers { get; set; } = new();
 
+
         public string? Explanation { get; set; }
 
         public SubCategoryApiModel? SubCategory { get; set; }
