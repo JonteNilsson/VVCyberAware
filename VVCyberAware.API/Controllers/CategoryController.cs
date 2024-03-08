@@ -94,7 +94,7 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("Category/{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
-            var category = _categoryRepo.GetModelById(id);
+            var category = await _categoryRepo.GetModelById(id);
 
             if (category == null)
             {
@@ -103,7 +103,6 @@ namespace VVCyberAware.API.Controllers
 
 
             await _categoryRepo.Delete(category.Id);
-            _context.SaveChanges();
 
             return Ok(category);
         }

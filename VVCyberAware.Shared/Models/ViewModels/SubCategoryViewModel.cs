@@ -6,6 +6,9 @@ namespace VVCyberAware.Shared.Models.ViewModels
     {
         public string? Description { get; set; }
 
+        public int SegmentId { get; set; }
+
+
 
         /// <summary>
         /// Takes an API Model and maps it to a ViewModel making it easier to use in the UI
@@ -17,6 +20,7 @@ namespace VVCyberAware.Shared.Models.ViewModels
             return new SubCategoryViewModel
             {
                 Description = apiModel.Description,
+                SegmentId = apiModel.SegmentId,
             };
         }
     }
