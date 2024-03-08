@@ -77,7 +77,7 @@
     {
         await base.OnInitializedAsync();
 
-        categories = await categoryService.GetCategoriesAsync();
+        categories = await categoryService.GetAllCategoriesAsync();
         segments = await segmentService.GetSegmentsAsync();
 
         foreach (var category in categories)

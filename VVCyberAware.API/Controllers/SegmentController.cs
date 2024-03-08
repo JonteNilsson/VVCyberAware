@@ -91,7 +91,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpPut("Segment/{id}")]
+        [HttpPut("UpdateSegment/{id}")]
         public async Task<IActionResult> UpdateSegment(int id, [FromBody] SegmentViewModel updatedSegment)
         {
 

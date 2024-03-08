@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
+using System.Text;
 using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.QuestionService
@@ -73,6 +74,23 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
         public async Task PostQuestion(QuestionApiModel question)
         {
             await client.PostAsJsonAsync("Question/Post", question);
+        }
+
+        public async Task UpdateQuestionAsync(int id, QuestionApiModel updatedQuestion)
+        {
+            // Convert the updatedQuestion to JSON
+            string updatedQuestionJson = JsonConvert.SerializeObject(updatedQuestion);
+
+            // Create a StringContent with the JSON data
+            var content = new StringContent(updatedQuestionJson, Encoding.UTF8, "application/json");
+
+            // Make the PUT request
+            var response = await client.PutAsync($"Question/UpdateQuestion/{id}", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException();
+            }
         }
     }
 }

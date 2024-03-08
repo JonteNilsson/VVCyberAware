@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
+using System.Text;
 using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.CategoryService
 {
@@ -74,7 +76,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
         /// <exception cref="HttpRequestException"></exception>
         public async Task<CategoryApiModel> GetCategoryByIdAsync(int id)
         {
-            var response = await client.GetAsync($"Category/{id}");
+            var response = await client.GetAsync($"Category/Category/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -102,5 +104,25 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
         {
             await client.PostAsJsonAsync("Category/Post", category);
         }
+
+        public async Task UpdateCategoryAsync(int id, CategoryViewModel updatedCategory)
+        {
+            // Convert the updatedCategory to JSON
+            string updatedCategoryJson = JsonConvert.SerializeObject(updatedCategory);
+
+            // Create a StringContent with the JSON data
+            var content = new StringContent(updatedCategoryJson, Encoding.UTF8, "application/json");
+
+            // Make the PUT request
+            var response = await client.PutAsync($"Category/UpdateCategory/{id}", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException();
+
+            }
+
+        }
+
     }
 }
