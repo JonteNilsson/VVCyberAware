@@ -17,6 +17,9 @@
     <span class="row col-2">
 		<label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
 	</span>
+    <div class="d-flex justify-content-left ">
+        <a href="/account/login" class="btn btn-danger">Log out</a>
+    </div>
 </div>
 
 @if(categories != null)
@@ -33,6 +36,7 @@
             }
         }
     </ul>
+
 }
 
 
