@@ -65,12 +65,11 @@ namespace VVCyberAware.API.Controllers
             SubCategoryModel model = new()
             {
                 Description = newSubCategory.Description!,
+                SegmentId = newSubCategory.SegmentId,
 
             };
 
             await _subCRepo.Add(model);
-
-            _context.SaveChanges();
 
             return Ok(newSubCategory);
         }
@@ -81,7 +80,7 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("SubCategory/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var subCategory = _subCRepo.GetModelById(id);
+            var subCategory = await _subCRepo.GetModelById(id);
 
             if (subCategory == null)
             {

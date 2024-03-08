@@ -65,10 +65,11 @@ namespace VVCyberAware.API.Controllers
                 QuestionText = newQuestion.QuestionText!,
                 Explanation = newQuestion.Explanation,
                 Answers = newQuestion.Answers,
+                SubCategoryId = newQuestion.SubCategoryId,
             };
 
             await _questionRepo.Add(model);
-            _context.SaveChanges();
+
 
             return Ok(newQuestion);
         }
@@ -77,19 +78,16 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("Question/{id}")]
         public async Task<ActionResult> DeleteQuestion(int id)
         {
-            var questionToDelete = _questionRepo.GetModelById(id);
+            var questionToDelete = await _questionRepo.GetModelById(id);
 
             if (questionToDelete == null)
             {
                 return NotFound();
             }
 
-
             await _questionRepo.Delete(questionToDelete.Id);
 
-            _context.SaveChanges();
-
-            return Ok();
+            return Ok(questionToDelete);
         }
     }
 }

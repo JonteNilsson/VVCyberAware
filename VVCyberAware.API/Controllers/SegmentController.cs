@@ -62,6 +62,7 @@ namespace VVCyberAware.API.Controllers
             {
                 Name = newSegment.Name!,
                 UserIsComplete = newSegment.UserIsComplete,
+                CategoryId = newSegment.CategoryId,
             };
 
             await _segmentRepo.Add(model);
@@ -76,7 +77,7 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("Segment/{id}")]
         public async Task<ActionResult> DeleteSegment(int id)
         {
-            var segment = _segmentRepo.GetModelById(id);
+            var segment = await _segmentRepo.GetModelById(id);
 
             if (segment == null)
             {
@@ -86,9 +87,8 @@ namespace VVCyberAware.API.Controllers
 
             await _segmentRepo.Delete(segment.Id);
 
-            _context.SaveChanges();
 
-            return Ok();
+            return Ok(segment);
         }
 
 

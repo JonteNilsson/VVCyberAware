@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using VVCyberAware.Data;
 
 namespace VVCyberAware.Database.Repositories
@@ -37,7 +36,12 @@ namespace VVCyberAware.Database.Repositories
 
             if (entityToDelete != null)
             {
-                _dbSet.Remove(entityToDelete);
+                if (!_context.Set<T>().Local.Contains(entityToDelete))
+                {
+                    _context.Set<T>().Attach(entityToDelete);
+                }
+
+                _context.Set<T>().Remove(entityToDelete);
                 await _context.SaveChangesAsync();
             }
         }
@@ -54,46 +58,5 @@ namespace VVCyberAware.Database.Repositories
             _context.SaveChanges();
         }
 
-        ///// <summary>
-        ///// Send argument as a string for example "Table1.Table2" to include Main content Table, Table1 and Table2 in it.
-        ///// If you want only one include send only one string of the table name.
-        ///// </summary>
-        ///// <param name="navigationProperties"></param>
-        ///// <returns>List of all <typeparamref name="T"/> in a table with all other specified tables included</returns>
-        //public async Task<List<T>?> GetAllInclude(params string[] navigationProperties)
-        //{
-
-        //    IQueryable<T> query = _dbSet;   //Set to Queryable to build onto the LINQ method so it will be include().include().... until all sent in are included
-        //                                    //Almost as a string builder
-
-        //    foreach (var navigationProperty in navigationProperties)
-        //    {
-        //        query = query.Include(navigationProperty); // Build the query
-        //    }
-
-        //    return await query.ToListAsync(); //Execute and make it to a list
-        //}
-
-        public async Task<T?> GetFirstOrDefaultInclude(Expression<Func<T, bool>> predicate, params string[] navigationProperties)
-        {
-            IQueryable<T> query = _dbSet;
-
-            foreach (var navigationProperty in navigationProperties)
-            {
-                query = query.Include(navigationProperty);
-            }
-
-            // Apply the predicate to filter the result
-            query = query.Where(predicate);
-
-
-            // Use FirstOrDefault to get the first or default result
-            return await query.FirstOrDefaultAsync();
-        }
-
-        //public CategoryApiModel CategoryMapAPIModel(CategoryModel categoryModel)
-        //{
-        //    CategoryApiModel mappedModel = categoryModel
-        //}
     }
 }

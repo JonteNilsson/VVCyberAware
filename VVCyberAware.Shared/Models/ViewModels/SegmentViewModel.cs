@@ -7,6 +7,8 @@ namespace VVCyberAware.Shared.Models.ViewModels
         public string? Name { get; set; }
         public List<string>? UserIsComplete { get; set; }
 
+        public int CategoryId { get; set; }
+
 
 
         /// <summary>
@@ -20,6 +22,7 @@ namespace VVCyberAware.Shared.Models.ViewModels
             {
                 Name = apiModel.Name,
                 UserIsComplete = apiModel.UserIsComplete,
+                CategoryId = apiModel.CategoryId,
             };
         }
     }

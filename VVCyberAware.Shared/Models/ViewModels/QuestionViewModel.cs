@@ -10,6 +10,8 @@ namespace VVCyberAware.Shared.Models.ViewModels
 
         public string? Explanation { get; set; }
 
+        public int SubCategoryId { get; set; }
+
 
         /// <summary>
         /// Takes an API Model and maps it to a ViewModel making it easier to use in the UI
@@ -22,7 +24,9 @@ namespace VVCyberAware.Shared.Models.ViewModels
             {
                 QuestionText = apiModel.QuestionText,
                 Answers = apiModel.Answers,
-                Explanation = apiModel.Explanation
+                Explanation = apiModel.Explanation,
+                SubCategoryId = apiModel.SubCategoryId
+
             };
         }
 
