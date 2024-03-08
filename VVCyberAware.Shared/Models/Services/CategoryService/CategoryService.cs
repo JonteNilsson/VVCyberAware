@@ -92,6 +92,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
             throw new HttpRequestException();
         }
+
         /// <summary>
         /// Posts a Category and stores it in Database
         /// </summary>

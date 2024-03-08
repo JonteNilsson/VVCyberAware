@@ -11,6 +11,13 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
             BaseAddress = new Uri("http://localhost:5142/api/")
         };
 
+        /// <summary>
+        /// Makes an API call looking for a specific Segment with its inputted ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns the Segemnt matching the ID</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<SegmentApiModel> GetSegmentByIdAsync(int id)
         {
             var response = await client.GetAsync($"Segment/Segment/{id}");
@@ -31,7 +38,12 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
 
             throw new HttpRequestException();
         }
-
+        /// <summary>
+        /// Make an API call to get all Segments
+        /// </summary>
+        /// <returns>Returns a list of Segments</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<List<SegmentApiModel>> GetSegmentsAsync()
         {
             var response = await client.GetAsync("Segment/Segments");
@@ -53,6 +65,11 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
             throw new HttpRequestException();
         }
 
+        /// <summary>
+        /// Posts a Segment and stores it in Database
+        /// </summary>
+        /// <param name="segment"></param>
+        /// <returns></returns>
         public async Task PostSegment(SegmentApiModel segment)
         {
             await client.PostAsJsonAsync("Segment/Post", segment);
