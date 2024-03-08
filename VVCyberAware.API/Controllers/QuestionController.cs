@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -75,7 +76,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpDelete("Question/{id}")]
+        [HttpDelete("UpdateQuestion/{id}")]
         public async Task<ActionResult> DeleteQuestion(int id)
         {
             var questionToDelete = await _questionRepo.GetModelById(id);
@@ -88,6 +89,40 @@ namespace VVCyberAware.API.Controllers
             await _questionRepo.Delete(questionToDelete.Id);
 
             return Ok(questionToDelete);
+        }
+
+        [HttpPut("Question/{id}")]
+        public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionViewModel updatedQuestion)
+        {
+            if (id != updatedQuestion.Id)
+            {
+                return BadRequest("ID's do not match");
+            }
+
+            var existingQuestion = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
+
+            if (existingQuestion == null)
+            {
+                return NotFound($"Question with ID {id} not found");
+            }
+
+            existingQuestion.Id = updatedQuestion.Id;
+            existingQuestion.Explanation = updatedQuestion.Explanation;
+            existingQuestion.SubCategoryId = updatedQuestion.SubCategoryId;
+            existingQuestion.Answers = updatedQuestion.Answers;
+
+            _questionRepo.Update(existingQuestion);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok($"Question with ID {id} updated successfully");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+
+                return StatusCode(500, "Concurrency error occurred");
+            }
         }
     }
 }

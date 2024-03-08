@@ -4,6 +4,7 @@ namespace VVCyberAware.Shared.Models.ViewModels
 {
     public class QuestionViewModel
     {
+        public int Id { get; set; }
         public string? QuestionText { get; set; }
 
         public Dictionary<string, bool> Answers { get; set; } = new();
@@ -25,7 +26,8 @@ namespace VVCyberAware.Shared.Models.ViewModels
                 QuestionText = apiModel.QuestionText,
                 Answers = apiModel.Answers,
                 Explanation = apiModel.Explanation,
-                SubCategoryId = apiModel.SubCategoryId
+                SubCategoryId = apiModel.SubCategoryId,
+                Id = apiModel.Id
 
             };
         }

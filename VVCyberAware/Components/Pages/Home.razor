@@ -7,6 +7,7 @@
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
 @using VVCyberAware.Shared.Models.Services.SegmentService
+@using VVCyberAware.Shared.Models.ViewModels
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
 @rendermode InteractiveServer
@@ -66,13 +67,24 @@
     {
         await base.OnInitializedAsync();
 
-        categories = await categoryService.GetCategoriesAsync();
+        categories = await categoryService.GetAllCategoriesAsync();
         segments = await segmentService.GetSegmentsAsync();
 
         foreach (var category in categories)
         {
             categoryVisibility.Add(category.Id, false);
         }
+
+        CategoryApiModel findModel = await categoryService.GetCategoryByIdAsync(5);
+
+        CategoryViewModel updateModel = new()
+        {
+            Id = findModel.Id,
+            Name = "I AM CHANGED NUMBER2",
+            Description = "I AM CHANGED IN HOME"
+        };
+
+       await categoryService.UpdateCategoryAsync(findModel.Id, updateModel);
     }
 }
 

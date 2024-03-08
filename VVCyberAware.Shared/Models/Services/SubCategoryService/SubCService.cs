@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
+using System.Text;
 using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.SubCategoryService
@@ -11,6 +12,12 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             BaseAddress = new Uri("http://localhost:5142/api/")
         };
 
+        /// <summary>
+        /// Make an API call to get all Subcategories
+        /// </summary>
+        /// <returns>Returns a list of Subcategories</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<List<SubCategoryApiModel>> GetSubCategoriesAsync()
         {
             var response = await client.GetAsync("SubCategory/SubCategories");
@@ -32,6 +39,13 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             throw new HttpRequestException();
         }
 
+        /// <summary>
+        /// Makes an API call looking for a specific Segment with its inputted ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns the Segment matching the ID</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<SubCategoryApiModel> GetSubCategoryByIdAsync(int id)
         {
             var response = await client.GetAsync($"SubCategory/{id}");
@@ -53,9 +67,32 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             throw new HttpRequestException();
         }
 
+        /// <summary>
+        /// Posts a Segment and stores it in Database
+        /// </summary>
+        /// <param name="subCategory"></param>
+        /// <returns></returns>
         public async Task PostSubCategory(SubCategoryApiModel subCategory)
         {
             await client.PostAsJsonAsync("SubCategory/Post", subCategory);
         }
+
+        public async Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory)
+        {
+            // Convert the updatedSubCategory to JSON
+            string updatedSubCategoryJson = JsonConvert.SerializeObject(updatedSubCategory);
+
+            // Create a StringContent with the JSON data
+            var content = new StringContent(updatedSubCategoryJson, Encoding.UTF8, "application/json");
+
+            // Make the PUT request
+            var response = await client.PutAsync($"SubCategory/UpdateSubCategory/{id}", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException();
+            }
+        }
+
     }
 }
