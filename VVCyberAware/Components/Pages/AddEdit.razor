@@ -28,85 +28,88 @@
 			<div class="edit-container">
 				@if (Component.ToLower() == "category")
 				{
-					@if (category != null)
-					{
-						<div class="row w-75">
-							<div class="col-12">
-								<label>Name: </label>
+					<div class="row w-75">
+						<div class="col-12">
+							<label>Name: </label>
+							@if (category != null)
+							{
 								<input type="text" value="@category.Name" />
-							</div>
-							<div class="col-12">
-								<label>Description: </label>
-								<input type="text" value="@category.Description" />
-							</div>
+							}
+							else
+							{
+								<input type="text" value="" />
+							}
 						</div>
-					}
-					else
-					{
-						<h3>404 Not Found</h3>
-					}
+						<div class="col-12">
+							<label>Description: </label>
+							@if (category != null)
+							{
+								<input type="text" value="@category.Description" />
+							}
+							else
+							{
+								<input type="text" value="" />
+							}
+						</div>
+					</div>
 				}
 				else if (Component.ToLower() == "segment")
 				{
-					@if (segment != null)
-					{
-						<div class="row w-75">
-							<div class="col-12">
-								<label>Name: </label>
+					<div class="row w-75">
+						<div class="col-12">
+							<label>Name: </label>
+							@if (category != null)
+							{
 								<input type="text" value="@segment.Name" />
-							</div>
+							}
+							else
+							{
+								<input type="text" value="" />
+							}
+								
 						</div>
-					}
-					else
-					{
-						<h3>404 Segment Not Found</h3>
-					}
+					</div>
 				}
 				else if (Component.ToLower() == "subcategory")
 				{
-					@if (subCategory != null)
-					{
-						<div class="row w-75">
-							<div class="col-12">
-								<label>Description: </label>
+					<div class="row w-75">
+						<div class="col-12">
+							<label>Description: </label>
+							@if (category != null)
+							{
 								<input type="text" value="@subCategory.Description" />
-							</div>
+							}
+							else
+							{
+								<input type="text" value="" />
+							}
+								
 						</div>
-					}
-					else
-					{
-						<h3>404 Subcategory Not Found</h3>
-					}
+					</div>
 				}
 				else if (Component.ToLower() == "question")
 				{
-					@if (question != null)
-					{
-						<div class="row w-75">
-							<div class="col-12">
-								<label>Name:</label>
-								<div class="question-box">
-
-									<input type="text" class="font-weight-bold" value="@question.QuestionText" />
-									@for (int i = 0; i < question.Answers.Count(); i++)
-									{
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="Question">
-											<label class="form-check-label" for="Question">
-												@question.Answers.ElementAt(i).Key
-											</label>
-										</div>
-									}
-									<input type="text" class="font-weight-bold" value="@question.Explanation" />
-								</div>
+					
+					<div class="row w-75">
+						<div class="col-12">
+							<label>Name:</label>
+							<div class="question-box">
+							@if (question != null)
+							{
+								<InputTextArea @bind-Value="@question.QuestionText" class="question-text-input" placeholder="Skriv in din fråga här..." />
+								@for (int i = 0; i < question.Answers.Count(); i++)
+								{
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="Question">
+										<input class="form-check-label" type="text" for="Question" value="@question.Answers.ElementAt(i).Key" />
+									</div>
+								}
+								<input type="text" class="font-weight-bold" value="@question.Explanation" />
+							}
 							</div>
-							<input type="text" value="" />
 						</div>
-					}
-					else
-					{
-						<h3>404 Question Not Found</h3>
-					}
+						<input type="text" value="" />
+					</div>
 				}
 				else
 				{
@@ -142,7 +145,7 @@
 			switch (Component.ToLower())
 			{
 				case "category":
-					var categories = await categoryService.GetCategoriesAsync();
+					var categories = await categoryService.GetAllCategoriesAsync();
 					category = categories.FirstOrDefault(c => c.Id == Id);
 					break;
 				case "segment":
