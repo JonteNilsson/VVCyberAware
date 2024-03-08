@@ -29,7 +29,7 @@ namespace VVCyberAware.Database.Repositories
                 {
                     Id = category.Id,
                     Name = category.Name,
-                    // other properties
+
 
                     Segments = category.Segments?.Select(seg => new SegmentApiModel
                     {

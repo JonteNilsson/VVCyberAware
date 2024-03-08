@@ -4,6 +4,7 @@ using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.ApiModels;
 using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.API.Controllers
 {
@@ -67,23 +68,33 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("Category")]
-        public async Task<ActionResult> PostCategory(CategoryModel newCategory)
+        public async Task<ActionResult> PostCategory(CategoryViewModel newCategory)
         {
             if (newCategory == null)
             {
                 return BadRequest();
             }
 
-            await _categoryRepo.Add(newCategory);
+            CategoryModel model = new()
+            {
+                Description = newCategory.Description!,
+                Name = newCategory.Name!
+
+            };
+
+            await _categoryRepo.Add(model);
             _context.SaveChanges();
 
             return Ok(newCategory);
         }
 
+
+
+
         [HttpDelete("Category/{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
-            var category = _categoryRepo.GetModelById(id);
+            var category = await _categoryRepo.GetModelById(id);
 
             if (category == null)
             {
@@ -92,7 +103,6 @@ namespace VVCyberAware.API.Controllers
 
 
             await _categoryRepo.Delete(category.Id);
-            _context.SaveChanges();
 
             return Ok(category);
         }

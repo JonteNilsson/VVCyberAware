@@ -2,6 +2,7 @@
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.API.Controllers
 {
@@ -41,7 +42,7 @@ namespace VVCyberAware.API.Controllers
         [HttpGet("SubCategory/{id}")]
         public async Task<ActionResult<SubCategoryModel>> GetSingleSubCategory(int id)
         {
-            var subCategory = _subCRepo.GetModelById(id);
+            var subCategory = await _subCRepo.GetModelById(id);
 
             if (subCategory == null)
             {
@@ -54,17 +55,21 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("SubCategory")]
-        public async Task<ActionResult> PostSubCategory(SubCategoryModel newSubCategory)
+        public async Task<ActionResult> PostSubCategory(SubCategoryViewModel newSubCategory)
         {
             if (newSubCategory == null)
             {
                 return BadRequest();
             }
 
+            SubCategoryModel model = new()
+            {
+                Description = newSubCategory.Description!,
+                SegmentId = newSubCategory.SegmentId,
 
-            await _subCRepo.Add(newSubCategory);
+            };
 
-            _context.SaveChanges();
+            await _subCRepo.Add(model);
 
             return Ok(newSubCategory);
         }
@@ -75,7 +80,7 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("SubCategory/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var subCategory = _subCRepo.GetModelById(id);
+            var subCategory = await _subCRepo.GetModelById(id);
 
             if (subCategory == null)
             {

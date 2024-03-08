@@ -2,6 +2,7 @@
 @attribute [Authorize]
 
 @using Microsoft.AspNetCore.Authorization
+@using VVCyberAware.Components.CustomComponents
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
@@ -22,41 +23,36 @@ else
 {
     <div class="main-container">
 @*         <h1 class="text-center">@(segment.Category.Name == null ? "Ingen Kategori" : segment.Category.Name)</h1> *@
-        <h1 class="text-center">@categories.First(c => c.Id == segment.CategoryId).Name</h1>
-
-
+        @if(categories != null){
+            <h1 class="text-center">@categories.First(c => c.Id == segment.CategoryId).Name</h1>
+        }
+        else
+        {
+            <h1 class="text-center">Unknown</h1>
+        }
         <div class="segment-container">
 	    <h1>@segment.Name</h1>
-        @foreach(var sub in subCategories.Where(s=>s.SegmentId == segment.Id))
+
+        @if(subCategories != null)
         {
-            <h3>@sub.Description</h3>
-            @foreach (var question in questions.FindAll(q => q.SubCategoryId == sub.Id).ToList())
+            @foreach(var sub in subCategories.Where(s=>s.SegmentId == segment.Id))
             {
-                <div class="question-box">
-                    <form>
-                        <p class="font-weight-bold">@question.QuestionText</p>
-                        @for (int i = 0; i < question.Answers.Count(); i++)
-                        {
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="Question">
-                                <label class="form-check-label" for="Question">
-                                    @question.Answers.ElementAt(i).Key
-                                </label>
-                            </div>
-                        }
-				    </form>
-			    </div>
+                <h3>@sub.Description</h3>
+                @if (questions != null)
+                {
+                    @foreach (var question in questions.FindAll(q => q.SubCategoryId == sub.Id).ToList())
+                    {
+                        <QuestionComponent Question="question"/>
+                    }
+                }
             }
         }
         <button class="btn btn-primary" >Submit</button>
           
-
-        </div>
-        <div class="d-flex justify-content-center mb-5 " >
-        <a href="/home" class="btn btn-danger" >Back</a>
-        </div>
-
-
+      </div>
+      <div class="d-flex justify-content-center mb-5 " >
+      <a href="/home" class="btn btn-danger" >Back</a>
+      </div>
     </div>
 }
 
@@ -72,6 +68,7 @@ else
     protected override async Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
+
         categories = await categoryService.GetCategoriesAsync();
         segment = await segmentService.GetSegmentByIdAsync(Id);
         subCategories = await subCService.GetSubCategoriesAsync();

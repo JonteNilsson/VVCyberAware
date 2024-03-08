@@ -2,6 +2,7 @@
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.API.Controllers
 {
@@ -52,15 +53,23 @@ namespace VVCyberAware.API.Controllers
 
 
         [HttpPost("Question")]
-        public async Task<ActionResult> PostQuestion(QuestionModel newQuestion)
+        public async Task<ActionResult> PostQuestion(QuestionViewModel newQuestion)
         {
             if (newQuestion == null)
             {
                 return BadRequest();
             }
 
-            await _questionRepo.Add(newQuestion);
-            _context.SaveChanges();
+            QuestionModel model = new()
+            {
+                QuestionText = newQuestion.QuestionText!,
+                Explanation = newQuestion.Explanation,
+                Answers = newQuestion.Answers,
+                SubCategoryId = newQuestion.SubCategoryId,
+            };
+
+            await _questionRepo.Add(model);
+
 
             return Ok(newQuestion);
         }
@@ -69,19 +78,16 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("Question/{id}")]
         public async Task<ActionResult> DeleteQuestion(int id)
         {
-            var questionToDelete = _questionRepo.GetModelById(id);
+            var questionToDelete = await _questionRepo.GetModelById(id);
 
             if (questionToDelete == null)
             {
                 return NotFound();
             }
 
-
             await _questionRepo.Delete(questionToDelete.Id);
 
-            _context.SaveChanges();
-
-            return Ok();
+            return Ok(questionToDelete);
         }
     }
 }
