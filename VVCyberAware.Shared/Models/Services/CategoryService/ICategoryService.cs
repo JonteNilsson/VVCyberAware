@@ -1,4 +1,5 @@
 ﻿using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.CategoryService
 {
@@ -13,5 +14,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
         public Task<CategoryApiModel> GetCategoryByIdAsync(int id);
 
         public Task PostCategory(CategoryApiModel category);
+
+        public Task UpdateCategoryAsync(int id, CategoryViewModel updatedCategory);
     }
 }

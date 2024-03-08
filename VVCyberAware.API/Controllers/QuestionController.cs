@@ -76,7 +76,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpDelete("Question/{id}")]
+        [HttpDelete("UpdateQuestion/{id}")]
         public async Task<ActionResult> DeleteQuestion(int id)
         {
             var questionToDelete = await _questionRepo.GetModelById(id);

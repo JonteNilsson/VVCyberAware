@@ -11,5 +11,7 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
         public Task<SegmentApiModel> GetSegmentByIdAsync(int id);
 
         public Task PostSegment(SegmentApiModel category);
+
+        public Task UpdateSegmentAsync(int id, SegmentApiModel updatedSegment);
     }
 }

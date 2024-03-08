@@ -87,7 +87,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpPut("SubCategory/{id}")]
+        [HttpPut("UpdateSubCategory/{id}")]
         public async Task<IActionResult> UpdateSubCategory(int id, [FromBody] SubCategoryViewModel updatedSubCategory)
         {
             if (id != updatedSubCategory.Id)

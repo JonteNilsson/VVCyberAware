@@ -108,7 +108,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpPut("Category/{id}")]
+        [HttpPut("UpdateCategory/{id}")]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryViewModel updatedCategory)
         {
             // Validate the input
