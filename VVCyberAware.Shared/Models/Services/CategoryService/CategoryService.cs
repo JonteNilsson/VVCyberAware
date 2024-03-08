@@ -39,8 +39,13 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
             throw new HttpRequestException();
         }
-
-        public async Task<List<CategoryApiModel>> GetCategoriesAsync()
+        /// <summary>
+        /// Make an API call to get all Categories
+        /// </summary>
+        /// <returns>Returns a list of Categories</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
+        public async Task<List<CategoryApiModel>> GetAllCategoriesAsync()
         {
             var response = await client.GetAsync("Category/Categories");
 
@@ -60,7 +65,13 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
             throw new HttpRequestException();
         }
-
+        /// <summary>
+        /// Makes an API call looking for a specific Category with its inputted ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns the Category matching the ID</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task<CategoryApiModel> GetCategoryByIdAsync(int id)
         {
             var response = await client.GetAsync($"Category/{id}");
@@ -81,7 +92,11 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
             throw new HttpRequestException();
         }
-
+        /// <summary>
+        /// Posts a Category and stores it in Database
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
         public async Task PostCategory(CategoryApiModel category)
         {
             await client.PostAsJsonAsync("Category/Post", category);
