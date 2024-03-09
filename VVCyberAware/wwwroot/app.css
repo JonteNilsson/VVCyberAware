@@ -115,8 +115,13 @@ h1:focus {
     height: 100px;
     white-space: pre-wrap;
 }
-
-
-
+.flex-center{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.edit-container{
+    border: 2px solid black;
+}
 
 
