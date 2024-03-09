@@ -13,16 +13,18 @@
 @inject ISegmentService segmentService
 @inject ISubCService subCService
 @inject IQuestionService questionService
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <AuthorizeView Roles="Admin">
     <Authorized>
         @if(category != null && segment != null){
-            <div class="row text-center header">
-                <h1 class="text-center col-12 d-inline-block">@category.Name >> @segment.Name</h1>
+            <div class="text-center header flex-center flex-column">
+                <h1 class="text-center w-100">@category.Name >> @segment.Name</h1>
+                <button class="btn btn-warning btn-outline-dark w-25" @onclick="@(() => NavigateToPage("segment", segment.Id))">Byt namn på segmentet "@segment.Name"</button>
             </div>
 		}
-       
+        
         @if (segment != null)
         {
             <div class="flex-center">
@@ -37,19 +39,19 @@
                                 {
                                     <div class="d-flex align-items-center justify-content-around">
 										<QuestionComponent Question="question" />
-										<button class="h-25 btn btn-warning btn-outline-dark">Redigera fråga</button>
-                                        <button class="h-25 btn btn-danger btn-outline-dark">Ta bort fråga</button>
+                                        <button class="h-25 btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("question", question.Id))">Redigera fråga</button>
+                                        <button class="h-25 btn btn-danger btn-outline-dark">Ta bort fråga</button> @* TODO Add remove functionallity *@
                                     </div>
                                 }
                             </div>
-                            <button class="btn btn-primary mt-5">Lägg till fråga</button>
+                            <button class="btn btn-primary mt-5" @onclick="@(() => NavigateToPage("question", null))">Lägg till fråga</button>
 						</li>
-						<button class="btn btn-warning btn-outline-dark mt-2 mb-5 w-25">Redigera subkategori</button>
+                        <button class="btn btn-warning btn-outline-dark mt-2 mb-5 w-25" @onclick="@(() => NavigateToPage("subcategory", subCategory.Id))">Redigera subkategori</button>
                     }
                 </ul>
             </div>
 
-            <button class="btn btn-success mt-5 mb-5">Lägg till subkategori</button>
+            <button class="btn btn-success mt-5 mb-5" @onclick="@(() => NavigateToPage("subcategory", null))">Lägg till subkategori</button>
         }
     </Authorized>
     <NotAuthorized>
@@ -67,6 +69,18 @@
     private CategoryApiModel category;
     private SegmentApiModel segment;
 
+    private void NavigateToPage(string component, int? id)
+    {
+        if (id != null)
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component + "/" + id.ToString());
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component);
+        }
+
+    }
 
     protected async override Task OnParametersSetAsync()
     {

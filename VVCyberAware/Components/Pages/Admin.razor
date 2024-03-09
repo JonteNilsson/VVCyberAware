@@ -11,6 +11,7 @@
 
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <AuthorizeView Roles="Admin">
@@ -38,7 +39,7 @@
             }
             </ul>
 
-            <button class="btn btn-success mt-5 mb-5">Lägg till kategori</button>
+            <button class="btn btn-success mt-5 mb-5" @onclick="@( () => NavigateToPage("category", null))">Lägg till kategori</button>
         }
     </Authorized>
     <NotAuthorized>
@@ -65,6 +66,19 @@
     private bool IsCategoryVisible(int categoryId)
     {
         return categoryVisibility.ContainsKey(categoryId) && categoryVisibility[categoryId];
+    }
+
+    private void NavigateToPage(string component, int? id)
+    {
+        if(id != null)
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component + "/" + id.ToString());
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component);
+        }
+
     }
 
     protected override async Task OnInitializedAsync()
