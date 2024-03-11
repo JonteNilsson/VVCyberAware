@@ -1,9 +1,14 @@
 ﻿@using VVCyberAware.Components.Pages
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
+@using VVCyberAware.Shared.Models.Services.CategoryService
+@using VVCyberAware.Shared.Models.Services.SegmentService
 @using static VVCyberAware.Components.Pages.Home
 
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@inject ICategoryService categoryService
+@inject ISegmentService segmentService
 
 @if (Category != null)
 {
@@ -13,7 +18,7 @@
             <h3 class="category-title not-selectable">@Category.Name</h3>
             <div>
                 <button class="btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("category", Category.Id))">Redigera kategori</button>
-                <button class="btn btn-danger btn-outline-dark">Ta bort kategori</button> @* TODO Add remove functionallity *@
+                <button class="btn btn-danger btn-outline-dark"  @onclick="@(() => RemoveCategory(Category))">Ta bort kategori</button>
 				<ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(Category.Id) ? "up" : "down")"></ion-icon>
 			</div>
         </div>
@@ -30,7 +35,7 @@
                             <div class="segment row align-items-center">
                                 <li class="col-6 not-selectable">@segment.Name</li>
                                 <a class="btn btn-warning col-3 btn-outline-dark" href="/admin/segment/@segment.Id">Gå till Segment</a>
-                                <a class="btn btn-danger col-3 btn-outline-dark" href="#">Ta bort Segment</a> @* TODO Add remove functionallity *@
+                                <button class="btn btn-danger col-3 btn-outline-dark" @onclick="@(() => RemoveSegment(segment))">Ta bort Segment</button>
                             </div>
                         }
                     }
@@ -50,6 +55,8 @@
     public Action<int> ToggleInfo { get; set; } = null!;
     [Parameter]
     public Func<int, bool> IsCategoryVisible { get; set; } = null!;
+    [Parameter]
+    public Action<CategoryApiModel> RemoveCategory { get; set; } = null!;
 
     private void NavigateToPage(string component, int? id)
     {
@@ -62,5 +69,14 @@
             NavigationManager.NavigateTo("/admin/edit/" + component);
         }
 
+    }
+
+    private async Task RemoveSegment(SegmentApiModel segment)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", $"Vill du verkligen ta bort {segment.Name}\nOBS! Detta är permanent!"))
+        {
+            await segmentService.DeleteSegment(segment.Id);
+            Segments = await segmentService.GetSegmentsAsync();
+        }
     }
 }
