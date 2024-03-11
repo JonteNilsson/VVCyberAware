@@ -3,14 +3,17 @@
 @using VVCyberAware.Shared.Models.DbModels
 @using static VVCyberAware.Components.Pages.Home
 
+@inject NavigationManager NavigationManager
+
 @if (Category != null)
 {
     <li class="list-group-item">
 
         <div class="d-flex justify-content-between align-items-center category-header" @onclick="(e) => ToggleInfo(Category.Id)">
-            <h3 class="category-title not-selectable">@Category.Name [EDIT]</h3>
+            <h3 class="category-title not-selectable">@Category.Name</h3>
             <div>
-                <button class="btn btn-danger">Ta bort kategori</button>
+                <button class="btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("category", Category.Id))">Redigera kategori</button>
+                <button class="btn btn-danger btn-outline-dark">Ta bort kategori</button> @* TODO Add remove functionallity *@
 				<ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(Category.Id) ? "up" : "down")"></ion-icon>
 			</div>
         </div>
@@ -26,12 +29,12 @@
                         {
                             <div class="segment row align-items-center">
                                 <li class="col-6 not-selectable">@segment.Name</li>
-                                <a class="btn btn-warning col-3" href="/admin/segment">Redigera Segment</a>
-                                <a class="btn btn-danger col-3" href="#">Ta bort Segment</a>
+                                <a class="btn btn-warning col-3 btn-outline-dark" href="/admin/segment/@segment.Id">Gå till Segment</a>
+                                <a class="btn btn-danger col-3 btn-outline-dark" href="#">Ta bort Segment</a> @* TODO Add remove functionallity *@
                             </div>
                         }
                     }
-                    <button class="btn btn-primary">Lägg till segment</button>
+            <button class="btn btn-primary btn-outline-dark" @onclick="@(() => NavigateToPage("segment", null))">Lägg till segment</button>
                 </ul>
             </div>
         }
@@ -40,11 +43,24 @@
 
 @code {
     [Parameter]
-    public CategoryApiModel Category { get; set; }
+    public CategoryApiModel Category { get; set; } = null!;
     [Parameter]
-    public List<SegmentApiModel> Segments { get; set; }
+    public List<SegmentApiModel> Segments { get; set; } = null!;
     [Parameter]
-    public Action<int> ToggleInfo { get; set; }
+    public Action<int> ToggleInfo { get; set; } = null!;
     [Parameter]
-    public Func<int, bool> IsCategoryVisible { get; set; }
+    public Func<int, bool> IsCategoryVisible { get; set; } = null!;
+
+    private void NavigateToPage(string component, int? id)
+    {
+        if (id != null)
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component + "/" + id.ToString());
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component);
+        }
+
+    }
 }

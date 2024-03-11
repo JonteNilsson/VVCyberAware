@@ -11,6 +11,7 @@
 
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
+@inject NavigationManager NavigationManager
 @rendermode InteractiveServer
 
 <AuthorizeView Roles="Admin">
@@ -23,27 +24,23 @@
             </span>
         </div>
 
-        @if (!Id.HasValue)
+        @if(categories != null)
         {
-            @if(categories != null)
+            <ul class="list-group">
+            @foreach (var category in categories)
             {
-                <ul class="list-group">
-                @foreach (var category in categories)
+                if(category.Name.ToLower().Contains(searchText.ToLower()))
                 {
-                    if(category.Name.ToLower().Contains(searchText.ToLower()))
-                    {
-                        <AdminCategoryComponent Category="category"
-                                           Segments="@segments"
-                                           ToggleInfo="@ToggleInfo"
-                                           IsCategoryVisible="@IsCategoryVisible" />
-                    }
+                    <AdminCategoryComponent Category="category"
+                                        Segments="@segments"
+                                        ToggleInfo="@ToggleInfo"
+                                        IsCategoryVisible="@IsCategoryVisible" />
                 }
-                </ul>
-
-                <button class="btn btn-success">Lägg till kategori</button>
             }
+            </ul>
+
+            <button class="btn btn-success mt-5 mb-5" @onclick="@( () => NavigateToPage("category", null))">Lägg till kategori</button>
         }
-        
     </Authorized>
     <NotAuthorized>
         <h4>You are not authorized to view this page.</h4>
@@ -51,8 +48,6 @@
 </AuthorizeView>
 
 @code {
-    [Parameter]
-    public int? Id { get; set; }
 
     private string arrowDirection = "down"; // Note: Change to down for the other arrow
     private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
@@ -71,6 +66,19 @@
     private bool IsCategoryVisible(int categoryId)
     {
         return categoryVisibility.ContainsKey(categoryId) && categoryVisibility[categoryId];
+    }
+
+    private void NavigateToPage(string component, int? id)
+    {
+        if(id != null)
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component + "/" + id.ToString());
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component);
+        }
+
     }
 
     protected override async Task OnInitializedAsync()

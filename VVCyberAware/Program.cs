@@ -51,6 +51,7 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IQuestionService, QuestionService>();
 builder.Services.AddScoped<ISegmentService, SegmentService>();
 builder.Services.AddScoped<ISubCService, SubCService>();
+builder.Services.AddScoped<UserManager<ApplicationUser>>();
 
 
 using (ServiceProvider sp = builder.Services.BuildServiceProvider())
