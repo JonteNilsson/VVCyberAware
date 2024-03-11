@@ -50,7 +50,7 @@ h1:focus {
     border-color: #929292;
 }
 
-.transparent-box {
+.transparent-box{
     color: white;
     width:50%;
     background-color: rgba(0,0,0,0.7);
@@ -129,6 +129,22 @@ h1:focus {
 }
 .edit-container{
     border: 2px solid black;
+}
+
+.contributor-box {
+    color: white;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 1vh;
+    text-align: center;
+}
+
+.arrow-box {
+    color: white;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 1vh;
+    width: 15%;
+    height: 0%;
+
 }
 
 

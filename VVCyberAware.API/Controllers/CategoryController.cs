@@ -91,7 +91,7 @@ namespace VVCyberAware.API.Controllers
 
 
 
-        [HttpDelete("Category/{id}")]
+        [HttpDelete("DeleteCategory/{id}")]
         public async Task<ActionResult> DeleteCategory(int id)
         {
             var category = await _categoryRepo.GetModelById(id);

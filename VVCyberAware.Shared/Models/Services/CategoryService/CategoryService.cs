@@ -116,6 +116,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
             // Make the PUT request
             var response = await client.PutAsync($"Category/UpdateCategory/{id}", content);
 
+
             if (!response.IsSuccessStatusCode)
             {
                 throw new HttpRequestException();
