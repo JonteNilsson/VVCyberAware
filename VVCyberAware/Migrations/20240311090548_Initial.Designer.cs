@@ -12,13 +12,8 @@ using VVCyberAware.Data;
 namespace VVCyberAware.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-<<<<<<<< HEAD:VVCyberAware/Migrations/20240308074002_Initial.Designer.cs
-    [Migration("20240308074002_Initial")]
+    [Migration("20240311090548_Initial")]
     partial class Initial
-========
-    [Migration("20240308091453_initial")]
-    partial class initial
->>>>>>>> 646070451a622759bbd613657ced49b20a1c3493:VVCyberAware/Migrations/20240308091453_initial.Designer.cs
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
