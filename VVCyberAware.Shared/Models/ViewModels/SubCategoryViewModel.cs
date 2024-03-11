@@ -4,7 +4,12 @@ namespace VVCyberAware.Shared.Models.ViewModels
 {
     public class SubCategoryViewModel
     {
+
+        public int Id { get; set; }
         public string? Description { get; set; }
+
+        public int SegmentId { get; set; }
+
 
 
         /// <summary>
@@ -17,6 +22,8 @@ namespace VVCyberAware.Shared.Models.ViewModels
             return new SubCategoryViewModel
             {
                 Description = apiModel.Description,
+                SegmentId = apiModel.SegmentId,
+                Id = apiModel.Id
             };
         }
     }

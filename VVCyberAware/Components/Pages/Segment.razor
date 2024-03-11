@@ -47,9 +47,12 @@ else
                 }
             }
         }
-        <button class="btn btn-primary">Submit</button>
-        </div>
-    
+        <button class="btn btn-primary" >Submit</button>
+          
+      </div>
+      <div class="d-flex justify-content-center mb-5 " >
+      <a href="/home" class="btn btn-danger" >Back</a>
+      </div>
     </div>
 }
 
@@ -66,7 +69,7 @@ else
     {
         await base.OnParametersSetAsync();
 
-        categories = await categoryService.GetCategoriesAsync();
+        categories = await categoryService.GetAllCategoriesAsync();
         segment = await segmentService.GetSegmentByIdAsync(Id);
         subCategories = await subCService.GetSubCategoriesAsync();
         questions = await questionService.GetQuestionsAsync();

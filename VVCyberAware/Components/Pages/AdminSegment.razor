@@ -1,0 +1,98 @@
+﻿@page "/admin/segment/{id:int}"
+
+@using Microsoft.AspNetCore.Authorization
+@using VVCyberAware.Components.CustomComponents
+@using VVCyberAware.Shared.Models.ApiModels
+@using VVCyberAware.Shared.Models.DbModels
+@using VVCyberAware.Shared.Models.Services.CategoryService
+@using VVCyberAware.Shared.Models.Services.QuestionService
+@using VVCyberAware.Shared.Models.Services.SegmentService
+@using VVCyberAware.Shared.Models.Services.SubCategoryService
+
+@inject ICategoryService categoryService
+@inject ISegmentService segmentService
+@inject ISubCService subCService
+@inject IQuestionService questionService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+        @if(category != null && segment != null){
+            <div class="text-center header flex-center flex-column">
+                <h1 class="text-center w-100">@category.Name >> @segment.Name</h1>
+                <button class="btn btn-warning btn-outline-dark w-25" @onclick="@(() => NavigateToPage("segment", segment.Id))">Byt namn på segmentet "@segment.Name"</button>
+            </div>
+		}
+        
+        @if (segment != null)
+        {
+            <div class="flex-center">
+                <ul class="list-group w-75">
+                    @foreach (var subCategory in segment.SubCategories)
+                    {
+                        <li class="list-group-item">
+							<div>
+								<h3 class="text-center">@subCategory.Description</h3>
+                                <br />
+                                @foreach(var question in subCategory.Questions)
+                                {
+                                    <div class="d-flex align-items-center justify-content-around">
+										<QuestionComponent Question="question" />
+                                        <button class="h-25 btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("question", question.Id))">Redigera fråga</button>
+                                        <button class="h-25 btn btn-danger btn-outline-dark">Ta bort fråga</button> @* TODO Add remove functionallity *@
+                                    </div>
+                                }
+                            </div>
+                            <button class="btn btn-primary mt-5" @onclick="@(() => NavigateToPage("question", null))">Lägg till fråga</button>
+						</li>
+                        <button class="btn btn-warning btn-outline-dark mt-2 mb-5 w-25" @onclick="@(() => NavigateToPage("subcategory", subCategory.Id))">Redigera subkategori</button>
+                    }
+                </ul>
+            </div>
+
+            <button class="btn btn-success mt-5 mb-5" @onclick="@(() => NavigateToPage("subcategory", null))">Lägg till subkategori</button>
+        }
+    </Authorized>
+    <NotAuthorized>
+        <h4>You are not authorized to view this page.</h4>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public int Id { get; set; }
+
+    private string arrowDirection = "down"; // Note: Change to down for the other arrow
+    private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
+    private string searchText = "";
+    private CategoryApiModel category;
+    private SegmentApiModel segment;
+
+    private void NavigateToPage(string component, int? id)
+    {
+        if (id != null)
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component + "/" + id.ToString());
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component);
+        }
+
+    }
+
+    protected async override Task OnParametersSetAsync()
+    {
+        await base.OnInitializedAsync();
+
+        var segments = await segmentService.GetSegmentsAsync();
+
+        var segmentNoInclude = segments.First(s => s.Id == Id);
+
+        category = await categoryService.GetCategoryInclude(segmentNoInclude.CategoryId); //Include everything
+
+        segment = category.Segments.FirstOrDefault(s => s.Id == Id);
+
+    }
+}

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -18,8 +19,6 @@ namespace VVCyberAware.API.Controllers
             _context = context;
             _segmentRepo = segmentRepo;
         }
-
-
 
 
         [HttpGet("Segments")]
@@ -62,6 +61,7 @@ namespace VVCyberAware.API.Controllers
             {
                 Name = newSegment.Name!,
                 UserIsComplete = newSegment.UserIsComplete,
+                CategoryId = newSegment.CategoryId,
             };
 
             await _segmentRepo.Add(model);
@@ -76,7 +76,7 @@ namespace VVCyberAware.API.Controllers
         [HttpDelete("Segment/{id}")]
         public async Task<ActionResult> DeleteSegment(int id)
         {
-            var segment = _segmentRepo.GetModelById(id);
+            var segment = await _segmentRepo.GetModelById(id);
 
             if (segment == null)
             {
@@ -86,9 +86,44 @@ namespace VVCyberAware.API.Controllers
 
             await _segmentRepo.Delete(segment.Id);
 
-            _context.SaveChanges();
 
-            return Ok();
+            return Ok(segment);
+        }
+
+
+        [HttpPut("UpdateSegment/{id}")]
+        public async Task<IActionResult> UpdateSegment(int id, [FromBody] SegmentViewModel updatedSegment)
+        {
+
+            if (id != updatedSegment.Id)
+            {
+                return BadRequest("ID's do not match");
+            }
+
+            var existingSegment = await _context.Segments
+                .FirstOrDefaultAsync(s => s.Id == id);
+
+            if (existingSegment == null)
+            {
+                return NotFound($"Segment with ID {id} not found");
+            }
+
+            existingSegment.Id = updatedSegment.Id;
+            existingSegment.Name = updatedSegment.Name!;
+            existingSegment.UserIsComplete = updatedSegment.UserIsComplete;
+            existingSegment.CategoryId = updatedSegment.CategoryId;
+
+            _segmentRepo.Update(existingSegment);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok($"Segment with ID {id} updated successfully");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, "Concurrency error occurred");
+            }
         }
 
 

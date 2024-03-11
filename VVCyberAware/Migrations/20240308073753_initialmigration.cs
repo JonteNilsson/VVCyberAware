@@ -8,11 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace VVCyberAware.Migrations
 {
     /// <inheritdoc />
-<<<<<<<< HEAD:VVCyberAware/Migrations/20240308074002_Initial.cs
-    public partial class Initial : Migration
-========
-    public partial class initial : Migration
->>>>>>>> 646070451a622759bbd613657ced49b20a1c3493:VVCyberAware/Migrations/20240308091453_initial.cs
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

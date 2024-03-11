@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -20,9 +21,6 @@ namespace VVCyberAware.API.Controllers
             _subCRepo = subCRepo;
         }
 
-
-
-
         [HttpGet("SubCategories")]
         public async Task<ActionResult<List<SubCategoryModel>>> GetSubCategories()
         {
@@ -37,8 +35,6 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-
-
         [HttpGet("SubCategory/{id}")]
         public async Task<ActionResult<SubCategoryModel>> GetSingleSubCategory(int id)
         {
@@ -50,7 +46,6 @@ namespace VVCyberAware.API.Controllers
             }
 
             return Ok(subCategory);
-
         }
 
 
@@ -65,35 +60,64 @@ namespace VVCyberAware.API.Controllers
             SubCategoryModel model = new()
             {
                 Description = newSubCategory.Description!,
+                SegmentId = newSubCategory.SegmentId,
 
             };
 
             await _subCRepo.Add(model);
 
-            _context.SaveChanges();
-
             return Ok(newSubCategory);
         }
-
-
-
 
         [HttpDelete("SubCategory/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            var subCategory = _subCRepo.GetModelById(id);
+            var subCategory = await _subCRepo.GetModelById(id);
 
             if (subCategory == null)
             {
                 return NotFound();
             }
 
-
             await _subCRepo.Delete(subCategory.Id);
 
             _context.SaveChanges();
 
             return Ok(subCategory);
+        }
+
+
+        [HttpPut("UpdateSubCategory/{id}")]
+        public async Task<IActionResult> UpdateSubCategory(int id, [FromBody] SubCategoryViewModel updatedSubCategory)
+        {
+            if (id != updatedSubCategory.Id)
+            {
+                return BadRequest("ID's do not match");
+            }
+
+            var existingSubCategory = await _context.SubCategories
+                .FirstOrDefaultAsync(sc => sc.Id == id);
+
+            if (existingSubCategory == null)
+            {
+                return NotFound($"SubCategory with ID {id} not found");
+            }
+
+            existingSubCategory.Id = updatedSubCategory.Id;
+            existingSubCategory.SegmentId = updatedSubCategory.SegmentId;
+            existingSubCategory.Description = updatedSubCategory.Description!;
+
+            _subCRepo.Update(existingSubCategory);
+
+            try
+            {
+                await _context.SaveChangesAsync();
+                return Ok($"SubCategory with ID {id} updated successfully");
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return StatusCode(500, "Concurrency error occurred");
+            }
         }
 
 
