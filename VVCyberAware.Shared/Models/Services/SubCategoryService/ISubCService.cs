@@ -12,6 +12,8 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
 
         public Task PostSubCategory(SubCategoryApiModel subCategory);
 
+        public Task DeleteSubCategory(int id);
+
         public Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory);
     }
 }

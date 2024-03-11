@@ -12,6 +12,8 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
 
         public Task PostQuestion(QuestionApiModel question);
 
+        public Task DeleteQuestion(int id);
+
         public Task UpdateQuestionAsync(int id, QuestionApiModel updatedQuestion);
     }
 }
