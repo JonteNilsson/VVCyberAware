@@ -77,6 +77,11 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             await client.PostAsJsonAsync("SubCategory/Post", subCategory);
         }
 
+        public async Task DeleteSubCategory(int id)
+        {
+            await client.DeleteAsync($"SubCategory/DeleteSubCategory/{id}");
+        }
+
         public async Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory)
         {
             // Convert the updatedSubCategory to JSON

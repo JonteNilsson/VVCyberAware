@@ -50,14 +50,14 @@ h1:focus {
     border-color: #929292;
 }
 
-.transparent-box {
+.transparent-box{
     color: white;
     width:50%;
     background-color: rgba(0,0,0,0.7);
     border-radius: 5vh;
 }
 
-.header {
+.header{
     margin-bottom: 4vh;
 }
 .category-header {
