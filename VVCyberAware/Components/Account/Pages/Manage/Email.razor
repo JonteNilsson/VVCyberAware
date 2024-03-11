@@ -14,11 +14,11 @@
 
 <PageTitle>Manage email</PageTitle>
 
-<h3>Manage email</h3>
+<h3>Welcome @user</h3>
 
 <StatusMessage Message="@message"/>
-<div class="row">
-    <div class="col-md-6">
+@* <div class="row"> *@
+    @* <div class="col-md-6"> *@
         <form @onsubmit="OnSendEmailVerificationAsync" @formname="send-verification" id="send-verification-form" method="post">
             <AntiforgeryToken />
         </form>
@@ -50,8 +50,10 @@
             </div>
             <button type="submit" class="w-100 btn btn-lg btn-primary">Change email</button>
         </EditForm>
-    </div>
-</div>
+    
+@* </div> *@
+
+
 
 @code {
     private string? message;

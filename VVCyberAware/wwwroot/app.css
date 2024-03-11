@@ -111,6 +111,48 @@ h1:focus {
     background-color: #929292;
 }
 
+ul {
+    display: flex;
+    justify-content: center;
+    list-style-type: none;
+    font-size: 18px;
+    color: black;
+    border: 1px solid;
+}
+
+li {
+    color: black;
+}
+
+#M {
+    text-align: center;
+}
+
+#accountDiv {
+    display: flex;
+    justify-content: center;
+    align-content: space-between;
+}
+
+.ownDiv {
+    display: flex;
+    align-content: center;
+    border: 2px solid;
+}
+
+.row1 {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    border: 80px solid transparent;
+    padding: 15px;
+    border-image: url(Image/cyber.png) 250 stretch;
+}
+
+#AccountBody {
+   width: 100%;
+   height: 100%;
+}
 
 
 
