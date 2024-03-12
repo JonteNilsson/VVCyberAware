@@ -110,11 +110,11 @@ h1:focus {
     text-align: center;
 }
 .background-image {
-    background-image: url(Image/cyber.png);
+    background-image: url(Image/centered.png);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 100vh;
+    height: 98vh;
     background-color: #929292;
 }
 .question-text-input {
