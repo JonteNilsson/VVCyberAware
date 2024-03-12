@@ -2,6 +2,7 @@
  
 @attribute [Authorize]
 
+@using Blazored.LocalStorage
 @using Microsoft.AspNetCore.Authorization
 @using VVCyberAware.Components.CustomComponents
 @using VVCyberAware.Shared.Models.ApiModels
@@ -13,6 +14,7 @@
 @inject ISegmentService segmentService
 @inject NavigationManager NavigationManager
 @inject IJSRuntime JSRuntime
+@inject ILocalStorageService localStorage
 @rendermode InteractiveServer
 
 <AuthorizeView Roles="Admin">
@@ -42,7 +44,7 @@
             }
             </ul>
 
-            <button class="btn btn-success mt-5 mb-5" @onclick="@( () => NavigateToPage("category", null))">Lägg till kategori</button>
+            <button class="btn btn-success mt-5 mb-5" @onclick="@( () => NavigateToPage("category", null, null))">Lägg till kategori</button>
         }
     </Authorized>
     <NotAuthorized>
@@ -80,7 +82,7 @@
         }
     }
 
-    private void NavigateToPage(string component, int? id)
+    private async void NavigateToPage(string component, int? id, int? parentId)
     {
         if(id != null)
         {
@@ -88,6 +90,7 @@
         }
         else
         {
+            await localStorage.SetItemAsync("id", parentId);
             NavigationManager.NavigateTo("/admin/edit/" + component);
         }
 

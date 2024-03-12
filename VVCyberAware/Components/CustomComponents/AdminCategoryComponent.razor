@@ -1,4 +1,5 @@
-﻿@using VVCyberAware.Components.Pages
+﻿@using Blazored.LocalStorage
+@using VVCyberAware.Components.Pages
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
@@ -9,6 +10,7 @@
 @inject IJSRuntime JSRuntime
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
+@inject ILocalStorageService localStorage
 
 @if (Category != null)
 {
@@ -17,7 +19,7 @@
         <div class="d-flex justify-content-between align-items-center category-header" @onclick="(e) => ToggleInfo(Category.Id)">
             <h3 class="category-title not-selectable">@Category.Name</h3>
             <div>
-                <button class="btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("category", Category.Id))">Redigera kategori</button>
+                <button class="btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("category", Category.Id, null))">Redigera kategori</button>
                 <button class="btn btn-danger btn-outline-dark"  @onclick="@(() => RemoveCategory(Category))">Ta bort kategori</button>
 				<ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(Category.Id) ? "up" : "down")"></ion-icon>
 			</div>
@@ -39,7 +41,7 @@
                             </div>
                         }
                     }
-            <button class="btn btn-primary btn-outline-dark" @onclick="@(() => NavigateToPage("segment", null))">Lägg till segment</button>
+            <button class="btn btn-primary btn-outline-dark" @onclick="@(() => NavigateToPage("segment", null, Category.Id))">Lägg till segment</button>
                 </ul>
             </div>
         }
@@ -58,7 +60,7 @@
     [Parameter]
     public Action<CategoryApiModel> RemoveCategory { get; set; } = null!;
 
-    private void NavigateToPage(string component, int? id)
+    private async void NavigateToPage(string component, int? id, int? parentId)
     {
         if (id != null)
         {
@@ -66,6 +68,7 @@
         }
         else
         {
+            await localStorage.SetItemAsync("id", parentId);
             NavigationManager.NavigateTo("/admin/edit/" + component);
         }
 

@@ -6,6 +6,7 @@ using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.QuestionService
 {
+
     public class QuestionService : IQuestionService
     {
         public HttpClient client { get; set; } = new()
@@ -111,4 +112,5 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             await client.DeleteAsync($"Question/DeleteQuestion/{id}");
         }
     }
+
 }
