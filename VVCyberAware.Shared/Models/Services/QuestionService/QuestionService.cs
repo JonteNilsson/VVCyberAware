@@ -99,5 +99,15 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
                 throw new HttpRequestException();
             }
         }
+
+        /// <summary>
+        /// Deletes chosen model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteQuestion(int id)
+        {
+            await client.DeleteAsync($"Question/DeleteQuestion/{id}");
+        }
     }
 }

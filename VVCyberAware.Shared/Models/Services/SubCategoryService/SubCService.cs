@@ -102,5 +102,15 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             }
         }
 
+        /// <summary>
+        /// Deletes chosen model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteSubCategory(int id)
+        {
+            await client.DeleteAsync($"SubCategory/DeleteSubCategory/{id}");
+        }
+
     }
 }
