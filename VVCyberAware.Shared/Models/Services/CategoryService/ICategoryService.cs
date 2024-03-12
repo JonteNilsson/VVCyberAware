@@ -15,6 +15,8 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
         public Task PostCategory(CategoryApiModel category);
 
+        public Task DeleteCategory(int id);
+
         public Task UpdateCategoryAsync(int id, CategoryViewModel updatedCategory);
     }
 }

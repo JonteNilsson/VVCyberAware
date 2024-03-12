@@ -8,49 +8,50 @@ using VVCyberAware.Shared.Models.ViewModels;
 namespace VVCyberAware.API.Controllers
 {
 
-    [Route("api/[controller]")]
-    [ApiController]
-    public class QuestionController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-        private readonly GenericRepository<QuestionModel> _questionRepo;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class QuestionController : Controller
+	{
+		private readonly ApplicationDbContext _context;
+		private readonly GenericRepository<QuestionModel> _questionRepo;
 
-        public QuestionController(ApplicationDbContext context, GenericRepository<QuestionModel> questionRepo)
-        {
-            _context = context;
-            _questionRepo = questionRepo;
-        }
-
-
-
-        [HttpGet("Questions")]
-        public async Task<ActionResult<List<QuestionModel>>> GetQuestions()
-        {
-            var questions = await _questionRepo.GetAll();
-
-            if (questions != null)
-            {
-                return Ok(questions);
-            }
-
-            return BadRequest();
-        }
+		public QuestionController(ApplicationDbContext context, GenericRepository<QuestionModel> questionRepo)
+		{
+			_context = context;
+			_questionRepo = questionRepo;
+		}
 
 
 
+		[HttpGet("Questions")]
+		public async Task<ActionResult<List<QuestionModel>>> GetQuestions()
+		{
+			var questions = await _questionRepo.GetAll();
 
-        [HttpGet("Question/{id}")]
-        public async Task<ActionResult<QuestionModel>> GetSingleQuestion(int id)
-        {
-            var question = await _questionRepo.GetModelById(id);
+			if (questions != null)
+			{
+				return Ok(questions);
+			}
 
-            if (question == null)
-            {
-                return NotFound();
-            }
+			return BadRequest();
+		}
 
-            return Ok(question);
-        }
+
+
+
+		[HttpGet("Question/{id}")]
+		public async Task<ActionResult<QuestionModel>> GetSingleQuestion(int id)
+		{
+			var question = await _questionRepo.GetModelById(id);
+
+			if (question == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(question);
+		}
+
 
 
         [HttpPost("PostQuestion")]
@@ -61,68 +62,69 @@ namespace VVCyberAware.API.Controllers
                 return BadRequest();
             }
 
-            QuestionModel model = new()
-            {
-                QuestionText = newQuestion.QuestionText!,
-                Explanation = newQuestion.Explanation,
-                Answers = newQuestion.Answers,
-                SubCategoryId = newQuestion.SubCategoryId,
-            };
+			QuestionModel model = new()
+			{
+				QuestionText = newQuestion.QuestionText!,
+				Explanation = newQuestion.Explanation,
+				Answers = newQuestion.Answers,
+				SubCategoryId = newQuestion.SubCategoryId,
+			};
 
-            await _questionRepo.Add(model);
-
-
-            return Ok(newQuestion);
-        }
+			await _questionRepo.Add(model);
 
 
-        [HttpDelete("UpdateQuestion/{id}")]
-        public async Task<ActionResult> DeleteQuestion(int id)
-        {
-            var questionToDelete = await _questionRepo.GetModelById(id);
+			return Ok(newQuestion);
+		}
 
-            if (questionToDelete == null)
-            {
-                return NotFound();
-            }
 
-            await _questionRepo.Delete(questionToDelete.Id);
+		[HttpDelete("DeleteQuestion/{id}")]
+		public async Task<ActionResult> DeleteQuestion(int id)
+		{
+			var questionToDelete = await _questionRepo.GetModelById(id);
 
-            return Ok(questionToDelete);
-        }
+			if (questionToDelete == null)
+			{
+				return NotFound();
+			}
 
-        [HttpPut("UpdateQuestion/{id}")]
-        public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionViewModel updatedQuestion)
-        {
-            if (id != updatedQuestion.Id)
-            {
-                return BadRequest("ID's do not match");
-            }
+			await _questionRepo.Delete(questionToDelete.Id);
 
-            var existingQuestion = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
+			return Ok(questionToDelete);
+		}
 
-            if (existingQuestion == null)
-            {
-                return NotFound($"Question with ID {id} not found");
-            }
 
-            existingQuestion.Id = updatedQuestion.Id;
-            existingQuestion.Explanation = updatedQuestion.Explanation;
-            existingQuestion.SubCategoryId = updatedQuestion.SubCategoryId;
-            existingQuestion.Answers = updatedQuestion.Answers;
+		[HttpPut("UpdateQuestion/{id}")]
+		public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionViewModel updatedQuestion)
+		{
+			if (id != updatedQuestion.Id)
+			{
+				return BadRequest("ID's do not match");
+			}
 
-            _questionRepo.Update(existingQuestion);
+			var existingQuestion = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
 
-            try
-            {
-                await _context.SaveChangesAsync();
-                return Ok($"Question with ID {id} updated successfully");
-            }
-            catch (DbUpdateConcurrencyException)
-            {
+			if (existingQuestion == null)
+			{
+				return NotFound($"Question with ID {id} not found");
+			}
 
-                return StatusCode(500, "Concurrency error occurred");
-            }
-        }
-    }
+			existingQuestion.Id = updatedQuestion.Id;
+			existingQuestion.Explanation = updatedQuestion.Explanation;
+			existingQuestion.SubCategoryId = updatedQuestion.SubCategoryId;
+			existingQuestion.Answers = updatedQuestion.Answers;
+
+			_questionRepo.Update(existingQuestion);
+
+			try
+			{
+				await _context.SaveChangesAsync();
+				return Ok($"Question with ID {id} updated successfully");
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+
+				return StatusCode(500, "Concurrency error occurred");
+			}
+		}
+	}
 }

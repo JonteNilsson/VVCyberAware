@@ -7,46 +7,47 @@ using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.API.Controllers
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SegmentController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-        private readonly GenericRepository<SegmentModel> _segmentRepo;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class SegmentController : Controller
+	{
+		private readonly ApplicationDbContext _context;
+		private readonly GenericRepository<SegmentModel> _segmentRepo;
 
-        public SegmentController(ApplicationDbContext context, GenericRepository<SegmentModel> segmentRepo)
-        {
-            _context = context;
-            _segmentRepo = segmentRepo;
-        }
-
-
-        [HttpGet("Segments")]
-        public async Task<ActionResult<List<SegmentModel>>> GetAllSegments()
-        {
-            var segments = await _segmentRepo.GetAll();
-
-            if (segments != null)
-            {
-                return Ok(segments);
-            }
-
-            return BadRequest();
-        }
+		public SegmentController(ApplicationDbContext context, GenericRepository<SegmentModel> segmentRepo)
+		{
+			_context = context;
+			_segmentRepo = segmentRepo;
+		}
 
 
-        [HttpGet("Segment/{id}")]
-        public async Task<ActionResult<SegmentModel>> GetSingleSegment(int id)
-        {
-            var segment = await _segmentRepo.GetModelById(id);
+		[HttpGet("Segments")]
+		public async Task<ActionResult<List<SegmentModel>>> GetAllSegments()
+		{
+			var segments = await _segmentRepo.GetAll();
 
-            if (segment == null)
-            {
-                return NotFound();
-            }
+			if (segments != null)
+			{
+				return Ok(segments);
+			}
 
-            return Ok(segment);
-        }
+			return BadRequest();
+		}
+
+
+		[HttpGet("Segment/{id}")]
+		public async Task<ActionResult<SegmentModel>> GetSingleSegment(int id)
+		{
+			var segment = await _segmentRepo.GetModelById(id);
+
+			if (segment == null)
+			{
+				return NotFound();
+			}
+
+			return Ok(segment);
+		}
+
 
 
         [HttpPost("PostSegment")]
@@ -57,75 +58,76 @@ namespace VVCyberAware.API.Controllers
                 return BadRequest();
             }
 
-            SegmentModel model = new()
-            {
-                Name = newSegment.Name!,
-                UserIsComplete = newSegment.UserIsComplete,
-                CategoryId = newSegment.CategoryId,
-            };
+			SegmentModel model = new()
+			{
+				Name = newSegment.Name!,
+				UserIsComplete = newSegment.UserIsComplete,
+				CategoryId = newSegment.CategoryId,
+			};
 
-            await _segmentRepo.Add(model);
-            _context.SaveChanges();
+			await _segmentRepo.Add(model);
+			_context.SaveChanges();
 
-            return Ok(newSegment);
-        }
-
-
+			return Ok(newSegment);
+		}
 
 
-        [HttpDelete("DeleteSegment/{id}")]
-        public async Task<ActionResult> DeleteSegment(int id)
-        {
-            var segment = await _segmentRepo.GetModelById(id);
-
-            if (segment == null)
-            {
-                return NotFound();
-            }
 
 
-            await _segmentRepo.Delete(segment.Id);
+
+		[HttpDelete("DeleteSegment/{id}")]
+		public async Task<ActionResult> DeleteSegment(int id)
+		{
+			var segment = await _segmentRepo.GetModelById(id);
+
+			if (segment == null)
+			{
+				return NotFound();
+			}
 
 
-            return Ok(segment);
-        }
+			await _segmentRepo.Delete(segment.Id);
 
 
-        [HttpPut("UpdateSegment/{id}")]
-        public async Task<IActionResult> UpdateSegment(int id, [FromBody] SegmentViewModel updatedSegment)
-        {
-
-            if (id != updatedSegment.Id)
-            {
-                return BadRequest("ID's do not match");
-            }
-
-            var existingSegment = await _context.Segments
-                .FirstOrDefaultAsync(s => s.Id == id);
-
-            if (existingSegment == null)
-            {
-                return NotFound($"Segment with ID {id} not found");
-            }
-
-            existingSegment.Id = updatedSegment.Id;
-            existingSegment.Name = updatedSegment.Name!;
-            existingSegment.UserIsComplete = updatedSegment.UserIsComplete;
-            existingSegment.CategoryId = updatedSegment.CategoryId;
-
-            _segmentRepo.Update(existingSegment);
-
-            try
-            {
-                await _context.SaveChangesAsync();
-                return Ok($"Segment with ID {id} updated successfully");
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return StatusCode(500, "Concurrency error occurred");
-            }
-        }
+			return Ok(segment);
+		}
 
 
-    }
+		[HttpPut("UpdateSegment/{id}")]
+		public async Task<IActionResult> UpdateSegment(int id, [FromBody] SegmentViewModel updatedSegment)
+		{
+
+			if (id != updatedSegment.Id)
+			{
+				return BadRequest("ID's do not match");
+			}
+
+			var existingSegment = await _context.Segments
+				.FirstOrDefaultAsync(s => s.Id == id);
+
+			if (existingSegment == null)
+			{
+				return NotFound($"Segment with ID {id} not found");
+			}
+
+			existingSegment.Id = updatedSegment.Id;
+			existingSegment.Name = updatedSegment.Name!;
+			existingSegment.UserIsComplete = updatedSegment.UserIsComplete;
+			existingSegment.CategoryId = updatedSegment.CategoryId;
+
+			_segmentRepo.Update(existingSegment);
+
+			try
+			{
+				await _context.SaveChangesAsync();
+				return Ok($"Segment with ID {id} updated successfully");
+			}
+			catch (DbUpdateConcurrencyException)
+			{
+				return StatusCode(500, "Concurrency error occurred");
+			}
+		}
+
+
+	}
 }

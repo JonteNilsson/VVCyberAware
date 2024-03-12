@@ -84,6 +84,7 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
         /// <param name="updatedCategory"></param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
+
         public async Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory)
         {
             // Convert the updatedSubCategory to JSON

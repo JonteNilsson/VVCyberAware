@@ -14,6 +14,7 @@
 @inject ISubCService subCService
 @inject IQuestionService questionService
 @inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
 @rendermode InteractiveServer
 
 <AuthorizeView Roles="Admin">
@@ -40,13 +41,16 @@
                                     <div class="d-flex align-items-center justify-content-around">
 										<QuestionComponent Question="question" />
                                         <button class="h-25 btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("question", question.Id))">Redigera fråga</button>
-                                        <button class="h-25 btn btn-danger btn-outline-dark">Ta bort fråga</button> @* TODO Add remove functionallity *@
+                                        <a class="h-25 btn btn-danger btn-outline-dark"  @onclick="@(() => RemoveQuestion(question))">Ta bort fråga</a>
                                     </div>
                                 }
                             </div>
                             <button class="btn btn-primary mt-5" @onclick="@(() => NavigateToPage("question", null))">Lägg till fråga</button>
 						</li>
-                        <button class="btn btn-warning btn-outline-dark mt-2 mb-5 w-25" @onclick="@(() => NavigateToPage("subcategory", subCategory.Id))">Redigera subkategori</button>
+                        <div class="flex-center mt-3 mb-5">
+                            <button class="btn btn-warning btn-outline-dark w-25" @onclick="@(() => NavigateToPage("subcategory", subCategory.Id))">Redigera subkategori</button>
+                            <a class="btn btn-danger btn-outline-dark w-25 ms-3"  @onclick="@(() => RemoveSubCategory(subCategory))">Ta bort subkategori</a>
+                        </div>
                     }
                 </ul>
             </div>
@@ -79,7 +83,22 @@
         {
             NavigationManager.NavigateTo("/admin/edit/" + component);
         }
+    }
 
+    private async Task RemoveSubCategory(SubCategoryApiModel subCategory)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", $"Vill du verkligen ta bort {subCategory.Description}?\n\nOBS! Detta är permanent!"))
+        {
+            await subCService.DeleteSubCategory(subCategory.Id);
+        }
+    }
+
+    private async Task RemoveQuestion(QuestionApiModel question)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", $"Vill du verkligen ta bort frågan:\n\n{question.QuestionText}\n\nOBS! Detta är permanent!"))
+        {
+            await questionService.DeleteQuestion(question.Id);
+        }
     }
 
     protected async override Task OnParametersSetAsync()

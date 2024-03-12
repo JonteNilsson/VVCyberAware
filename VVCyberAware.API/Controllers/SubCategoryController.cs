@@ -8,12 +8,12 @@ using VVCyberAware.Shared.Models.ViewModels;
 namespace VVCyberAware.API.Controllers
 {
 
-    [Route("api/[controller]")]
-    [ApiController]
-    public class SubCategoryController : Controller
-    {
-        private readonly ApplicationDbContext _context;
-        private readonly GenericRepository<SubCategoryModel> _subCRepo;
+	[Route("api/[controller]")]
+	[ApiController]
+	public class SubCategoryController : Controller
+	{
+		private readonly ApplicationDbContext _context;
+		private readonly GenericRepository<SubCategoryModel> _subCRepo;
 
         public SubCategoryController(ApplicationDbContext context, GenericRepository<SubCategoryModel> subCRepo)
         {
@@ -122,4 +122,5 @@ namespace VVCyberAware.API.Controllers
 
 
     }
+
 }
