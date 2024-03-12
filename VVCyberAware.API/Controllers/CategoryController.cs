@@ -53,6 +53,11 @@ namespace VVCyberAware.API.Controllers
             return Ok(category);
         }
 
+        /// <summary>
+        /// Includes the whole branch with Category,Segment,Subcategory and Questions
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A model containing everything</returns>
         [HttpGet("CategoryInclude/{id}")]
         public async Task<ActionResult<CategoryApiModel>> GetCategoryInclude(int id)
         {
@@ -67,7 +72,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpPost("Category")]
+        [HttpPost("PostCategory")]
         public async Task<ActionResult> PostCategory(CategoryViewModel newCategory)
         {
             if (newCategory == null)

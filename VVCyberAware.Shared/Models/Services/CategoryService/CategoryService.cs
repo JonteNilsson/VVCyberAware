@@ -102,9 +102,16 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
         /// <returns></returns>
         public async Task PostCategory(CategoryApiModel category)
         {
-            await client.PostAsJsonAsync("Category/Post", category);
+            await client.PostAsJsonAsync("PostCategory/Post", category);
         }
 
+        /// <summary>
+        /// Updates the model sent in to the method
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedCategory"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task UpdateCategoryAsync(int id, CategoryViewModel updatedCategory)
         {
             // Convert the updatedCategory to JSON

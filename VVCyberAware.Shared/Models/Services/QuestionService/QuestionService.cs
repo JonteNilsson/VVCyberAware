@@ -73,9 +73,16 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
         /// <returns></returns>
         public async Task PostQuestion(QuestionApiModel question)
         {
-            await client.PostAsJsonAsync("Question/Post", question);
+            await client.PostAsJsonAsync("PostQuestion/Post", question);
         }
 
+        /// <summary>
+        /// Updates the model sent in to the method
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedCategory"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpRequestException"></exception>
         public async Task UpdateQuestionAsync(int id, QuestionApiModel updatedQuestion)
         {
             // Convert the updatedQuestion to JSON

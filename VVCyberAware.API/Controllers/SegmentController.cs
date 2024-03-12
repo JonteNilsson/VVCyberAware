@@ -49,7 +49,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpPost("Segment")]
+        [HttpPost("PostSegment")]
         public async Task<ActionResult> PostSegment(SegmentViewModel newSegment)
         {
             if (newSegment == null)
@@ -73,7 +73,7 @@ namespace VVCyberAware.API.Controllers
 
 
 
-        [HttpDelete("Segment/{id}")]
+        [HttpDelete("DeleteSegment/{id}")]
         public async Task<ActionResult> DeleteSegment(int id)
         {
             var segment = await _segmentRepo.GetModelById(id);

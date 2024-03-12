@@ -53,7 +53,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpPost("Question")]
+        [HttpPost("PostQuestion")]
         public async Task<ActionResult> PostQuestion(QuestionViewModel newQuestion)
         {
             if (newQuestion == null)
@@ -91,7 +91,7 @@ namespace VVCyberAware.API.Controllers
             return Ok(questionToDelete);
         }
 
-        [HttpPut("Question/{id}")]
+        [HttpPut("UpdateQuestion/{id}")]
         public async Task<IActionResult> UpdateQuestion(int id, [FromBody] QuestionViewModel updatedQuestion)
         {
             if (id != updatedQuestion.Id)

@@ -49,7 +49,7 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-        [HttpPost("SubCategory")]
+        [HttpPost("PostSubCategory")]
         public async Task<ActionResult> PostSubCategory(SubCategoryViewModel newSubCategory)
         {
             if (newSubCategory == null)
@@ -69,7 +69,7 @@ namespace VVCyberAware.API.Controllers
             return Ok(newSubCategory);
         }
 
-        [HttpDelete("SubCategory/{id}")]
+        [HttpDelete("DeleteSubCategory/{id}")]
         public async Task<ActionResult> Delete(int id)
         {
             var subCategory = await _subCRepo.GetModelById(id);
