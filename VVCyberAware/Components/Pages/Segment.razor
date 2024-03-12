@@ -2,7 +2,9 @@
 @attribute [Authorize]
 
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
 @using VVCyberAware.Components.CustomComponents
+@using VVCyberAware.Data
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
@@ -13,6 +15,10 @@
 @inject ISegmentService segmentService
 @inject IQuestionService questionService;
 @inject ISubCService subCService;
+@rendermode InteractiveServer
+
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
 
 
 @if (segment == null)
@@ -42,15 +48,15 @@ else
                 {
                     @foreach (var question in questions.FindAll(q => q.SubCategoryId == sub.Id).ToList())
                     {
-                        <QuestionComponent Question="question"/>
+                            <QuestionComponent Question="question" @onAnswerSelected="HandleAnswerSelected"/>
                     }
                 }
             }
         }
-        <button class="btn btn-primary" >Submit</button>
+        <button class="btn btn-primary" @onclick="Submit">Submit</button>
           
       </div>
-      <div class="d-flex justify-content-center mb-5 " >
+      <div class="d-flex justify-content-center mb-5 ">
       <a href="/home" class="btn btn-danger" >Back</a>
       </div>
     </div>
@@ -64,6 +70,24 @@ else
     private SegmentApiModel? segment;
     private List<SubCategoryApiModel>? subCategories;
     private List<QuestionApiModel>? questions;
+    private Dictionary<int, string> selectedAnswers = new Dictionary<int, string>();
+
+    private void Submit()
+    {
+        foreach (var (questionId, selectedAnswer) in selectedAnswers)
+        {
+            Console.WriteLine($"Question ID: {questionId}, Selected Answer: {selectedAnswer}");
+        }
+    }
+
+    private void HandleAnswerSelected((int questionId, string selectedAnswer) answerInfo)
+    {
+        int questionId = answerInfo.questionId;
+        string selectedAnswer = answerInfo.selectedAnswer;
+
+        // Now you have both questionId and selectedAnswer here
+        Console.WriteLine($"Question ID: {questionId}, Selected Answer: {selectedAnswer}");
+    }
 
     protected override async Task OnParametersSetAsync()
     {
