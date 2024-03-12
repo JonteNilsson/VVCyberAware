@@ -43,7 +43,7 @@
 							}
 							else
 							{
-								<input class="w-100" type="text" @bind-value="@newCategory.Name" />
+								<input class="w-100" type="text" @bind="@newCategory.Name" />
 							}
 						</div>
 						<div>
@@ -54,7 +54,7 @@
 							}
 							else
 							{
-								<input class ="w-100" type="text" @bind-value="@newCategory.Description" />
+								<input class ="w-100" type="text" @bind="@newCategory.Description" />
 							}
 						</div>
 					</div>
@@ -70,7 +70,7 @@
 							}
 							else
 							{
-								<input class="w-100" type="text" @bind-value="@newSegment.Name" />
+								<input class="w-100" type="text" @bind="@newSegment.Name" />
 							}
 						</div>
 					</div>
@@ -86,7 +86,7 @@
 							}
 							else
 							{
-								<input class="w-100" type="text" @bind-value="@newSubCategory.Description" />
+								<input class="w-100" type="text" @bind="@newSubCategory.Description" />
 							}
 						</div>
 					</div>
@@ -94,7 +94,7 @@
 				else if (Component.ToLower() == "question")
 				{
 					<div class="row w-50 flex-center p-3">
-						<EditForm class="flex-center" Model="@questionFormModel" OnValidSubmit="@HandleValidSubmit">
+						<EditForm class="flex-center" Model="@questionFormModel">
 							<div class="question-box">
 								<label><strong>Fråga: </strong></label>
 								<InputTextArea class="question-text-input mb-3" @bind-Value="@questionFormModel.QuestionText" placeholder="Skriv in din fråga här..." />
@@ -196,19 +196,13 @@
 		}
 	}
 
-	private void HandleValidSubmit()
-	{
-		Console.WriteLine("Submit!");
-		//No need for this button now, as the other one started working...
-	}
-
-	private async void PostPut()
+	private async Task PostPut()
 	{
 		if (Component.ToLower() == "category")
 		{
 			if (Id.HasValue == true)
 			{
-			// PUT category
+				// PUT category
 			}
 			else
 			{
@@ -222,7 +216,7 @@
 
 			if (Id.HasValue == true)
 			{
-			// PUT Segment
+				// PUT Segment
 
 			}
 			else
@@ -279,6 +273,20 @@
 				// Post question 
 			}
 		}
+		if (Component.ToLower() == "category" || (Component.ToLower() == "segment" && !Id.HasValue))
+		{
+			NavigationManager.NavigateTo("/admin");
+		}
+		else if ((Component.ToLower() == "segment" && Id.HasValue) || Component.ToLower() == "subcategory" || Component.ToLower() == "question")
+		{
+			NavigationManager.NavigateTo($"/admin/segment/{await localStorage.GetItemAsync<int>("id")}");
+		}
+		else
+		{
+			//Should not get here if using the app, but maybe if typing in the url
+			NavigationManager.NavigateTo("/home");
+		}
+
 	}
 
 	protected async override Task OnParametersSetAsync()

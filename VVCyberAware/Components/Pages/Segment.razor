@@ -61,7 +61,8 @@ else
                                             class="form-check-input" type="radio" 
                                             id="@($"QuestionRadio_{question.Id}_{i}")" 
                                             name="@($"QuestionRadio_{question.Id}")" 
-                                            value="@answer.Key">
+                                            value="@answer.Key"
+                                            @onchange="() => HandleRadioValueChanged(question.Id, answer.Key)">
                                         <label class="form-check-label" for="@($"QuestionRadio_{question.Id}_{i}")">@answer.Key</label>
                                     </div>
                                 }
@@ -71,7 +72,7 @@ else
                 }
             }
         }
-        <button class="btn btn-primary" @onclick="Submit">Submit</button>
+            <button class="btn btn-primary" @onclick="Submit" disabled="@(!AllQuestionsAnswered())">Submit</button>
           
       </div>
       <div class="d-flex justify-content-center mb-5 ">
@@ -90,9 +91,68 @@ else
     private List<QuestionApiModel>? questions;
     private Dictionary<int, string> selectedAnswers = new Dictionary<int, string>();
 
+    private void HandleRadioValueChanged(int questionId, string selectedAnswer)
+    {
+        if (selectedAnswers.ContainsKey(questionId))
+        {
+            selectedAnswers[questionId] = selectedAnswer;
+        }
+        else
+        {
+            selectedAnswers.Add(questionId, selectedAnswer);
+        }
+    }
+
+    private bool AllQuestionsAnswered()
+    {
+        foreach (var question in questions)
+        {
+            if (!selectedAnswers.ContainsKey(question.Id))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     private void Submit()
     {
-        
+        int correctCount = 0;
+
+        foreach (var question in questions)
+        {
+            var selectedAnswer = selectedAnswers.GetValueOrDefault(question.Id);
+            if (selectedAnswer != null && selectedAnswer == GetCorrectAnswer(question.Id))
+            {
+                correctCount++;
+            }
+        }
+
+        if (correctCount == questions.Count)
+        {
+            // All questions are correct
+        }
+        else
+        {
+            // One or more questions are wrong
+        }
+    }
+
+    private string? GetCorrectAnswer(int questionId)
+    {
+        var questionToCheck = questions.FirstOrDefault(q => q.Id == questionId);
+        if(questionToCheck != null)
+        {
+            foreach (var answer in questionToCheck.Answers)
+            {
+                if (answer.Value)
+                {
+                    return answer.Key;
+                }
+            }
+        }
+        return null;
+
     }
 
     protected override async Task OnParametersSetAsync()
