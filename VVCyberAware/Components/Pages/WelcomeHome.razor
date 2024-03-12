@@ -53,10 +53,13 @@
                             </h4>
                         </div>
                         <div>
-                            <a href="https://github.com/JonteNilsson"><p>Johannes</p></a>
-                            <a href="https://github.com/Tobias-soderberg"><p>Tobias</p></a>
-                            <a href="https://github.com/PaulineI"><p>Pauline</p></a>
-                            <a href="https://github.com/Druzhee"><p>Mohannad</p></a>
+                            <div class="github-picture">
+                                <img src="@GitHubPic" alt="Alternate Text" />
+                            </div>
+                            <a href="https://github.com/JonteNilsson" class="link-custome-style"><p>Johannes</p></a>
+                            <a href="https://github.com/Tobias-soderberg" class="link-custome-style"><p>Tobias</p></a>
+                            <a href="https://github.com/PaulineI" class="link-custome-style"><p>Pauline</p></a>
+                            <a href="https://github.com/Druzhee" class="link-custome-style"><p>Mohannad</p></a>
                         </div>
 
                     </div>
@@ -72,7 +75,8 @@
 
 
 @code{
-   
+    private string? GitHubPic = "Image/GitHubPic.png";
+
     private string arrowDirection = "down";
 
     private void ToggleArrowDirection()
