@@ -11,7 +11,7 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
 
         public Task<SubCategoryApiModel> GetSubCategoryByIdAsync(int id);
 
-        public Task PostSubCategory(SubCategoryApiModel subCategory);
+        public Task PostSubCategory(SubCategoryViewModel subCategory);
 
         public Task DeleteSubCategory(int id);
 

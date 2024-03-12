@@ -1,6 +1,7 @@
 ﻿@page "/admin/edit/{Component}/{Id:int?}"
 
 @using Blazored.LocalStorage
+@using System.ComponentModel.DataAnnotations
 @using VVCyberAware.Components.CustomComponents
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
@@ -16,7 +17,7 @@
 @inject ILocalStorageService localStorage
 @rendermode InteractiveServer
 
-<AuthorizeView Roles="Admin">
+<AuthorizeView Roles="Admin" Context="authContext"> 
     <Authorized>
 		<div class="row text-center header">
 			@if (Id.HasValue)
@@ -92,52 +93,29 @@
 				}
 				else if (Component.ToLower() == "question")
 				{
-
 					<div class="row w-50 flex-center p-3">
+						<EditForm class="flex-center" Model="@questionFormModel" OnValidSubmit="@HandleValidSubmit">
 							<div class="question-box">
-								@if (question != null)
+								<label><strong>Fråga: </strong></label>
+								<InputTextArea class="question-text-input mb-3" @bind-Value="@questionFormModel.QuestionText" placeholder="Skriv in din fråga här..." />
+								
+								@foreach (var answer in questionFormModel.Answers)
 								{
-									<label><strong>Question text: </strong></label>
-									<InputTextArea class="question-text-input" @bind-Value="@question.QuestionText" placeholder="Skriv in din fråga här..." />
-
-									@for (int i = 0; i < question.Answers.Count(); i++)
-									{
-										<div class="form-check">
-											<input class="form-check-input" type="radio" name="Question">
-											<input class="form-check-label w-75" type="text" for="Question" value="@(question.Answers.ElementAt(i).Key.Contains("PlaceholderKeyValue") ? "" : question.Answers.ElementAt(i).Key)" />
-										</div>
-									}
-
-									<div class="mt-3">
-										<button class="btn btn-primary" @onclick="AddOption">Lägg till alternativ</button>
-										<button class="btn btn-primary" disabled="@(optionCounter <= 2 ? true : false)" @onclick="RemoveOption">Ta bort sista alternativet</button>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="Question" @onchange="() => UpdateSelectedAnswer(answer)" checked="@answer.Answer" />
+										<InputText class="form-check-label w-75" @bind-Value="answer.AnswerText" placeholder="Skriv in svarsalternativ..." />
 									</div>
-									<label class="mt-3"><strong>Förklaring:</strong></label>
-
-									<InputTextArea class="question-text-input" @bind-Value="@question.Explanation" placeholder="Skriv in din förklaring här..." />
 								}
-								else
-								{
-									<label><strong>Fråga: </strong></label>
-									<InputTextArea class="question-text-input mb-3" @bind-Value="newQuestionText" placeholder="Skriv in din fråga här..." />
 
-									@for (int i = 0; i < newAnswers.Count; i++)
-									{
-										<div class="form-check mb-1">
-											<input class="form-check-input" type="radio" name="Question" @bind-value="newAnswers[i].Answer">
-											<input class="form-check-label w-75" type="text" @bind="newAnswers[i].AnswerText" placeholder="Skriv in svarsalternativ..." />
-										</div>
-									}
+								<div class="mt-3">
+									<button class="btn btn-primary" @onclick="AddOption">Lägg till alternativ</button>
+									<button class="btn btn-primary" disabled="@(optionCounter <= 2 ? true : false)" @onclick="RemoveOption">Ta bort sista alternativet</button>
+								</div>
 
-									<div class="mt-3">
-										<button class="btn btn-primary" @onclick="AddOption">Lägg till alternativ</button>
-										<button class="btn btn-primary" disabled="@(optionCounter <= 2 ? true : false)" @onclick="RemoveOption">Ta bort sista alternativet</button>
-									</div>
-									<label class="mt-3"><strong>Förklaring:</strong></label>
-									<InputTextArea class="question-text-input" @bind-Value="newQuestionExplination" placeholder="Skriv in din förklaring här..." />
-								}
+								<label class="mt-3"><strong>Förklaring: </strong></label>
+								<InputTextArea class="question-text-input" @bind-Value="questionFormModel.Explanation" placeholder="Skriv in din förklaring här..." />
 							</div>
-						
+						</EditForm>
 					</div>
 				}
 				else
@@ -176,52 +154,52 @@
 	private string newQuestionExplination = "";
 	private List<AnswerData> newAnswers = new();
 	private int optionCounter = 0;
-	private string referrerUrl = "";
-	private CategoryApiModel newCategory = new()
+
+	private QuestionFormModel questionFormModel = new();
+	private CategoryViewModel newCategory = new()
 		{
 			Description = "",
 			Name = ""
 		};
-	private SegmentApiModel newSegment = new()
+	private SegmentViewModel newSegment = new()
 		{
 			Name = ""
 		};
-	private SubCategoryApiModel newSubCategory = new()
+	private SubCategoryViewModel newSubCategory = new()
 		{
 			Description = ""
 	};
 
-
 	private void AddOption()
 	{
-		if(question != null)
-		{
-			question.Answers.Add("PlaceholderKeyValue" + optionCounter, false); // + optionCounter to get unique key
-		}
-		else
-		{
-			newAnswers.Add(new AnswerData
-				{
-					AnswerText = "",
-					Answer = false
-				});
-		}
+		questionFormModel.Answers.Add(new AnswerData
+			{
+				AnswerText = "",
+				Answer = false
+			});
 		optionCounter++;
 	}
 
 	private void RemoveOption()
 	{
-		if (question != null)
-		{
-			var lastPair = question.Answers.LastOrDefault();
-			question.Answers.Remove(lastPair.Key);
-		}
-		else
-		{
-			newAnswers.RemoveAt(newAnswers.Count - 1);
-		}
+
+		questionFormModel.Answers.RemoveAt(questionFormModel.Answers.Count - 1);
 
 		optionCounter--;
+	}
+
+	private void UpdateSelectedAnswer(AnswerData selectedAnswer)
+	{
+		foreach (var answer in questionFormModel.Answers)
+		{
+			answer.Answer = answer == selectedAnswer;
+		}
+	}
+
+	private void HandleValidSubmit()
+	{
+		Console.WriteLine("Submit!");
+		//No need for this button now, as the other one started working...
 	}
 
 	private async void PostPut()
@@ -230,11 +208,11 @@
 		{
 			if (Id.HasValue == true)
 			{
-				// PUT category
+			// PUT category
 			}
 			else
 			{
-				categoryService.PostCategory(newCategory);
+				await categoryService.PostCategory(newCategory);
 
 			}
 		}
@@ -244,12 +222,14 @@
 
 			if (Id.HasValue == true)
 			{
-				// PUT Segment
+			// PUT Segment
 
 			}
 			else
 			{
-				segmentService.PostSegment(newSegment);
+				newSegment.CategoryId = await localStorage.GetItemAsync<int>("id");
+				newSegment.UserIsComplete = new();
+				await segmentService.PostSegment(newSegment);
 			}
 
 		}
@@ -261,15 +241,16 @@
 			}
 			else
 			{
-				subCService.PostSubCategory(newSubCategory);
+				newSubCategory.SegmentId = await localStorage.GetItemAsync<int>("id");
+				await subCService.PostSubCategory(newSubCategory);
 			}
 
 		}
-		else if (Component.ToLower() == "Question")
+		else if (Component.ToLower() == "question")
 		{
 			if (Id.HasValue)
 			{
-				//PUt Question 
+				//Put Question 
 			}
 			else
 			{
@@ -277,7 +258,7 @@
 				Dictionary<string, bool> newAnswersDict = new();
 				try
 				{
-					foreach (var answer in newAnswers)
+					foreach (var answer in questionFormModel.Answers)
 					{
 						newAnswersDict.Add(answer.AnswerText, answer.Answer);
 					}
@@ -288,8 +269,8 @@
 				}
 				QuestionViewModel newQuestion = new()
 					{
-							QuestionText = newQuestionText,
-							Explanation = newQuestionExplination,
+							QuestionText = questionFormModel.QuestionText,
+							Explanation = questionFormModel.Explanation,
 							SubCategoryId = await localStorage.GetItemAsync<int>("id"),
 							Answers = newAnswersDict
 					};
@@ -298,10 +279,7 @@
 				// Post question 
 			}
 		}
-
-
 	}
-
 
 	protected async override Task OnParametersSetAsync()
 	{
@@ -325,14 +303,16 @@
 				case "question":
 					var questions = await questionService.GetQuestionsAsync();
 					question = questions.FirstOrDefault(c => c.Id == Id);
-					foreach(string Key in question.Answers.Keys)
+					if (question != null)
 					{
-						newAnswers.Add(new AnswerData
-						{
-							AnswerText = Key,
-							Answer = question.Answers[Key]
-						});
-						optionCounter++;
+						questionFormModel.QuestionText = question.QuestionText;
+						questionFormModel.Explanation = question.Explanation;
+						questionFormModel.Answers = question.Answers.Select(dict => new AnswerData
+							{
+								AnswerText = dict.Key,
+								Answer = dict.Value
+							}).ToList();
+						optionCounter = question.Answers.Count;
 					}
 					break;
 				default:
@@ -342,12 +322,12 @@
 		}
 		else
 		{
-			newAnswers.Add(new AnswerData
+			questionFormModel.Answers.Add(new AnswerData
 				{
 					AnswerText = "",
 					Answer = false
 				});
-			newAnswers.Add(new AnswerData
+			questionFormModel.Answers.Add(new AnswerData
 				{
 					AnswerText = "",
 					Answer = false
@@ -356,9 +336,22 @@
 		}
 	}
 
-	private class AnswerData
+	public class AnswerData
 	{
 		public string AnswerText { get; set; }
 		public bool Answer { get; set; }
+	}
+
+	public class QuestionFormModel
+	{
+		[Required(ErrorMessage = "Name is required")]
+		public string QuestionText { get; set; }
+		public List<AnswerData> Answers { get; set; }
+		public string Explanation { get; set; }
+
+		public QuestionFormModel()
+		{
+			Answers = new List<AnswerData>();
+		}
 	}
 }
