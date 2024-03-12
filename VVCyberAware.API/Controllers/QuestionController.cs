@@ -67,7 +67,18 @@ namespace VVCyberAware.API.Controllers
                 SubCategoryId = newQuestion.SubCategoryId,
             };
 
-            await _questionRepo.Add(model);
+
+            
+
+
+        [HttpPost("PostQuestion")]
+        public async Task<ActionResult> PostQuestion(QuestionViewModel newQuestion)
+        {
+            if (newQuestion == null)
+            {
+                return BadRequest();
+            }
+
 
 
             return Ok(newQuestion);
@@ -99,10 +110,12 @@ namespace VVCyberAware.API.Controllers
 
             var existingQuestion = await _context.Questions.FirstOrDefaultAsync(q => q.Id == id);
 
+
             if (existingQuestion == null)
             {
                 return NotFound($"Question with ID {id} not found");
             }
+		
 
             existingQuestion.Id = updatedQuestion.Id;
             existingQuestion.Explanation = updatedQuestion.Explanation;

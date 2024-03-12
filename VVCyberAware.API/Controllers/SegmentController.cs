@@ -49,13 +49,14 @@ namespace VVCyberAware.API.Controllers
 		}
 
 
-		[HttpPost("Segment")]
-		public async Task<ActionResult> PostSegment(SegmentViewModel newSegment)
-		{
-			if (newSegment == null)
-			{
-				return BadRequest();
-			}
+
+        [HttpPost("PostSegment")]
+        public async Task<ActionResult> PostSegment(SegmentViewModel newSegment)
+        {
+            if (newSegment == null)
+            {
+                return BadRequest();
+            }
 
 			SegmentModel model = new()
 			{
@@ -69,6 +70,7 @@ namespace VVCyberAware.API.Controllers
 
 			return Ok(newSegment);
 		}
+
 
 
 

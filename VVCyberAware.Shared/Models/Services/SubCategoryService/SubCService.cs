@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text;
 using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.SubCategoryService
 {
@@ -74,15 +75,18 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
         /// <returns></returns>
         public async Task PostSubCategory(SubCategoryApiModel subCategory)
         {
-            await client.PostAsJsonAsync("SubCategory/Post", subCategory);
+            await client.PostAsJsonAsync("PostSubCategory/Post", subCategory);
         }
 
-        public async Task DeleteSubCategory(int id)
-        {
-            await client.DeleteAsync($"SubCategory/DeleteSubCategory/{id}");
-        }
+        /// <summary>
+        /// Updates the model sent in to the method
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedCategory"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpRequestException"></exception>
 
-        public async Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory)
+        public async Task UpdateSubCategoryAsync(int id, SubCategoryViewModel updatedSubCategory)
         {
             // Convert the updatedSubCategory to JSON
             string updatedSubCategoryJson = JsonConvert.SerializeObject(updatedSubCategory);
@@ -97,6 +101,16 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             {
                 throw new HttpRequestException();
             }
+        }
+
+        /// <summary>
+        /// Deletes chosen model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteSubCategory(int id)
+        {
+            await client.DeleteAsync($"SubCategory/DeleteSubCategory/{id}");
         }
 
     }

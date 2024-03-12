@@ -1,4 +1,5 @@
 ﻿using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.SubCategoryService
 {
@@ -14,6 +15,6 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
 
         public Task DeleteSubCategory(int id);
 
-        public Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory);
+        public Task UpdateSubCategoryAsync(int id, SubCategoryViewModel updatedSubCategory);
     }
 }

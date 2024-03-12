@@ -1,4 +1,5 @@
 ﻿using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.SegmentService
 {
@@ -14,6 +15,6 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
 
         public Task DeleteSegment(int id);
 
-        public Task UpdateSegmentAsync(int id, SegmentApiModel updatedSegment);
+        public Task UpdateSegmentAsync(int id, SegmentViewModel updatedSegment);
     }
 }
