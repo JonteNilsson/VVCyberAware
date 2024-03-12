@@ -1,4 +1,5 @@
 ﻿using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.QuestionService
 {
@@ -14,6 +15,6 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
 
         public Task DeleteQuestion(int id);
 
-        public Task UpdateQuestionAsync(int id, QuestionApiModel updatedQuestion);
+        public Task UpdateQuestionAsync(int id, QuestionViewModel updatedQuestion);
     }
 }
