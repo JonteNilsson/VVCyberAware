@@ -11,7 +11,7 @@
                    id="@($"QuestionRadio_{Question.Id}_{i}")"
                    name="@($"QuestionRadio_{Question.Id}")"
                    value="@answer.Key"
-                   @onchange="(e) => HandleRadioValueChanged(answer.Key)">
+                   @onchange="() => HandleRadioValueChanged(answer.Key)">
             <label class="form-check-label" for="@($"QuestionRadio_{Question.Id}_{i}")">
                 @answer.Key
             </label>

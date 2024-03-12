@@ -85,8 +85,34 @@ else
         int questionId = answerInfo.questionId;
         string selectedAnswer = answerInfo.selectedAnswer;
 
+        // Retrieve the correct answer for the given questionId
+        var correctAnswer = GetCorrectAnswer(questionId);
+
+        // Check if the selected answer matches the correct answer
+        bool isCorrect = selectedAnswer == correctAnswer;
+
         // Now you have both questionId and selectedAnswer here
-        Console.WriteLine($"Question ID: {questionId}, Selected Answer: {selectedAnswer}");
+        Console.WriteLine($"Question ID: {questionId}, Selected Answer: {selectedAnswer}, Correct: {isCorrect}");
+
+        // Save the result, for example:
+        if (!isCorrect)
+        {
+            SaveIncorrectAnswer(questionId, selectedAnswer);
+        }
+    }
+
+    private string GetCorrectAnswer(int questionId)
+    {
+        return "";
+    }
+
+    private void SaveIncorrectAnswer(int questionId, string selectedAnswer)
+    {
+        // Implement logic to save the incorrect answer, for example, in a list or database
+        // Here you can store the questionId and selectedAnswer in a suitable data structure
+        // For the sake of example, assuming you have a list to store incorrect answers
+        List<(int questionId, string selectedAnswer)> incorrectAnswers = new List<(int, string)>();
+        incorrectAnswers.Add((questionId, selectedAnswer));
     }
 
     protected override async Task OnParametersSetAsync()
