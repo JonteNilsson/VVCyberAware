@@ -96,6 +96,8 @@ using (ServiceProvider sp = builder.Services.BuildServiceProvider())
     }
     // Tilldela adminrollen till den usern
     signInManager.UserManager.AddToRoleAsync(newUser, "Admin").GetAwaiter().GetResult();
+
+    context.SaveChangesAsync();
 }
 
 var app = builder.Build();
