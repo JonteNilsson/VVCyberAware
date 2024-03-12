@@ -1,16 +1,19 @@
 ﻿@page "/admin/edit/{Component}/{Id:int?}"
 
+@using Blazored.LocalStorage
 @using VVCyberAware.Components.CustomComponents
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
 @using VVCyberAware.Shared.Models.Services.SegmentService
 @using VVCyberAware.Shared.Models.Services.SubCategoryService
 @using VVCyberAware.Shared.Models.Services.QuestionService
+@using VVCyberAware.Shared.Models.ViewModels
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
 @inject ISubCService subCService
 @inject IQuestionService questionService
 @inject NavigationManager NavigationManager
+@inject ILocalStorageService localStorage
 @rendermode InteractiveServer
 
 <AuthorizeView Roles="Admin">
@@ -39,7 +42,7 @@
 							}
 							else
 							{
-								<input class="w-100" type="text" value="" />
+								<input class="w-100" type="text" @bind-value="@newCategory.Name" />
 							}
 						</div>
 						<div>
@@ -50,7 +53,7 @@
 							}
 							else
 							{
-								<input class ="w-100" type="text" value="" />
+								<input class ="w-100" type="text" @bind-value="@newCategory.Description" />
 							}
 						</div>
 					</div>
@@ -66,7 +69,7 @@
 							}
 							else
 							{
-								<input class="w-100" type="text" value="" />
+								<input class="w-100" type="text" @bind-value="@newSegment.Name" />
 							}
 						</div>
 					</div>
@@ -82,7 +85,7 @@
 							}
 							else
 							{
-								<input class="w-100" type="text" value="" />
+								<input class="w-100" type="text" @bind-value="@newSubCategory.Description" />
 							}
 						</div>
 					</div>
@@ -118,11 +121,11 @@
 									<label><strong>Fråga: </strong></label>
 									<InputTextArea class="question-text-input mb-3" @bind-Value="newQuestionText" placeholder="Skriv in din fråga här..." />
 
-									@foreach (var option in radioOptions)
+									@for (int i = 0; i < newAnswers.Count; i++)
 									{
 										<div class="form-check mb-1">
-											<input class="form-check-input" type="radio" name="Question">
-											<input class="form-check-label w-75" type="text" value="@option" placeholder="Skriv in svarsalternativ..." />
+											<input class="form-check-input" type="radio" name="Question" @bind-value="newAnswers[i].Answer">
+											<input class="form-check-label w-75" type="text" @bind="newAnswers[i].AnswerText" placeholder="Skriv in svarsalternativ..." />
 										</div>
 									}
 
@@ -144,7 +147,7 @@
 
 			</div>
 			<div class="flex-center">
-				<button class="btn btn-warning btn-outline-dark me-2">@(Id.HasValue ? "Uppdatera" : "Lägg till")
+				<button class="btn btn-warning btn-outline-dark me-2" @onclick="@(()=> PostPut())">@(Id.HasValue ? "Uppdatera" : "Lägg till")
 				</button>
 				<button class="btn btn-danger btn-outline-dark ms-2">Avbryt</button>
 			</div>
@@ -171,8 +174,22 @@
 
 	private string newQuestionText = "";
 	private string newQuestionExplination = "";
-	private List<string> radioOptions = new List<string>();
+	private List<AnswerData> newAnswers = new();
 	private int optionCounter = 0;
+	private string referrerUrl = "";
+	private CategoryApiModel newCategory = new()
+		{
+			Description = "",
+			Name = ""
+		};
+	private SegmentApiModel newSegment = new()
+		{
+			Name = ""
+		};
+	private SubCategoryApiModel newSubCategory = new()
+		{
+			Description = ""
+	};
 
 
 	private void AddOption()
@@ -183,7 +200,11 @@
 		}
 		else
 		{
-			radioOptions.Add("");
+			newAnswers.Add(new AnswerData
+				{
+					AnswerText = "",
+					Answer = false
+				});
 		}
 		optionCounter++;
 	}
@@ -197,11 +218,90 @@
 		}
 		else
 		{
-			radioOptions.RemoveAt(radioOptions.Count - 1);
+			newAnswers.RemoveAt(newAnswers.Count - 1);
 		}
 
 		optionCounter--;
 	}
+
+	private async void PostPut()
+	{
+		if (Component.ToLower() == "category")
+		{
+			if (Id.HasValue == true)
+			{
+				// PUT category
+			}
+			else
+			{
+				categoryService.PostCategory(newCategory);
+
+			}
+		}
+
+		else if (Component.ToLower() == "segment")
+		{
+
+			if (Id.HasValue == true)
+			{
+				// PUT Segment
+
+			}
+			else
+			{
+				segmentService.PostSegment(newSegment);
+			}
+
+		}
+		else if (Component.ToLower() == "subcategory")
+		{
+			if (Id.HasValue)
+			{
+				// Put subcategory
+			}
+			else
+			{
+				subCService.PostSubCategory(newSubCategory);
+			}
+
+		}
+		else if (Component.ToLower() == "Question")
+		{
+			if (Id.HasValue)
+			{
+				//PUt Question 
+			}
+			else
+			{
+
+				Dictionary<string, bool> newAnswersDict = new();
+				try
+				{
+					foreach (var answer in newAnswers)
+					{
+						newAnswersDict.Add(answer.AnswerText, answer.Answer);
+					}
+				}
+				catch (Exception e)
+				{
+					throw new Exception(e.Message);
+				}
+				QuestionViewModel newQuestion = new()
+					{
+							QuestionText = newQuestionText,
+							Explanation = newQuestionExplination,
+							SubCategoryId = await localStorage.GetItemAsync<int>("id"),
+							Answers = newAnswersDict
+					};
+
+				await questionService.PostQuestion(newQuestion);
+				// Post question 
+			}
+		}
+
+
+	}
+
 
 	protected async override Task OnParametersSetAsync()
 	{
@@ -225,9 +325,13 @@
 				case "question":
 					var questions = await questionService.GetQuestionsAsync();
 					question = questions.FirstOrDefault(c => c.Id == Id);
-					foreach(string alternative in question.Answers.Keys)
+					foreach(string Key in question.Answers.Keys)
 					{
-						radioOptions.Add(alternative);
+						newAnswers.Add(new AnswerData
+						{
+							AnswerText = Key,
+							Answer = question.Answers[Key]
+						});
 						optionCounter++;
 					}
 					break;
@@ -238,9 +342,23 @@
 		}
 		else
 		{
-			radioOptions.Add("");
-			radioOptions.Add("");
+			newAnswers.Add(new AnswerData
+				{
+					AnswerText = "",
+					Answer = false
+				});
+			newAnswers.Add(new AnswerData
+				{
+					AnswerText = "",
+					Answer = false
+				});
 			optionCounter = 2;
 		}
+	}
+
+	private class AnswerData
+	{
+		public string AnswerText { get; set; }
+		public bool Answer { get; set; }
 	}
 }

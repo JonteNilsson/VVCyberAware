@@ -73,7 +73,6 @@ namespace VVCyberAware.API.Controllers
         }
 
 
-
         [HttpPost("PostCategory")]
         public async Task<ActionResult> PostCategory(CategoryViewModel newCategory)
         {
