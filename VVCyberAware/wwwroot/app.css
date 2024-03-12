@@ -176,19 +176,20 @@ li {
     border: 2px solid black;
 }
 
-#Div1 {
+.contributor-box {
+    color: white;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 1vh;
+    text-align: center;
 }
 
-/*#img {
-    display: flex;
-    justify-content: flex-start;
-}*/
-
-#imgacc {
+.arrow-box {
+    color: white;
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 1vh;
     width: 15%;
-    float: left;
+    height: 0%;
+
 }
-
-
 
 

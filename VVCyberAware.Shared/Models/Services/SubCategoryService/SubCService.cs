@@ -74,13 +74,16 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
         /// <returns></returns>
         public async Task PostSubCategory(SubCategoryApiModel subCategory)
         {
-            await client.PostAsJsonAsync("SubCategory/Post", subCategory);
+            await client.PostAsJsonAsync("PostSubCategory/Post", subCategory);
         }
 
-        public async Task DeleteSubCategory(int id)
-        {
-            await client.DeleteAsync($"SubCategory/DeleteSubCategory/{id}");
-        }
+        /// <summary>
+        /// Updates the model sent in to the method
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="updatedCategory"></param>
+        /// <returns></returns>
+        /// <exception cref="HttpRequestException"></exception>
 
         public async Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory)
         {

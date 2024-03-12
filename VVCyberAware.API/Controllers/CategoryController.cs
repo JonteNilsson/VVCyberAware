@@ -53,10 +53,16 @@ namespace VVCyberAware.API.Controllers
 			return Ok(category);
 		}
 
-		[HttpGet("CategoryInclude/{id}")]
-		public async Task<ActionResult<CategoryApiModel>> GetCategoryInclude(int id)
-		{
-			var category = await _includeRepo.GetCategoryInclude(id);
+
+        /// <summary>
+        /// Includes the whole branch with Category,Segment,Subcategory and Questions
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>A model containing everything</returns>
+        [HttpGet("CategoryInclude/{id}")]
+        public async Task<ActionResult<CategoryApiModel>> GetCategoryInclude(int id)
+        {
+            var category = await _includeRepo.GetCategoryInclude(id);
 
 			if (category == null)
 			{
@@ -67,13 +73,14 @@ namespace VVCyberAware.API.Controllers
 		}
 
 
-		[HttpPost("Category")]
-		public async Task<ActionResult> PostCategory(CategoryViewModel newCategory)
-		{
-			if (newCategory == null)
-			{
-				return BadRequest();
-			}
+
+        [HttpPost("PostCategory")]
+        public async Task<ActionResult> PostCategory(CategoryViewModel newCategory)
+        {
+            if (newCategory == null)
+            {
+                return BadRequest();
+            }
 
 			CategoryModel model = new()
 			{
@@ -91,11 +98,12 @@ namespace VVCyberAware.API.Controllers
 
 
 
+
 		[HttpDelete("DeleteCategory/{id}")]
 		public async Task<ActionResult> DeleteCategory(int id)
 		{
 			var category = await _categoryRepo.GetModelById(id);
-
+      
 			if (category == null)
 			{
 				return NoContent();
