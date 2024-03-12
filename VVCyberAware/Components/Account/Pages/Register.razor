@@ -31,21 +31,21 @@
 
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-group mb-3">
-                <label for="email" class="text-primary" >Email</label>
+                <label for="email" class="text-white" >Email</label>
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="name@example.com" />
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
             </div>
             <div class="form-group mb-3">
-                <label for="Username" class="text-primary" >Username</label>
+                <label for="Username" class="text-white" >Username</label>
                 <InputText @bind-Value="Input.UserName" class="form-control" autocomplete="Username" aria-required="true" placeholder="Username" />
                 <ValidationMessage For="() => Input.UserName" class="text-danger" />
             </div>
             <div class="form-group mb-3">
-                <label for="password" class="text-primary" >Password</label>
+                <label for="password" class="text-white" >Password</label>
                 <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
                 <ValidationMessage For="() => Input.Password" class="text-danger" />
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button type="submit" class="w-100 btn btn-lg btn-close-white">Sign up</button>
         </EditForm>
         <a href="/account/Login" class="w-100 btn btn-lg btn-danger" >Back to Login</a>
          </section>
