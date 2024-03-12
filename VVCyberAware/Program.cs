@@ -60,8 +60,6 @@ using (ServiceProvider sp = builder.Services.BuildServiceProvider())
     var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
     var signInManager = sp.GetRequiredService<SignInManager<ApplicationUser>>();
 
-    //context.Database.Migrate();
-
     // Skapa en vanlig user
     ApplicationUser newUser = new()
     {
