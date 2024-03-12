@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text;
 using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.QuestionService
 {
@@ -71,7 +72,7 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
 		/// </summary>
 		/// <param name="question"></param>
 		/// <returns></returns>
-		public async Task PostQuestion(QuestionApiModel question)
+		public async Task PostQuestion(QuestionViewModel question)
 		{
 			await client.PostAsJsonAsync("Question/PostQuestion", question);
 		}

@@ -121,11 +121,11 @@
 									<label><strong>Fråga: </strong></label>
 									<InputTextArea class="question-text-input mb-3" @bind-Value="newQuestionText" placeholder="Skriv in din fråga här..." />
 
-									@foreach (var option in radioOptions)
+									@for (int i = 0; i < newAnswers.Count; i++)
 									{
 										<div class="form-check mb-1">
-											<input class="form-check-input" type="radio" name="Question">
-											<input class="form-check-label w-75" type="text" value="@option" placeholder="Skriv in svarsalternativ..." />
+											<input class="form-check-input" type="radio" name="Question" @bind-value="newAnswers[i].Answer">
+											<input class="form-check-label w-75" type="text" @bind="newAnswers[i].AnswerText" placeholder="Skriv in svarsalternativ..." />
 										</div>
 									}
 
@@ -147,7 +147,7 @@
 
 			</div>
 			<div class="flex-center">
-				<button class="btn btn-warning btn-outline-dark me-2">@(Id.HasValue ? "Uppdatera" : "Lägg till")
+				<button class="btn btn-warning btn-outline-dark me-2" @onclick="@(()=> PostPut())">@(Id.HasValue ? "Uppdatera" : "Lägg till")
 				</button>
 				<button class="btn btn-danger btn-outline-dark ms-2">Avbryt</button>
 			</div>
@@ -174,7 +174,7 @@
 
 	private string newQuestionText = "";
 	private string newQuestionExplination = "";
-	private List<string> radioOptions = new List<string>();
+	private List<AnswerData> newAnswers = new();
 	private int optionCounter = 0;
 	private string referrerUrl = "";
 	private CategoryApiModel newCategory = new()
@@ -200,7 +200,11 @@
 		}
 		else
 		{
-			radioOptions.Add("");
+			newAnswers.Add(new AnswerData
+				{
+					AnswerText = "",
+					Answer = false
+				});
 		}
 		optionCounter++;
 	}
@@ -214,7 +218,7 @@
 		}
 		else
 		{
-			radioOptions.RemoveAt(radioOptions.Count - 1);
+			newAnswers.RemoveAt(newAnswers.Count - 1);
 		}
 
 		optionCounter--;
@@ -269,24 +273,32 @@
 			}
 			else
 			{
-				QuestionViewModel newQuestion = new()
+
+				Dictionary<string, bool> newAnswersDict = new();
+				try
 				{
-						QuestionText = newQuestionText,
-						Explanation = newQuestionExplination,
-						SubCategoryId = await localStorage.GetItemAsync<int>("id"),
-						Answers = new Dictionary<string, bool>()
+					foreach (var answer in newAnswers)
 					{
-						{"Detta är en fråga", false}
-
+						newAnswersDict.Add(answer.AnswerText, answer.Answer);
 					}
+				}
+				catch (Exception e)
+				{
+					throw new Exception(e.Message);
+				}
+				QuestionViewModel newQuestion = new()
+					{
+							QuestionText = newQuestionText,
+							Explanation = newQuestionExplination,
+							SubCategoryId = await localStorage.GetItemAsync<int>("id"),
+							Answers = newAnswersDict
+					};
 
-				};
-
-				questionService.PostQuestion(newQuestion);
+				await questionService.PostQuestion(newQuestion);
 				// Post question 
 			}
 		}
-	
+
 
 	}
 
@@ -313,9 +325,13 @@
 				case "question":
 					var questions = await questionService.GetQuestionsAsync();
 					question = questions.FirstOrDefault(c => c.Id == Id);
-					foreach(string alternative in question.Answers.Keys)
+					foreach(string Key in question.Answers.Keys)
 					{
-						radioOptions.Add(alternative);
+						newAnswers.Add(new AnswerData
+						{
+							AnswerText = Key,
+							Answer = question.Answers[Key]
+						});
 						optionCounter++;
 					}
 					break;
@@ -326,9 +342,23 @@
 		}
 		else
 		{
-			radioOptions.Add("");
-			radioOptions.Add("");
+			newAnswers.Add(new AnswerData
+				{
+					AnswerText = "",
+					Answer = false
+				});
+			newAnswers.Add(new AnswerData
+				{
+					AnswerText = "",
+					Answer = false
+				});
 			optionCounter = 2;
 		}
+	}
+
+	private class AnswerData
+	{
+		public string AnswerText { get; set; }
+		public bool Answer { get; set; }
 	}
 }
