@@ -16,37 +16,42 @@
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
 
+
 <PageTitle>Register</PageTitle>
 
-<h2>Create a new account.</h2>
+<h2 class="text-center mb-4 text-white" >Create a new account</h2>
 <hr />
-
- <div class="row">
-    <div class="col-md-4">
+<body class="background-image" >
+ <div class="row justify-content-center ">
+    <div class="col-md-6 col-lg--4">
+        <section class="card shadow p-4" style="background-color: rgba(0, 0, 0, 0.6)" >
         <StatusMessage Message="@Message" />
         <EditForm Model="Input" asp-route-returnUrl="@ReturnUrl" method="post" OnValidSubmit="RegisterUser" FormName="register">
             <DataAnnotationsValidator />
 
             <ValidationSummary class="text-danger" role="alert" />
             <div class="form-group mb-3">
-                <label for="email">Email</label>
+                <label for="email" class="text-white" >Email</label>
                 <InputText @bind-Value="Input.Email" class="form-control" autocomplete="Email" aria-required="true" placeholder="name@example.com" />
                 <ValidationMessage For="() => Input.Email" class="text-danger" />
             </div>
             <div class="form-group mb-3">
-                <label for="Username">Username</label>
+                <label for="Username" class="text-white" >Username</label>
                 <InputText @bind-Value="Input.UserName" class="form-control" autocomplete="Username" aria-required="true" placeholder="Username" />
                 <ValidationMessage For="() => Input.UserName" class="text-danger" />
             </div>
             <div class="form-group mb-3">
-                <label for="password">Password</label>
-                <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                <label for="password" class="text-white" >Password</label>
+                <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Password" />
                 <ValidationMessage For="() => Input.Password" class="text-danger" />
             </div>
-            <button type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
+            <button type="submit" class="w-100 btn btn-lg btn-close-white">Sign up</button>
         </EditForm>
+        <a href="/account/Login" class="w-100 btn btn-lg btn-danger" >Back to Login</a>
+         </section>
     </div>
 </div> 
+</body>
 
 @code {
     private IEnumerable<IdentityError>? identityErrors;
@@ -82,6 +87,8 @@
         var callbackUrl = NavigationManager.GetUriWithQueryParameters(
             NavigationManager.ToAbsoluteUri("Account/ConfirmEmail").AbsoluteUri,
             new Dictionary<string, object?> { ["userId"] = userId, ["code"] = code, ["returnUrl"] = ReturnUrl });
+
+
 
         await EmailSender.SendConfirmationLinkAsync(user, Input.Email, HtmlEncoder.Default.Encode(callbackUrl));
 

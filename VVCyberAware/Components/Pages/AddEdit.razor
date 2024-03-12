@@ -1,0 +1,246 @@
+﻿@page "/admin/edit/{Component}/{Id:int?}"
+
+@using VVCyberAware.Components.CustomComponents
+@using VVCyberAware.Shared.Models.ApiModels
+@using VVCyberAware.Shared.Models.Services.CategoryService
+@using VVCyberAware.Shared.Models.Services.SegmentService
+@using VVCyberAware.Shared.Models.Services.SubCategoryService
+@using VVCyberAware.Shared.Models.Services.QuestionService
+@inject ICategoryService categoryService
+@inject ISegmentService segmentService
+@inject ISubCService subCService
+@inject IQuestionService questionService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<AuthorizeView Roles="Admin">
+    <Authorized>
+		<div class="row text-center header">
+			@if (Id.HasValue)
+			{
+				<h1 class="text-center col-12">Editing @Component</h1>
+			}
+			else
+			{
+				<h1 class="text-center col-12">Add new @Component</h1>
+			}
+        </div>
+		@if(Component != null)
+		{
+			<div class="flex-center">
+				@if (Component.ToLower() == "category")
+				{
+					<div class="row w-50 flex-center edit-container p-3">
+						<div>
+							<label class="font-weight-bold">Name: </label>
+							@if (category != null)
+							{
+								<input class="w-100" type="text" value="@category.Name" />
+							}
+							else
+							{
+								<input class="w-100" type="text" value="" />
+							}
+						</div>
+						<div>
+							<label class="font-weight-bold mt-4">Description: </label>
+							@if (category != null)
+							{
+								<input class="w-100" type="text" value="@category.Description" />
+							}
+							else
+							{
+								<input class ="w-100" type="text" value="" />
+							}
+						</div>
+					</div>
+				}
+				else if (Component.ToLower() == "segment")
+				{
+					<div class="row w-50 flex-center edit-container p-3">
+						<div>
+							<label class="font-weight-bold">Name: </label>
+							@if (segment != null)
+							{
+								<input class="w-100" type="text" value="@segment.Name" />
+							}
+							else
+							{
+								<input class="w-100" type="text" value="" />
+							}
+						</div>
+					</div>
+				}
+				else if (Component.ToLower() == "subcategory")
+				{
+					<div class="row w-50 flex-center edit-container p-3">
+						<div>
+							<label class="font-weight-bold">Name: </label>
+							@if (subCategory != null)
+							{
+								<input class="w-100" type="text" value="@subCategory.Description" />
+							}
+							else
+							{
+								<input class="w-100" type="text" value="" />
+							}
+						</div>
+					</div>
+				}
+				else if (Component.ToLower() == "question")
+				{
+
+					<div class="row w-50 flex-center p-3">
+							<div class="question-box">
+								@if (question != null)
+								{
+									<label><strong>Question text: </strong></label>
+									<InputTextArea class="question-text-input" @bind-Value="@question.QuestionText" placeholder="Skriv in din fråga här..." />
+
+									@for (int i = 0; i < question.Answers.Count(); i++)
+									{
+										<div class="form-check">
+											<input class="form-check-input" type="radio" name="Question">
+											<input class="form-check-label w-75" type="text" for="Question" value="@(question.Answers.ElementAt(i).Key.Contains("PlaceholderKeyValue") ? "" : question.Answers.ElementAt(i).Key)" />
+										</div>
+									}
+
+									<div class="mt-3">
+										<button class="btn btn-primary" @onclick="AddOption">Lägg till alternativ</button>
+										<button class="btn btn-primary" disabled="@(optionCounter <= 2 ? true : false)" @onclick="RemoveOption">Ta bort sista alternativet</button>
+									</div>
+									<label class="mt-3"><strong>Förklaring:</strong></label>
+
+									<InputTextArea class="question-text-input" @bind-Value="@question.Explanation" placeholder="Skriv in din förklaring här..." />
+								}
+								else
+								{
+									<label><strong>Fråga: </strong></label>
+									<InputTextArea class="question-text-input mb-3" @bind-Value="newQuestionText" placeholder="Skriv in din fråga här..." />
+
+									@foreach (var option in radioOptions)
+									{
+										<div class="form-check mb-1">
+											<input class="form-check-input" type="radio" name="Question">
+											<input class="form-check-label w-75" type="text" value="@option" placeholder="Skriv in svarsalternativ..." />
+										</div>
+									}
+
+									<div class="mt-3">
+										<button class="btn btn-primary" @onclick="AddOption">Lägg till alternativ</button>
+										<button class="btn btn-primary" disabled="@(optionCounter <= 2 ? true : false)" @onclick="RemoveOption">Ta bort sista alternativet</button>
+									</div>
+									<label class="mt-3"><strong>Förklaring:</strong></label>
+									<InputTextArea class="question-text-input" @bind-Value="newQuestionExplination" placeholder="Skriv in din förklaring här..." />
+								}
+							</div>
+						
+					</div>
+				}
+				else
+				{
+					<h3>404 No component found with name @Component</h3>
+				}
+
+			</div>
+			<div class="flex-center">
+				<button class="btn btn-warning btn-outline-dark me-2">@(Id.HasValue ? "Uppdatera" : "Lägg till")
+				</button>
+				<button class="btn btn-danger btn-outline-dark ms-2">Avbryt</button>
+			</div>
+			
+		}
+		
+
+    </Authorized>
+    <NotAuthorized>
+        <h4>You are not authorized to view this page.</h4>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+	[Parameter]
+	public string Component { get; set; } = null!;
+	[Parameter]
+	public int? Id { get; set; }
+
+	private CategoryApiModel? category;
+	private SegmentApiModel? segment;
+	private SubCategoryApiModel? subCategory;
+	private QuestionApiModel? question;
+
+	private string newQuestionText = "";
+	private string newQuestionExplination = "";
+	private List<string> radioOptions = new List<string>();
+	private int optionCounter = 0;
+	private string referrerUrl = "";
+
+	private void AddOption()
+	{
+		if(question != null)
+		{
+			question.Answers.Add("PlaceholderKeyValue" + optionCounter, false); // + optionCounter to get unique key
+		}
+		else
+		{
+			radioOptions.Add("");
+		}
+		optionCounter++;
+	}
+
+	private void RemoveOption()
+	{
+		if (question != null)
+		{
+			var lastPair = question.Answers.LastOrDefault();
+			question.Answers.Remove(lastPair.Key);
+		}
+		else
+		{
+			radioOptions.RemoveAt(radioOptions.Count - 1);
+		}
+
+		optionCounter--;
+	}
+
+	protected async override Task OnParametersSetAsync()
+	{
+		await base.OnParametersSetAsync();
+		if (Id.HasValue)
+		{
+			switch (Component.ToLower())
+			{
+				case "category":
+					var categories = await categoryService.GetAllCategoriesAsync();
+					category = categories.FirstOrDefault(c => c.Id == Id);
+					break;
+				case "segment":
+					var segments = await segmentService.GetSegmentsAsync();
+					segment = segments.FirstOrDefault(c => c.Id == Id);
+					break;
+				case "subcategory":
+					var subCategories = await subCService.GetSubCategoriesAsync();
+					subCategory = subCategories.FirstOrDefault(c => c.Id == Id);
+					break;
+				case "question":
+					var questions = await questionService.GetQuestionsAsync();
+					question = questions.FirstOrDefault(c => c.Id == Id);
+					foreach(string alternative in question.Answers.Keys)
+					{
+						radioOptions.Add(alternative);
+						optionCounter++;
+					}
+					break;
+				default:
+					Component = "";
+					break;
+			}
+		}
+		else
+		{
+			radioOptions.Add("");
+			radioOptions.Add("");
+			optionCounter = 2;
+		}
+	}
+}

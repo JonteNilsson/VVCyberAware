@@ -1,36 +1,108 @@
-﻿@page "/admin/{id:int?}"
+﻿@page "/admin"
  
 @attribute [Authorize]
 
 @using Microsoft.AspNetCore.Authorization
+@using VVCyberAware.Components.CustomComponents
+@using VVCyberAware.Shared.Models.ApiModels
+@using VVCyberAware.Shared.Models.DbModels
+@using VVCyberAware.Shared.Models.Services.CategoryService
+@using VVCyberAware.Shared.Models.Services.SegmentService
 
+@inject ICategoryService categoryService
+@inject ISegmentService segmentService
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveServer
 
 <AuthorizeView Roles="Admin">
     <Authorized>
-        <h1 class="text-center">Welcome to the Admin Page!</h1>
 
-        @if (!Id.HasValue)
+		<div class="row text-center header">
+			<h1 class="text-center col-10">Welcome to the Admin Page!</h1>
+            <span class="row col-2">
+                <label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
+            </span>
+        </div>
+
+        @if(categories != null)
         {
-            <div class="main-container">
-                @* foreach *@
-                <div class="row text-center admin-category">
-                    <div class="col-10">
-                        <h2>Name</h2>
-                    </div>
-                    <div class="col-2">
-                        <button class="btn btn-warning admin-btn">Edit</button><button class="btn btn-danger">Delete</button> @* Add onclicks *@
-                    </div>
-                </div>
-            </div>
+            <ul class="list-group">
+            @foreach (var category in categories)
+            {
+                if(category.Name.ToLower().Contains(searchText.ToLower()))
+                {
+                    <AdminCategoryComponent Category="category"
+                                        Segments="@segments"
+                                        ToggleInfo="@ToggleInfo"
+                                        IsCategoryVisible="@IsCategoryVisible"
+                                        RemoveCategory="@RemoveCategory"
+                                        />
+                }
+            }
+            </ul>
+
+            <button class="btn btn-success mt-5 mb-5" @onclick="@( () => NavigateToPage("category", null))">Lägg till kategori</button>
         }
-        
     </Authorized>
     <NotAuthorized>
-        <p>You are not authorized to view this page.</p>
+        <h4>You are not authorized to view this page.</h4>
     </NotAuthorized>
 </AuthorizeView>
 
 @code {
-    [Parameter]
-    public int? Id { get; set; }
+
+    private string arrowDirection = "down"; // Note: Change to down for the other arrow
+    private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
+    private string searchText = "";
+    private List<CategoryApiModel> categories;
+    private List<SegmentApiModel> segments;
+
+    private void Search(string search) => searchText = search;
+
+    private void ToggleInfo(int id)
+    {
+        categoryVisibility[id] = !categoryVisibility[id];
+
+        arrowDirection = categoryVisibility[id] ? "up" : "down";
+    }
+    private bool IsCategoryVisible(int categoryId)
+    {
+        return categoryVisibility.ContainsKey(categoryId) && categoryVisibility[categoryId];
+    }
+
+    private async void RemoveCategory(CategoryApiModel category)
+    {
+        if (await JSRuntime.InvokeAsync<bool>("confirm", $"Vill du verkligen ta bort {category.Name}\nOBS! Detta är permanent!"))
+        {
+            await categoryService.DeleteCategory(category.Id);
+            categories = await categoryService.GetAllCategoriesAsync();
+        }
+    }
+
+    private void NavigateToPage(string component, int? id)
+    {
+        if(id != null)
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component + "/" + id.ToString());
+        }
+        else
+        {
+            NavigationManager.NavigateTo("/admin/edit/" + component);
+        }
+
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        categories = await categoryService.GetAllCategoriesAsync();
+        segments = await segmentService.GetSegmentsAsync();
+
+        foreach (var category in categories)
+        {
+            categoryVisibility.Add(category.Id, false);
+        }
+    }
 }

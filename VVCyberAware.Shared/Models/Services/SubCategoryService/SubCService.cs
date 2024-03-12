@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
-using VVCyberAware.Shared.Models.DbModels;
+using System.Text;
+using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.SubCategoryService
 {
@@ -8,10 +9,16 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
     {
         public HttpClient client { get; set; } = new()
         {
-            BaseAddress = new Uri("https://localhost:7214/api/")
+            BaseAddress = new Uri("http://localhost:5142/api/")
         };
 
-        public async Task<List<SubCategoryModel>> GetSubCategoriesAsync()
+        /// <summary>
+        /// Make an API call to get all Subcategories
+        /// </summary>
+        /// <returns>Returns a list of Subcategories</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
+        public async Task<List<SubCategoryApiModel>> GetSubCategoriesAsync()
         {
             var response = await client.GetAsync("SubCategory/SubCategories");
 
@@ -19,7 +26,7 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             {
                 string subCJson = await response.Content.ReadAsStringAsync();
 
-                List<SubCategoryModel>? subCategories = JsonConvert.DeserializeObject<List<SubCategoryModel>>(subCJson);
+                List<SubCategoryApiModel>? subCategories = JsonConvert.DeserializeObject<List<SubCategoryApiModel>>(subCJson);
 
                 if (subCategories != null)
                 {
@@ -32,7 +39,14 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             throw new HttpRequestException();
         }
 
-        public async Task<SubCategoryModel> GetSubCategoryByIdAsync(int id)
+        /// <summary>
+        /// Makes an API call looking for a specific Segment with its inputted ID
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Returns the Segment matching the ID</returns>
+        /// <exception cref="JsonException"></exception>
+        /// <exception cref="HttpRequestException"></exception>
+        public async Task<SubCategoryApiModel> GetSubCategoryByIdAsync(int id)
         {
             var response = await client.GetAsync($"SubCategory/{id}");
 
@@ -40,7 +54,7 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             {
                 string subCJson = await response.Content.ReadAsStringAsync();
 
-                SubCategoryModel? subCategory = JsonConvert.DeserializeObject<SubCategoryModel>(subCJson);
+                SubCategoryApiModel? subCategory = JsonConvert.DeserializeObject<SubCategoryApiModel>(subCJson);
 
                 if (subCategory != null)
                 {
@@ -53,9 +67,37 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
             throw new HttpRequestException();
         }
 
-        public async Task PostSubCategory(SubCategoryModel subCategory)
+        /// <summary>
+        /// Posts a Segment and stores it in Database
+        /// </summary>
+        /// <param name="subCategory"></param>
+        /// <returns></returns>
+        public async Task PostSubCategory(SubCategoryApiModel subCategory)
         {
             await client.PostAsJsonAsync("SubCategory/Post", subCategory);
         }
+
+        public async Task DeleteSubCategory(int id)
+        {
+            await client.DeleteAsync($"SubCategory/DeleteSubCategory/{id}");
+        }
+
+        public async Task UpdateSubCategoryAsync(int id, SubCategoryApiModel updatedSubCategory)
+        {
+            // Convert the updatedSubCategory to JSON
+            string updatedSubCategoryJson = JsonConvert.SerializeObject(updatedSubCategory);
+
+            // Create a StringContent with the JSON data
+            var content = new StringContent(updatedSubCategoryJson, Encoding.UTF8, "application/json");
+
+            // Make the PUT request
+            var response = await client.PutAsync($"SubCategory/UpdateSubCategory/{id}", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new HttpRequestException();
+            }
+        }
+
     }
 }

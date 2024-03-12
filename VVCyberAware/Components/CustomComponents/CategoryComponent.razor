@@ -1,0 +1,77 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
+@using VVCyberAware.Components.Pages
+@using VVCyberAware.Data
+@using VVCyberAware.Shared.Models.ApiModels
+@using VVCyberAware.Shared.Models.DbModels
+@using static VVCyberAware.Components.Pages.Home
+
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
+
+@if(Category != null)
+{
+    <li class="list-group-item">
+
+        <div class="d-flex justify-content-between align-items-center category-header" @onclick="(e) => ToggleInfo(Category.Id)">
+            <h3 class="category-title not-selectable">@Category.Name (@procent % avklarat)</h3>
+            <ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(Category.Id) ? "up" : "down")"></ion-icon>
+        </div>
+
+        @if (IsCategoryVisible(Category.Id))
+        {
+            <div class="dropdown-content">
+                <p class="category-text">@Category.Description</p>
+                <ul class="list-group">
+                    @foreach (var segment in Segments.Where(s=>s.CategoryId == Category.Id))
+                    {
+                        <CategorySegment Segment="@segment" />
+                    }
+                </ul>
+            </div>
+        }
+    </li>
+}
+
+@code {
+    [Parameter]
+    public CategoryApiModel Category { get; set; }
+    [Parameter]
+    public List<SegmentApiModel> Segments { get; set; }
+    [Parameter]
+    public Action<int> ToggleInfo { get; set; }
+    [Parameter]
+    public Func<int, bool> IsCategoryVisible { get; set; }
+
+    private int procent;
+    private int counter = 0;
+
+    protected async override Task OnParametersSetAsync()
+    {
+        await base.OnParametersSetAsync();
+
+        var httpContext = HttpContextAccessor.HttpContext;
+
+        if(httpContext != null)
+        {
+            string userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            counter = 0;
+            foreach (var segment in Segments)
+            {
+                if (segment.UserIsComplete.Contains(userId))
+                {
+                    counter++;
+                }
+            }
+        }
+        
+        if(counter != 0)
+        {
+            procent = (int)Math.Floor(100 / (double)counter);
+        }
+        else
+        {
+            procent = 0;
+        }
+    }
+}

@@ -1,4 +1,4 @@
-﻿using VVCyberAware.Shared.Models.DbModels;
+﻿using VVCyberAware.Shared.Models.ApiModels;
 
 namespace VVCyberAware.Shared.Models.Services.QuestionService
 {
@@ -6,10 +6,14 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
     {
         public HttpClient client { get; set; }
 
-        public Task<List<QuestionModel>> GetQuestionsAsync();
+        public Task<List<QuestionApiModel>> GetQuestionsAsync();
 
-        public Task<QuestionModel> GetQuestionByIdAsync(int id);
+        public Task<QuestionApiModel> GetQuestionByIdAsync(int id);
 
-        public Task PostQuestion(QuestionModel question);
+        public Task PostQuestion(QuestionApiModel question);
+
+        public Task DeleteQuestion(int id);
+
+        public Task UpdateQuestionAsync(int id, QuestionApiModel updatedQuestion);
     }
 }

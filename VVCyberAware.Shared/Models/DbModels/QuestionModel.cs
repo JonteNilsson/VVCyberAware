@@ -13,6 +13,13 @@ namespace VVCyberAware.Shared.Models.DbModels
         [NotMapped]
         public Dictionary<string, bool> Answers { get; set; } = new();
 
+        [Column(TypeName = "jsonb")] // Specify the JSON column type
+        public string AnswersJson
+        {
+            get => System.Text.Json.JsonSerializer.Serialize(Answers);
+            set => Answers = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, bool>>(value)!;
+        }
+
         public string? Explanation { get; set; }
 
         public SubCategoryModel? SubCategory { get; set; } // Nav prop

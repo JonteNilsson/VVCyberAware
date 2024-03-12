@@ -2,14 +2,15 @@
 @attribute [Authorize]
 
 @using Microsoft.AspNetCore.Authorization
+@using VVCyberAware.Components.CustomComponents
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
 @using VVCyberAware.Shared.Models.Services.SegmentService
+@using VVCyberAware.Shared.Models.ViewModels
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
 @rendermode InteractiveServer
-
 
 <PageTitle>Home</PageTitle>
 <div class="row text-center header">
@@ -17,41 +18,26 @@
     <span class="row col-2">
 		<label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
 	</span>
+    <div class="d-flex justify-content-left ">
+        <a href="/account/login" class="btn btn-danger">Log out</a>
+    </div>
 </div>
 
-@if(categories != null){
+@if(categories != null)
+{
     <ul class="list-group">
         @foreach (var category in categories)
         {
-            if(category.Name.ToLower().Contains(searchText.ToLower())){
-
-                <li class="list-group-item">
-
-                    <div class="d-flex justify-content-between align-items-center category-header" @onclick="(e) => ToggleInfo(category.Id)">
-                        <h3 class="category-title not-selectable">@category.Name (Procent avklarat %)</h3>
-                        <ion-icon class="arrow-icon" name="arrow-@(IsCategoryVisible(category.Id) ? "up" : "down")"></ion-icon>
-                    </div>
-
-                    @if(IsCategoryVisible(category.Id)){
-                        <div class="dropdown-content">
-                            <p class="category-text">@category.Description</p>
-                            <ul class="list-group">
-
-                                @foreach (var segment in segments.Where(s=>s.CategoryId == category.Id))
-                                {
-                                    <div class="segment row align-items-center">
-                                        <li class="col-6 not-selectable">@segment.Name</li>
-                                        <a class="btn btn-secondary col-6" href="/segment/@segment.Id">Gå till sektion</a>
-                                    </div>
-                                }
-
-                            </ul>
-				        </div>
-			        }
-                </li>
+            if(category.Name.ToLower().Contains(searchText.ToLower()))
+            {
+                <CategoryComponent Category="category"
+                                   Segments="@segments"
+                                   ToggleInfo="@ToggleInfo"
+                                   IsCategoryVisible="@IsCategoryVisible" />
             }
         }
     </ul>
+
 }
 
 
@@ -59,9 +45,9 @@
     private string arrowDirection = "down"; // Note: Change to down for the other arrow
     private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
     private string searchText = "";
-    private List<CategoryApiModel> categories;
-    private List<SegmentModel>? segments;
 
+    private List<CategoryApiModel>? categories;
+    private List<SegmentApiModel>? segments;
 
     private void ToggleInfo(int id)
     {
@@ -81,7 +67,7 @@
     {
         await base.OnInitializedAsync();
 
-        categories = await categoryService.GetCategoriesAsync();
+        categories = await categoryService.GetAllCategoriesAsync();
         segments = await segmentService.GetSegmentsAsync();
 
         foreach (var category in categories)

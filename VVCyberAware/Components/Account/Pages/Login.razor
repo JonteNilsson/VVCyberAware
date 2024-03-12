@@ -13,47 +13,43 @@
 
 
 <PageTitle>Log in</PageTitle>
-
-<h1>Log in</h1>
-<div class="row">
-    <div class="col-md-4">
-        <section>
+<body class="background-image"  >
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+            <section class="card shadow p-4" style="background-color: rgba(0, 0, 0, 0.6);"  >
             <StatusMessage Message="@errorMessage" />
             <EditForm Model="Input" method="post" OnValidSubmit="LoginUser" FormName="login">
                 <DataAnnotationsValidator />
                 <ValidationSummary class="text-danger" role="alert" />
-                <div class="form-group mb-3">
-                    <label for="Username" class="form-label">Username</label>
-                    <InputText @bind-Value="Input.Username" class="form-control" autocomplete="Username" aria-required="true" placeholder="Username" />
+
+                <div class="mb-3 ">
+                        <label for="Username" class="text-white">Username</label>
+                    <InputText @bind-Value="Input.Username" class="form-control" id="Username" autocomplete="username" aria-required="true" placeholder="Username" />
                     <ValidationMessage For="() => Input.Username" class="text-danger" />
                 </div>
-                <div class="form-group mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <InputText type="password" @bind-Value="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+
+                <div class="mb-3">
+                        <label for="password" class="text-white">Password</label>
+                    <InputText type="password" @bind-Value="Input.Password" class="form-control" id="password" autocomplete="current-password" aria-required="true" placeholder="Password" />
                     <ValidationMessage For="() => Input.Password" class="text-danger" />
                 </div>
-                <div class="checkbox mb-3">
-                    <label class="form-label">
-                        <InputCheckbox @bind-Value="Input.RememberMe" class="darker-border-checkbox form-check-input" />
-                        Remember me
-                    </label>
+
+                <div class="form-check mb-3">
+                    <InputCheckbox @bind-Value="Input.RememberMe" id="rememberMe" class="form-check-input" />
+                        <label class="text-white" for="rememberMe">Remember me</label>
                 </div>
-                <div>
-                    <button type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                </div>
-                <div>
-                    <p>
-                        <a href="Account/ForgotPassword">Forgot your password?</a>
-                    </p>
-                    <p>
-                        <a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))">Register as a new user</a>
-                    </p>
+
+                <button type="submit" class="w-50 btn btn-lg btn-close-white">Log in</button>
+
+                <div class="mt-4 text-left">
+@*                     <p><a href="Account/ForgotPassword" class="text-primary ">Forgot your password?</a></p>
+ *@                    <p><a href="@(NavigationManager.GetUriWithQueryParameters("Account/Register", new Dictionary<string, object?> { ["ReturnUrl"] = ReturnUrl }))" class="text-white ">Sign up as a new user</a></p>
                 </div>
             </EditForm>
         </section>
     </div>
-  
 </div>
+</body>
 
 @code {
     private string? errorMessage;
