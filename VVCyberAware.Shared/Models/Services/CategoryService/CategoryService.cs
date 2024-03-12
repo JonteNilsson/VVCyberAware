@@ -131,6 +131,16 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
         }
 
+        /// <summary>
+        /// Deletes chosen model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteCategory(int id)
+        {
+            await client.DeleteAsync($"Category/DeleteCategory/{id}");
+        }
+
     }
 
 }

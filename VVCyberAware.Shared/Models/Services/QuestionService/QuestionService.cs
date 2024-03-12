@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text;
 using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.QuestionService
 {
@@ -83,7 +84,7 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
         /// <param name="updatedCategory"></param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
-        public async Task UpdateQuestionAsync(int id, QuestionApiModel updatedQuestion)
+        public async Task UpdateQuestionAsync(int id, QuestionViewModel updatedQuestion)
         {
             // Convert the updatedQuestion to JSON
             string updatedQuestionJson = JsonConvert.SerializeObject(updatedQuestion);
@@ -98,6 +99,16 @@ namespace VVCyberAware.Shared.Models.Services.QuestionService
             {
                 throw new HttpRequestException();
             }
+        }
+
+        /// <summary>
+        /// Deletes chosen model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteQuestion(int id)
+        {
+            await client.DeleteAsync($"Question/DeleteQuestion/{id}");
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿@page "/"
 @layout Layout.NoLayout
+@rendermode InteractiveServer
 
 
 <div class="background-image d-flex justify-content-center flex-column align-items-center">
@@ -24,27 +25,68 @@
             </div>
         </div>
     </div>
+        <div class="position-fixed top-0 end-0">
+            @if (arrowDirection == "down")
+            {
+                <div class="d-flex justify-content-start w-25 mt-2">
+                    <div class="contributor-box" style="text-align: center;">
 
-    <div class="d-flex justify-content-start w-25 mt-2">
-        <div class="contributor-box" style="text-align: center;">
-            <div>
-                <h4 style="display: inline-block; margin-right: 10px; margin-left: 5px;"><strong><em>Contributors</em></strong></h4>
-            </div>
-                <div>
-                    <a><p>Johannes</p></a>
-                    <a><p>Tobias</p></a>
-                    <a><p>Pauline</p></a>
-                    <a><p>Mohannad</p></a>
+                        <div>
+                            <h4 style="display: inline-block; margin-right: 10px; margin-left: 5px;">
+                                <strong><em>Contributors</em></strong>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="arrow-box text-center" @onclick="ToggleArrowDirection">
+                        <h5>▼</h5>
+                    </div>
                 </div>
-        </div>
-        <div class="arrow-box text-center">
-                <h5>▼</h5>
+            }
+            else if (arrowDirection == "up")
+            {
+                <div class="d-flex justify-content-start w-25 mt-2">
+                    <div class="contributor-box" style="text-align: center;">
+
+                        <div>
+                            <h4 style="display: inline-block; margin-right: 10px; margin-left: 5px;">
+                                <strong><em>Contributors</em></strong>
+                            </h4>
+                        </div>
+                        <div>
+                            <div class="github-picture">
+                                <img src="@GitHubPic" alt="Alternate Text" />
+                            </div>
+                            <a href="https://github.com/JonteNilsson" class="link-custome-style"><p>Johannes</p></a>
+                            <a href="https://github.com/Tobias-soderberg" class="link-custome-style"><p>Tobias</p></a>
+                            <a href="https://github.com/PaulineI" class="link-custome-style"><p>Pauline</p></a>
+                            <a href="https://github.com/Druzhee" class="link-custome-style"><p>Mohannad</p></a>
+                        </div>
+
+                    </div>
+                    <div class="arrow-box text-center" @onclick="ToggleArrowDirection">
+                        <h5>▲</h5>
+                    </div>
+                </div>
+            }
         </div>
     </div>
-</div>
-</div>
+ </div>
+
+
 
 @code{
+    private string? GitHubPic = "Image/GitHubPic.png";
+
     private string arrowDirection = "down";
+
+    private void ToggleArrowDirection()
+    {
+        arrowDirection = (arrowDirection == "down") ? "up" : "down";
+    }
+
+    private bool IsContributorsVisible()
+    {
+        return arrowDirection == "up";
+    }
 }
 

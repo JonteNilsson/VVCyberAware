@@ -1,7 +1,8 @@
 @page "/home"
 @attribute [Authorize]
-
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Server
+@using System.Security.Claims
 @using VVCyberAware.Components.CustomComponents
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
@@ -10,6 +11,8 @@
 @using VVCyberAware.Shared.Models.ViewModels
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager navigationManager
 @rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
@@ -19,7 +22,7 @@
 		<label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
 	</span>
     <div class="d-flex justify-content-left ">
-        <a href="/account/login" class="btn btn-danger">Log out</a>
+        <a class="btn btn-danger" @onclick="Logout">Log out</a>
     </div>
 </div>
 
@@ -59,6 +62,17 @@
     private bool IsCategoryVisible(int categoryId)
     {
         return categoryVisibility.ContainsKey(categoryId) && categoryVisibility[categoryId];
+    }
+
+    private async Task Logout()
+    {
+        var state = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+
+        var authStateProvider = (ServerAuthenticationStateProvider)AuthenticationStateProvider;
+
+        authStateProvider.SetAuthenticationState(Task.FromResult(new AuthenticationState(new ClaimsPrincipal())));
+
+        navigationManager.NavigateTo("/");
     }
 
     private void Search(string search) => searchText = search;

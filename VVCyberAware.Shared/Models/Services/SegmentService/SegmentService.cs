@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using System.Text;
 using VVCyberAware.Shared.Models.ApiModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace VVCyberAware.Shared.Models.Services.SegmentService
 {
@@ -83,7 +84,7 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
         /// <param name="updatedCategory"></param>
         /// <returns></returns>
         /// <exception cref="HttpRequestException"></exception>
-        public async Task UpdateSegmentAsync(int id, SegmentApiModel updatedSegment)
+        public async Task UpdateSegmentAsync(int id, SegmentViewModel updatedSegment)
         {
             // Convert the updatedSegment to JSON
             string updatedSegmentJson = JsonConvert.SerializeObject(updatedSegment);
@@ -98,6 +99,16 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
             {
                 throw new HttpRequestException();
             }
+        }
+
+        /// <summary>
+        /// Deletes chosen model
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task DeleteSegment(int id)
+        {
+            await client.DeleteAsync($"Segment/DeleteSegment/{id}");
         }
     }
 }
