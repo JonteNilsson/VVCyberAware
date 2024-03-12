@@ -35,13 +35,13 @@
 
 @code {
     [Parameter]
-    public CategoryApiModel Category { get; set; }
+    public CategoryApiModel? Category { get; set; }
     [Parameter]
-    public List<SegmentApiModel> Segments { get; set; }
+    public List<SegmentApiModel>? Segments { get; set; }
     [Parameter]
-    public Action<int> ToggleInfo { get; set; }
+    public Action<int>? ToggleInfo { get; set; }
     [Parameter]
-    public Func<int, bool> IsCategoryVisible { get; set; }
+    public Func<int, bool>? IsCategoryVisible { get; set; }
 
     private int procent;
     private int counter = 0;

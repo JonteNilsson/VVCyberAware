@@ -65,21 +65,21 @@ using (ServiceProvider sp = builder.Services.BuildServiceProvider())
     // Skapa en vanlig user
     ApplicationUser newUser = new()
     {
-        UserName = "Admin",
+        UserName = "admin",
     };
 
     ApplicationUser newUser1 = new()
     {
-        UserName = "Member"
+        UserName = "user"
     };
 
-    signInManager.UserManager.CreateAsync(newUser1, "Member789!").GetAwaiter().GetResult();
+    signInManager.UserManager.CreateAsync(newUser1, "Password1234!").GetAwaiter().GetResult();
 
     var user = signInManager.UserManager.FindByNameAsync(newUser.UserName).GetAwaiter().GetResult();
 
     if (user == null)
     {
-        signInManager.UserManager.CreateAsync(newUser, "Admin789!").GetAwaiter().GetResult();
+        signInManager.UserManager.CreateAsync(newUser, "Password1234!gi").GetAwaiter().GetResult();
 
         //Checka adminrollen
 
