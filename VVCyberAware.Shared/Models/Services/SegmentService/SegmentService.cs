@@ -72,9 +72,9 @@ namespace VVCyberAware.Shared.Models.Services.SegmentService
         /// </summary>
         /// <param name="segment"></param>
         /// <returns></returns>
-        public async Task PostSegment(SegmentApiModel segment)
+        public async Task PostSegment(SegmentViewModel segment)
         {
-            await client.PostAsJsonAsync("PostSegment/Post", segment);
+            await client.PostAsJsonAsync("Segment/PostSegment", segment);
         }
 
         /// <summary>

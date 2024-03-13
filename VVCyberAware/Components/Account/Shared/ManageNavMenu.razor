@@ -3,14 +3,14 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 
-<ul>
-    <li class="nav-item">
+<ul class="profile-ul">
+    <li class="nav-item profile-li">
         <NavLink class="nav-link" href="Account/Manage" Match="NavLinkMatch.All">Profile</NavLink>
     </li>
-    <li class="nav-item">
+    <li class="nav-item profile-li">
         <NavLink class="nav-link" href="Account/Manage/Email">Email</NavLink>
     </li>
-    <li class="nav-item">
+    <li class="nav-item profile-li">
         <NavLink class="nav-link" href="Account/Manage/ChangePassword">Password</NavLink>
     </li>
    @*  @if (hasExternalLogins)
@@ -19,7 +19,7 @@
             <NavLink class="nav-link" href="Account/Manage/ExternalLogins">External logins</NavLink>
         </li>
     } *@
-    <li class="nav-item">
+    <li class="nav-item profile-li">
         <NavLink class="nav-link" href="Account/Manage/PersonalData">Personal data</NavLink>
     </li>
 </ul>

@@ -41,7 +41,24 @@
                                 @foreach(var question in subCategory.Questions)
                                 {
                                     <div class="d-flex align-items-center justify-content-around">
-										<QuestionComponent Question="question" />
+                                        <div class="question-box">
+                                            <form>
+                                                <p class="font-weight-bold">@question.QuestionText</p>
+
+                                                @for (int i = 0; i < question.Answers.Count(); i++)
+                                                {
+                                                    var answer = question.Answers.ElementAt(i);
+
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="radio"
+                                                               id="@($"QuestionRadio_{question.Id}_{i}")"
+                                                               name="@($"QuestionRadio_{question.Id}")"
+                                                               value="@answer.Key">
+                                                        <label class="form-check-label" for="@($"QuestionRadio_{question.Id}_{i}")">@answer.Key</label>
+                                                    </div>
+                                                }
+                                            </form>
+                                        </div>
                                         <button class="h-25 btn btn-warning btn-outline-dark" @onclick="@(() => NavigateToPage("question", question.Id, null))">Redigera fråga</button>
                                         <a class="h-25 btn btn-danger btn-outline-dark"  @onclick="@(() => RemoveQuestion(question))">Ta bort fråga</a>
                                     </div>
@@ -93,6 +110,8 @@
         if (await JSRuntime.InvokeAsync<bool>("confirm", $"Vill du verkligen ta bort {subCategory.Description}?\n\nOBS! Detta är permanent!"))
         {
             await subCService.DeleteSubCategory(subCategory.Id);
+            category = await getEntireCategory(category.Id);
+            segment = category.Segments.FirstOrDefault(s => s.Id == Id);
         }
     }
 
@@ -101,6 +120,8 @@
         if (await JSRuntime.InvokeAsync<bool>("confirm", $"Vill du verkligen ta bort frågan:\n\n{question.QuestionText}\n\nOBS! Detta är permanent!"))
         {
             await questionService.DeleteQuestion(question.Id);
+            category = await getEntireCategory(category.Id);
+            segment = category.Segments.FirstOrDefault(s => s.Id == Id);
         }
     }
 
@@ -112,9 +133,14 @@
 
         var segmentNoInclude = segments.First(s => s.Id == Id);
 
-        category = await categoryService.GetCategoryInclude(segmentNoInclude.CategoryId); //Include everything
+        category = await getEntireCategory(segmentNoInclude.CategoryId); //Include everything
 
         segment = category.Segments.FirstOrDefault(s => s.Id == Id);
 
+    }
+
+    private async Task<CategoryApiModel> getEntireCategory(int id)
+    {
+        return await categoryService.GetCategoryInclude(id);
     }
 }

@@ -49,7 +49,7 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
         /// <exception cref="HttpRequestException"></exception>
         public async Task<SubCategoryApiModel> GetSubCategoryByIdAsync(int id)
         {
-            var response = await client.GetAsync($"SubCategory/{id}");
+            var response = await client.GetAsync($"SubCategory/SubCategory/{id}");
 
             if (response.IsSuccessStatusCode)
             {
@@ -73,9 +73,9 @@ namespace VVCyberAware.Shared.Models.Services.SubCategoryService
         /// </summary>
         /// <param name="subCategory"></param>
         /// <returns></returns>
-        public async Task PostSubCategory(SubCategoryApiModel subCategory)
+        public async Task PostSubCategory(SubCategoryViewModel subCategory)
         {
-            await client.PostAsJsonAsync("PostSubCategory/Post", subCategory);
+            await client.PostAsJsonAsync("SubCategory/PostSubCategory", subCategory);
         }
 
         /// <summary>

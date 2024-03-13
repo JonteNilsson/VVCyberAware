@@ -13,7 +13,7 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
 
         public Task<CategoryApiModel> GetCategoryByIdAsync(int id);
 
-        public Task PostCategory(CategoryApiModel category);
+        public Task PostCategory(CategoryViewModel category);
 
         public Task DeleteCategory(int id);
 

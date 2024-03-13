@@ -2,7 +2,9 @@
 @attribute [Authorize]
 
 @using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
 @using VVCyberAware.Components.CustomComponents
+@using VVCyberAware.Data
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
@@ -13,6 +15,10 @@
 @inject ISegmentService segmentService
 @inject IQuestionService questionService;
 @inject ISubCService subCService;
+@rendermode InteractiveServer
+
+@inject UserManager<ApplicationUser> UserManager
+@inject IHttpContextAccessor HttpContextAccessor
 
 
 @if (segment == null)
@@ -22,7 +28,7 @@
 else
 {
     <div class="main-container">
-@*         <h1 class="text-center">@(segment.Category.Name == null ? "Ingen Kategori" : segment.Category.Name)</h1> *@
+        @*<h1 class="text-center">@(segment.Category.Name == null ? "Ingen Kategori" : segment.Category.Name)</h1> *@
         @if(categories != null){
             <h1 class="text-center">@categories.First(c => c.Id == segment.CategoryId).Name</h1>
         }
@@ -30,8 +36,9 @@ else
         {
             <h1 class="text-center">Unknown</h1>
         }
+
         <div class="segment-container">
-	    <h1>@segment.Name</h1>
+        <h1>@segment.Name</h1>
 
         @if(subCategories != null)
         {
@@ -40,17 +47,36 @@ else
                 <h3>@sub.Description</h3>
                 @if (questions != null)
                 {
-                    @foreach (var question in questions.FindAll(q => q.SubCategoryId == sub.Id).ToList())
+                    @foreach (var question in questions.Where(q => q.SubCategoryId == sub.Id).ToList())
                     {
-                        <QuestionComponent Question="question"/>
+                        <div class="question-box">
+                            <form>
+                                <p class="font-weight-bold">@question.QuestionText</p>
+
+                                @for (int i = 0; i < question.Answers.Count(); i++)
+                                {
+                                    var answer = question.Answers.ElementAt(i);
+
+                                    <div class="form-check">
+                                        <input 
+                                            class="form-check-input" type="radio" 
+                                            id="@($"QuestionRadio_{question.Id}_{i}")" 
+                                            name="@($"QuestionRadio_{question.Id}")" 
+                                            value="@answer.Key"
+                                            @onchange="() => HandleRadioValueChanged(question.Id, answer.Key)">
+                                        <label class="form-check-label" for="@($"QuestionRadio_{question.Id}_{i}")">@answer.Key</label>
+                                    </div>
+                                }
+                            </form>
+                        </div>
                     }
                 }
             }
         }
-        <button class="btn btn-primary" >Submit</button>
+		<button class="btn btn-primary" @onclick="Submit" disabled="@(!AllQuestionsAnswered)">Submit</button>
           
       </div>
-      <div class="d-flex justify-content-center mb-5 " >
+      <div class="d-flex justify-content-center mb-5 ">
       <a href="/home" class="btn btn-danger" >Back</a>
       </div>
     </div>
@@ -64,6 +90,80 @@ else
     private SegmentApiModel? segment;
     private List<SubCategoryApiModel>? subCategories;
     private List<QuestionApiModel>? questions;
+    private Dictionary<int, string> selectedAnswers = new Dictionary<int, string>();
+    private List<QuestionApiModel>? subQuestions;
+    private bool AllQuestionsAnswered;
+
+    private void HandleRadioValueChanged(int questionId, string selectedAnswer)
+    {
+        if (selectedAnswers.ContainsKey(questionId))
+        {
+            selectedAnswers[questionId] = selectedAnswer;
+        }
+        else
+        {
+            selectedAnswers.Add(questionId, selectedAnswer);
+        }
+        AllQuestionsAnswered = AllQuestionsAnsweredCheck();
+    }
+
+    private bool AllQuestionsAnsweredCheck()
+    {
+        List<SubCategoryApiModel> subCategoriesToAnswer = subCategories.Where(s => s.SegmentId == Id).ToList();
+        List<QuestionApiModel> questionsToAnswer = new List<QuestionApiModel>();
+        foreach (var sub in subCategoriesToAnswer)
+        {
+            questionsToAnswer.AddRange(questions.Where(q => q.SubCategoryId == sub.Id)); //AddRange can add an entire list to another :D
+        }
+        foreach (var question in questionsToAnswer)
+        {
+            if (!selectedAnswers.ContainsKey(question.Id))
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void Submit()
+    {
+        int correctCount = 0;
+
+        foreach (var question in questions)
+        {
+            var selectedAnswer = selectedAnswers.GetValueOrDefault(question.Id);
+            if (selectedAnswer != null && selectedAnswer == GetCorrectAnswer(question.Id))
+            {
+                correctCount++;
+            }
+        }
+
+        if (correctCount == questions.Count)
+        {
+            // All questions are correct
+        }
+        else
+        {
+            // One or more questions are wrong
+        }
+    }
+
+    private string? GetCorrectAnswer(int questionId)
+    {
+        var questionToCheck = questions.FirstOrDefault(q => q.Id == questionId);
+        if(questionToCheck != null)
+        {
+            foreach (var answer in questionToCheck.Answers)
+            {
+                if (answer.Value)
+                {
+                    return answer.Key;
+                }
+            }
+        }
+        return null;
+
+    }
 
     protected override async Task OnParametersSetAsync()
     {

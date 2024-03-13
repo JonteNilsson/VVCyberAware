@@ -99,9 +99,9 @@ namespace VVCyberAware.Shared.Models.Services.CategoryService
         /// </summary>
         /// <param name="category"></param>
         /// <returns></returns>
-        public async Task PostCategory(CategoryApiModel category)
+        public async Task PostCategory(CategoryViewModel category)
         {
-            await client.PostAsJsonAsync("PostCategory/Post", category);
+            await client.PostAsJsonAsync("Category/PostCategory", category);
         }
 
         /// <summary>
