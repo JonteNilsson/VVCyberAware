@@ -25,7 +25,7 @@
                 <ul class="list-group">
                     @foreach (var segment in Segments.Where(s=>s.CategoryId == Category.Id))
                     {
-                        <CategorySegment Segment="@segment" />
+                        <CategorySegment Segment="@segment" SegmentDone="@(segment.UserIsComplete.Contains(userId))" />
                     }
                 </ul>
             </div>
@@ -44,34 +44,46 @@
     public Func<int, bool>? IsCategoryVisible { get; set; }
 
     private int procent;
-    private int counter = 0;
+    private HttpContext httpContext;
+    private string userId;
+
+    private int calculateProcent(int categoryId)
+    {
+        var categorySegments = Segments.Where(s => s.CategoryId == categoryId).ToList();
+        int totalSegments = categorySegments.Count;
+        int completedSegments = 0;
+
+        if (httpContext != null)
+        {
+            foreach (var segment in categorySegments)
+            {
+                if (segment.UserIsComplete.Contains(userId))
+                {
+                    completedSegments++;
+                }
+            }
+        }
+
+        if (totalSegments != 0)
+        {
+            return (int)Math.Floor((completedSegments / (double)totalSegments) * 100);
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     protected async override Task OnParametersSetAsync()
     {
         await base.OnParametersSetAsync();
 
-        var httpContext = HttpContextAccessor.HttpContext;
-
+        httpContext = HttpContextAccessor.HttpContext;
         if(httpContext != null)
         {
-            string userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            counter = 0;
-            foreach (var segment in Segments)
-            {
-                if (segment.UserIsComplete.Contains(userId))
-                {
-                    counter++;
-                }
-            }
+            userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
         
-        if(counter != 0)
-        {
-            procent = (int)Math.Floor(100 / (double)counter);
-        }
-        else
-        {
-            procent = 0;
-        }
+        procent = calculateProcent(Category.Id);
     }
 }
