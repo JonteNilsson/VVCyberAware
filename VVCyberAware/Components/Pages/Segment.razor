@@ -27,7 +27,7 @@
 }
 else
 {
-    <div class="main-container">
+    <div class="main-container text-white  ">
         @*<h1 class="text-center">@(segment.Category.Name == null ? "Ingen Kategori" : segment.Category.Name)</h1> *@
         @if(categories != null){
             <h1 class="text-center">@categories.First(c => c.Id == segment.CategoryId).Name</h1>
@@ -49,7 +49,7 @@ else
                 {
                     @foreach (var question in questions.Where(q => q.SubCategoryId == sub.Id).ToList())
                     {
-                        <div class="question-box">
+                        <div class="question-box ">
                             <form>
                                 <p class="font-weight-bold">@question.QuestionText</p>
 
@@ -76,7 +76,7 @@ else
 		<button class="btn btn-primary" @onclick="Submit" disabled="@(!AllQuestionsAnswered)">Submit</button>
           
       </div>
-      <div class="d-flex justify-content-center mb-5 ">
+      <div class="d-flex justify-content-center mb-5  ">
       <a href="/home" class="btn btn-danger" >Back</a>
       </div>
     </div>

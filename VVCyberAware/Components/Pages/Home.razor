@@ -17,9 +17,9 @@
 
 <PageTitle>Home</PageTitle>
 <div class="row text-center header">
-	<h1 class="col-10">Kategorier:</h1>
-    <span class="row col-2">
-		<label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
+	<h1 class="col-10 white-text ">Kategorier</h1>
+    <span class="row col-2 ">
+		<label class =" white-text" >Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
 	</span>
     <div class="d-flex justify-content-left ">
         <a class="btn btn-danger" @onclick="Logout">Log out</a>
@@ -28,7 +28,7 @@
 
 @if(categories != null)
 {
-    <ul class="list-group">
+    <ul class="list-group transparent-box ">
         @foreach (var category in categories)
         {
             if(category.Name.ToLower().Contains(searchText.ToLower()))

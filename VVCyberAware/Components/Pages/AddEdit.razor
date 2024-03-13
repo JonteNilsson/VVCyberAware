@@ -19,7 +19,7 @@
 
 <AuthorizeView Roles="Admin" Context="authContext"> 
     <Authorized>
-		<div class="row text-center header">
+		<div class="row text-center header text-white ">
 			@if (Id.HasValue)
 			{
 				<h1 class="text-center col-12">Editing @Component</h1>
@@ -36,7 +36,7 @@
 				{
 					<div class="row w-50 flex-center edit-container p-3">
 						<div>
-							<label class="font-weight-bold">Name: </label>
+							<label class="font-weight-bold text-white ">Name: </label>
 							@if (category != null)
 							{
 								<input class="w-100" type="text" value="@category.Name" />
@@ -47,7 +47,7 @@
 							}
 						</div>
 						<div>
-							<label class="font-weight-bold mt-4">Description: </label>
+							<label class="font-weight-bold mt-4text-white  ">Description: </label>
 							@if (category != null)
 							{
 								<input class="w-100" type="text" value="@category.Description" />
@@ -63,7 +63,7 @@
 				{
 					<div class="row w-50 flex-center edit-container p-3">
 						<div>
-							<label class="font-weight-bold">Name: </label>
+							<label class="font-weight-bold text-white  ">Name: </label>
 							@if (segment != null)
 							{
 								<input class="w-100" type="text" value="@segment.Name" />
@@ -79,7 +79,7 @@
 				{
 					<div class="row w-50 flex-center edit-container p-3">
 						<div>
-							<label class="font-weight-bold">Name: </label>
+							<label class="font-weight-bold text-white  ">Name: </label>
 							@if (subCategory != null)
 							{
 								<input class="w-100" type="text" value="@subCategory.Description" />
@@ -96,7 +96,7 @@
 					<div class="row w-50 flex-center p-3">
 						<EditForm class="flex-center" Model="@questionFormModel">
 							<div class="question-box">
-								<label><strong>Fråga: </strong></label>
+								<label class="text-white" ><strong>Fråga: </strong></label>
 								<InputTextArea class="question-text-input mb-3" @bind-Value="@questionFormModel.QuestionText" placeholder="Skriv in din fråga här..." />
 								
 								@foreach (var answer in questionFormModel.Answers)
@@ -112,7 +112,7 @@
 									<button class="btn btn-primary" disabled="@(optionCounter <= 2 ? true : false)" @onclick="RemoveOption">Ta bort sista alternativet</button>
 								</div>
 
-								<label class="mt-3"><strong>Förklaring: </strong></label>
+								<label class="mt-3 text-white  "><strong>Förklaring: </strong></label>
 								<InputTextArea class="question-text-input" @bind-Value="questionFormModel.Explanation" placeholder="Skriv in din förklaring här..." />
 							</div>
 						</EditForm>
