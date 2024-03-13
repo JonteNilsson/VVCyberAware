@@ -23,7 +23,7 @@
     <Authorized>
         @if(category != null && segment != null){
             <div class="text-center header flex-center flex-column">
-                <h1 class="text-center w-100">@category.Name >> @segment.Name</h1>
+                <h1 class="text-center w-100 text-white  ">@category.Name >> @segment.Name</h1>
                 <button class="btn btn-warning btn-outline-dark w-25" @onclick="@(() => NavigateToPage("segment", segment.Id, null))">Byt namn på segmentet "@segment.Name"</button>
             </div>
 		}
@@ -34,9 +34,9 @@
                 <ul class="list-group w-75">
                     @foreach (var subCategory in segment.SubCategories)
                     {
-                        <li class="list-group-item">
+                        <li class="list-group-item transparent-box">
 							<div>
-								<h3 class="text-center">@subCategory.Description</h3>
+                                <h3 class="text-center  ">@subCategory.Description</h3>
                                 <br />
                                 @foreach(var question in subCategory.Questions)
                                 {
