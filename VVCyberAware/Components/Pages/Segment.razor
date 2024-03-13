@@ -28,7 +28,7 @@
 else
 {
     <div class="main-container">
-@*         <h1 class="text-center">@(segment.Category.Name == null ? "Ingen Kategori" : segment.Category.Name)</h1> *@
+        @*<h1 class="text-center">@(segment.Category.Name == null ? "Ingen Kategori" : segment.Category.Name)</h1> *@
         @if(categories != null){
             <h1 class="text-center">@categories.First(c => c.Id == segment.CategoryId).Name</h1>
         }
@@ -36,8 +36,9 @@ else
         {
             <h1 class="text-center">Unknown</h1>
         }
+
         <div class="segment-container">
-	    <h1>@segment.Name</h1>
+        <h1>@segment.Name</h1>
 
         @if(subCategories != null)
         {
@@ -46,7 +47,7 @@ else
                 <h3>@sub.Description</h3>
                 @if (questions != null)
                 {
-                    @foreach (var question in questions.FindAll(q => q.SubCategoryId == sub.Id).ToList())
+                    @foreach (var question in questions.Where(q => q.SubCategoryId == sub.Id).ToList())
                     {
                         <div class="question-box">
                             <form>
@@ -72,7 +73,7 @@ else
                 }
             }
         }
-            <button class="btn btn-primary" @onclick="Submit" disabled="@(!AllQuestionsAnswered)">Submit</button>
+		<button class="btn btn-primary" @onclick="Submit" disabled="@(!AllQuestionsAnswered)">Submit</button>
           
       </div>
       <div class="d-flex justify-content-center mb-5 ">
@@ -90,14 +91,11 @@ else
     private List<SubCategoryApiModel>? subCategories;
     private List<QuestionApiModel>? questions;
     private Dictionary<int, string> selectedAnswers = new Dictionary<int, string>();
-    private bool AllQuestionsAnswered = false;
+    private List<QuestionApiModel>? subQuestions;
+    private bool AllQuestionsAnswered;
 
     private void HandleRadioValueChanged(int questionId, string selectedAnswer)
     {
-        if (!AllQuestionsAnswered)
-        {
-            AllQuestionsAnsweredCheck();
-        }
         if (selectedAnswers.ContainsKey(questionId))
         {
             selectedAnswers[questionId] = selectedAnswer;
@@ -106,18 +104,25 @@ else
         {
             selectedAnswers.Add(questionId, selectedAnswer);
         }
+        AllQuestionsAnswered = AllQuestionsAnsweredCheck();
     }
 
-    private void AllQuestionsAnsweredCheck()
+    private bool AllQuestionsAnsweredCheck()
     {
-        foreach (var question in questions)
+        List<SubCategoryApiModel> subCategoriesToAnswer = subCategories.Where(s => s.SegmentId == Id).ToList();
+        List<QuestionApiModel> questionsToAnswer = new List<QuestionApiModel>();
+        foreach (var sub in subCategoriesToAnswer)
+        {
+            questionsToAnswer.AddRange(questions.Where(q => q.SubCategoryId == sub.Id)); //AddRange can add an entire list to another :D
+        }
+        foreach (var question in questionsToAnswer)
         {
             if (!selectedAnswers.ContainsKey(question.Id))
             {
-                AllQuestionsAnswered = false;
+                return false;
             }
         }
-        AllQuestionsAnswered = true;
+        return true;
     }
 
     private void Submit()
