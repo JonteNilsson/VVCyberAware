@@ -47,7 +47,7 @@
 							}
 						</div>
 						<div>
-							<label class="font-weight-bold mt-4text-white  ">Description: </label>
+							<label class="font-weight-bold mt-4 text-white   ">Description: </label>
 							@if (category != null)
 							{
 								<input class="w-100" type="text" value="@category.Description" />
@@ -127,7 +127,7 @@
 			<div class="flex-center">
 				<button class="btn btn-warning btn-outline-dark me-2" @onclick="@(()=> PostPut())">@(Id.HasValue ? "Uppdatera" : "Lägg till")
 				</button>
-				<button class="btn btn-danger btn-outline-dark ms-2">Avbryt</button>
+				<button class="btn btn-danger btn-outline-dark ms-2" @onclick="Navigate" >Avbryt</button>
 			</div>
 			
 		}
@@ -273,6 +273,12 @@
 				// Post question 
 			}
 		}
+		Navigate();
+
+	}
+
+	public async Task Navigate()
+	{
 		if (Component.ToLower() == "category" || (Component.ToLower() == "segment" && !Id.HasValue))
 		{
 			NavigationManager.NavigateTo("/admin");
@@ -286,7 +292,6 @@
 			//Should not get here if using the app, but maybe if typing in the url
 			NavigationManager.NavigateTo("/home");
 		}
-
 	}
 
 	protected async override Task OnParametersSetAsync()
