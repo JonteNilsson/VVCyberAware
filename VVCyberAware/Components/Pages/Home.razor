@@ -4,7 +4,9 @@
 @using Microsoft.AspNetCore.Components.Server
 @using System.Security.Claims
 @using Microsoft.AspNetCore.Identity
+@using VVCyberAware.Components.Account
 @using VVCyberAware.Components.CustomComponents
+@using VVCyberAware.Data
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using VVCyberAware.Shared.Models.Services.CategoryService
@@ -14,7 +16,8 @@
 @inject ISegmentService segmentService
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject NavigationManager navigationManager
-@inject SignInManager signInManager
+@inject IdentityRedirectManager RedirectManager
+@inject SignInManager<ApplicationUser> signInManager
 @rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
@@ -24,7 +27,14 @@
 		<label>Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
 	</span>
     <div class="d-flex justify-content-left ">
-        <a class="btn btn-danger" @onclick="Logout">Log out</a>
+
+        <form action="Account/Logout" method="post">
+            <AntiforgeryToken />
+            <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+            <button type="submit" class="nav-link">
+                <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
+            </button>
+        </form>
     </div>
 </div>
 
@@ -47,6 +57,7 @@
 
 
 @code {
+    private string? currentUrl;
     private string arrowDirection = "down"; // Note: Change to down for the other arrow
     private Dictionary<int, bool> categoryVisibility = new Dictionary<int, bool>();
     private string searchText = "";
@@ -66,18 +77,13 @@
         return categoryVisibility.ContainsKey(categoryId) && categoryVisibility[categoryId];
     }
 
-    private async Task Logout()
-    {
-        await signInManager.SignOutAsync();
-        navigationManager.NavigateTo("/");
-
-    }
-
     private void Search(string search) => searchText = search;
 
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+
+        currentUrl = navigationManager.ToBaseRelativePath(navigationManager.Uri);
 
         categories = await categoryService.GetAllCategoriesAsync();
         segments = await segmentService.GetSegmentsAsync();
