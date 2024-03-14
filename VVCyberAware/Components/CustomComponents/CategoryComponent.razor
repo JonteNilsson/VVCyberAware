@@ -20,12 +20,22 @@
 
         @if (IsCategoryVisible(Category.Id))
         {
+            var SegmentsInCategory = Segments.Where(s => s.CategoryId == Category.Id).ToList();
             <div class="dropdown-content">
                 <p class="category-text">@Category.Description</p>
                 <ul class="list-group">
-                    @foreach (var segment in Segments.Where(s=>s.CategoryId == Category.Id))
+                    @for (int i = 0; i < SegmentsInCategory.Count; i++)
                     {
-                        <CategorySegment Segment="@segment" SegmentDone="@(segment.UserIsComplete.Contains(userId))" />
+                        if(i != 0)
+                        {
+                            <CategorySegment PreviousSegmentDone="@SegmentsInCategory[i - 1].UserIsComplete.Contains(userId)"
+                            Segment="@SegmentsInCategory[i]" SegmentDone="@(SegmentsInCategory[i].UserIsComplete.Contains(userId))" />
+                        }
+                        else
+                        {
+                            <CategorySegment PreviousSegmentDone="@(true)"
+                                             Segment="@SegmentsInCategory[i]" SegmentDone="@(SegmentsInCategory[i].UserIsComplete.Contains(userId))" />
+                        }
                     }
                 </ul>
             </div>
