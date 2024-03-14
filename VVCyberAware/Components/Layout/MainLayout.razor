@@ -1,5 +1,5 @@
 ﻿@inherits LayoutComponentBase
-
+@inject NavigationManager navigationManager
 
 <div class="page bg-black " >
     @* <div class="sidebar">
@@ -9,6 +9,16 @@
     <main>
 		<div class="top-row px-4 background-home ">
 			<a class="top-row-home-btn text-black " href="/home" target="_self">Home</a>
+            <div class="d-flex justify-content-left" >
+                <a href="Account/Logout" class="nav-link" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Log out
+                </a>
+                <form id="logout-form" action="Account/Logout" method="post" style="display: none;">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                </form>
+            </div>
+
             <AuthorizeView Roles="Admin">
                 <a href="/admin" target="_self" class="text-black">Admin</a>
 			</AuthorizeView>
@@ -26,3 +36,14 @@
     <a href="" class="reload">Reload</a>
     <a class="dismiss">🗙</a>
 </div>
+
+ @code{
+     private string? currentUrl;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        currentUrl = navigationManager.ToBaseRelativePath(navigationManager.Uri);
+    }
+ }

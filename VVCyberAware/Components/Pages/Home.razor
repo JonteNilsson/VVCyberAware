@@ -26,16 +26,6 @@
     <span class="row col-2 ">
 		<label class =" white-text" >Sök: </label><input type="text" @oninput="(i) => Search(i.Value.ToString())" />
 	</span>
-    <div class="d-flex justify-content-left ">
-
-        <form action="Account/Logout" method="post">
-            <AntiforgeryToken />
-            <input type="hidden" name="ReturnUrl" value="@currentUrl" />
-            <button type="submit" class="nav-link">
-                <span class="bi bi-arrow-bar-left-nav-menu" aria-hidden="true"></span> Logout
-            </button>
-        </form>
-    </div>
 </div>
 
 @if(categories != null)
