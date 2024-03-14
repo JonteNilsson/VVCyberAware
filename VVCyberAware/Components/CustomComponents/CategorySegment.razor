@@ -1,10 +1,13 @@
 ﻿@using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
+@inject NavigationManager navigationManager
+@rendermode InteractiveServer
+
 @if (Segment != null)
 {
     <div class="segment row align-items-center">
-        <li class="col-6 not-selectable">@Segment.Name @(SegmentDone ? "(Avklarat)" : "")</li>
-        <a class="btn btn-secondary col-6" href="/segment/@Segment.Id">Gå till sektion</a>
+        <li class="col-6 not-selectable">@Segment.Name @(SegmentDone ? "(Avklarat)" : "") @(PreviousSegmentDone ? "" : "(Locked)")</li>
+        <button class="btn btn-secondary col-6" onclick="@(() => Navigate())" disabled="@(PreviousSegmentDone ? false : true)">Gå till sektion</button>
     </div>
 }
 @code {
@@ -12,4 +15,11 @@
     public SegmentApiModel Segment { get; set; }
     [Parameter]
     public bool SegmentDone { get; set; }
+    [Parameter]
+    public bool PreviousSegmentDone { get; set; }
+
+    private void Navigate()
+    {
+        navigationManager.NavigateTo($"/segment/{Segment.Id}");
+    }
 }
