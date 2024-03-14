@@ -19,7 +19,7 @@
 
 <AuthorizeView Roles="Admin" Context="authContext"> 
     <Authorized>
-		<div class="row text-center header">
+		<div class="row text-center header text-white ">
 			@if (Id.HasValue)
 			{
 				<h1 class="text-center col-12">Editing @Component</h1>
@@ -36,10 +36,10 @@
 				{
 					<div class="row w-50 flex-center edit-container p-3">
 						<div>
-							<label class="font-weight-bold">Name: </label>
+							<label class="font-weight-bold text-white ">Name: </label>
 							@if (category != null)
 							{
-								<input class="w-100" type="text" value="@category.Name" />
+								<input class="w-100" type="text" @bind="@newCategory.Name" />
 							}
 							else
 							{
@@ -47,10 +47,10 @@
 							}
 						</div>
 						<div>
-							<label class="font-weight-bold mt-4">Description: </label>
+							<label class="font-weight-bold mt-4 text-white   ">Description: </label>
 							@if (category != null)
 							{
-								<input class="w-100" type="text" value="@category.Description" />
+								<input class="w-100" type="text" @bind="@newCategory.Description" />
 							}
 							else
 							{
@@ -63,10 +63,10 @@
 				{
 					<div class="row w-50 flex-center edit-container p-3">
 						<div>
-							<label class="font-weight-bold">Name: </label>
+							<label class="font-weight-bold text-white  ">Name: </label>
 							@if (segment != null)
 							{
-								<input class="w-100" type="text" value="@segment.Name" />
+								<input class="w-100" type="text" @bind="@newSegment.Name" />
 							}
 							else
 							{
@@ -79,10 +79,10 @@
 				{
 					<div class="row w-50 flex-center edit-container p-3">
 						<div>
-							<label class="font-weight-bold">Name: </label>
+							<label class="font-weight-bold text-white  ">Name: </label>
 							@if (subCategory != null)
 							{
-								<input class="w-100" type="text" value="@subCategory.Description" />
+								<input class="w-100" type="text" @bind="@newSubCategory.Description" />
 							}
 							else
 							{
@@ -96,7 +96,7 @@
 					<div class="row w-50 flex-center p-3">
 						<EditForm class="flex-center" Model="@questionFormModel">
 							<div class="question-box">
-								<label><strong>Fråga: </strong></label>
+								<label class="text-white" ><strong>Fråga: </strong></label>
 								<InputTextArea class="question-text-input mb-3" @bind-Value="@questionFormModel.QuestionText" placeholder="Skriv in din fråga här..." />
 								
 								@foreach (var answer in questionFormModel.Answers)
@@ -112,7 +112,7 @@
 									<button class="btn btn-primary" disabled="@(optionCounter <= 2 ? true : false)" @onclick="RemoveOption">Ta bort sista alternativet</button>
 								</div>
 
-								<label class="mt-3"><strong>Förklaring: </strong></label>
+								<label class="mt-3 text-white  "><strong>Förklaring: </strong></label>
 								<InputTextArea class="question-text-input" @bind-Value="questionFormModel.Explanation" placeholder="Skriv in din förklaring här..." />
 							</div>
 						</EditForm>
@@ -127,11 +127,10 @@
 			<div class="flex-center">
 				<button class="btn btn-warning btn-outline-dark me-2" @onclick="@(()=> PostPut())">@(Id.HasValue ? "Uppdatera" : "Lägg till")
 				</button>
-				<button class="btn btn-danger btn-outline-dark ms-2">Avbryt</button>
+				<button class="btn btn-danger btn-outline-dark ms-2" @onclick="Navigate" >Avbryt</button>
 			</div>
-			
+
 		}
-		
 
     </Authorized>
     <NotAuthorized>
@@ -202,7 +201,8 @@
 		{
 			if (Id.HasValue == true)
 			{
-				// PUT category
+				/* newCategory.Id = await localStorage.GetItemAsync<int>("id") */;
+				await categoryService.UpdateCategoryAsync((int)Id, newCategory);
 			}
 			else
 			{
@@ -216,7 +216,8 @@
 
 			if (Id.HasValue == true)
 			{
-				// PUT Segment
+
+				await segmentService.UpdateSegmentAsync((int)Id, newSegment);
 
 			}
 			else
@@ -231,7 +232,8 @@
 		{
 			if (Id.HasValue)
 			{
-				// Put subcategory
+				newSubCategory.SegmentId = subCategory.SegmentId;
+				await subCService.UpdateSubCategoryAsync((int)Id, newSubCategory);
 			}
 			else
 			{
@@ -244,7 +246,30 @@
 		{
 			if (Id.HasValue)
 			{
-				//Put Question 
+
+				Dictionary<string, bool> newAnswersDict = new();
+				try
+				{
+					foreach (var answer in questionFormModel.Answers)
+					{
+						newAnswersDict.Add(answer.AnswerText, answer.Answer);
+					}
+				}
+				catch (Exception e)
+				{
+					throw new Exception(e.Message);
+				}
+				QuestionViewModel newQuestion = new()
+					{
+						QuestionText = questionFormModel.QuestionText,
+						Explanation = questionFormModel.Explanation,
+						SubCategoryId = question.SubCategoryId,
+						Id = (int)Id,
+						Answers = newAnswersDict
+					};
+
+				await questionService.UpdateQuestionAsync((int)Id, newQuestion);
+
 			}
 			else
 			{
@@ -270,9 +295,15 @@
 					};
 
 				await questionService.PostQuestion(newQuestion);
-				// Post question 
+
 			}
 		}
+		Navigate();
+
+	}
+
+	public async Task Navigate()
+	{
 		if (Component.ToLower() == "category" || (Component.ToLower() == "segment" && !Id.HasValue))
 		{
 			NavigationManager.NavigateTo("/admin");
@@ -286,7 +317,6 @@
 			//Should not get here if using the app, but maybe if typing in the url
 			NavigationManager.NavigateTo("/home");
 		}
-
 	}
 
 	protected async override Task OnParametersSetAsync()
@@ -299,14 +329,24 @@
 				case "category":
 					var categories = await categoryService.GetAllCategoriesAsync();
 					category = categories.FirstOrDefault(c => c.Id == Id);
+					newCategory.Name = category.Name;
+					newCategory.Description = category.Description;
+					newCategory.Id = category.Id;
 					break;
 				case "segment":
 					var segments = await segmentService.GetSegmentsAsync();
 					segment = segments.FirstOrDefault(c => c.Id == Id);
+					newSegment.Name = segment.Name;
+					newSegment.CategoryId = segment.CategoryId;
+					newSegment.UserIsComplete = segment.UserIsComplete;
+					newSegment.Id = segment.Id;
 					break;
 				case "subcategory":
 					var subCategories = await subCService.GetSubCategoriesAsync();
 					subCategory = subCategories.FirstOrDefault(c => c.Id == Id);
+					newSubCategory.SegmentId = subCategory.SegmentId;
+					newSubCategory.Description = subCategory.Description;
+					newSubCategory.Id = subCategory.Id;
 					break;
 				case "question":
 					var questions = await questionService.GetQuestionsAsync();
@@ -356,6 +396,7 @@
 		public string QuestionText { get; set; }
 		public List<AnswerData> Answers { get; set; }
 		public string Explanation { get; set; }
+		public int Id { get; set; }
 
 		public QuestionFormModel()
 		{

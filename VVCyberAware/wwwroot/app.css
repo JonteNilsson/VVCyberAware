@@ -1,5 +1,7 @@
 html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: black;
+    color: white;
 }
 
 a, .btn-link {
@@ -52,9 +54,9 @@ h1:focus {
 
 .transparent-box{
     color: white;
-    width:50%;
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0,0,0,0.1);
     border-radius: 5vh;
+    border: 2px solid white;
 }
 
 .header{
@@ -74,14 +76,14 @@ h1:focus {
 }
 .segment{
     font-size: 1.5em;
-    border: 2px solid black;
+    border: 2px solid white;
     border-radius: 6px;
     margin-bottom: 1vh;
 }
 .question-box{
     padding:2vh;
     width:70%;
-    border: 2px solid black;
+    border: 2px solid white;
     margin-bottom: 3vh;
 }
 .font-weight-bold{
@@ -103,7 +105,7 @@ h1:focus {
     margin: 1vh;
 }
 .admin-category {
-    border: 2px solid black;
+    border: 2px solid white;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,7 +116,7 @@ h1:focus {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    height: 98vh;
+    height: 100vh;
     background-color: #929292;
 }
 
@@ -125,7 +127,7 @@ h1:focus {
     list-style-type: none;
     font-size: 18px;
     color: black;
-    border: 1px solid;
+    border: 1px solid white;
 }
 
 .profile-li {
@@ -173,7 +175,7 @@ h1:focus {
     align-items:center;
 }
 .edit-container{
-    border: 2px solid black;
+    border: 2px solid white;
 }
 
 .contributor-box {
@@ -198,4 +200,26 @@ h1:focus {
     text-decoration: none; 
 }
 
+.white-text{
+    color: white;
+}
 
+
+.cutome-border-style{
+    border-block-width: thick;
+
+}
+
+.login-btn{
+    border: 2px solid #000;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+}
+
+.background-home {
+    height: 100vh;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: black
+}
