@@ -3,11 +3,13 @@
 @if (Segment != null)
 {
     <div class="segment row align-items-center">
-        <li class="col-6 not-selectable">@Segment.Name</li>
+        <li class="col-6 not-selectable">@Segment.Name @(SegmentDone ? "(Avklarat)" : "")</li>
         <a class="btn btn-secondary col-6" href="/segment/@Segment.Id">Gå till sektion</a>
     </div>
 }
 @code {
-	[Parameter]
-	public SegmentApiModel Segment { get; set; }
+    [Parameter]
+    public SegmentApiModel Segment { get; set; }
+    [Parameter]
+    public bool SegmentDone { get; set; }
 }

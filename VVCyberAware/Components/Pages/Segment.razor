@@ -3,6 +3,7 @@
 
 @using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
+@using System.Security.Claims
 @using VVCyberAware.Components.CustomComponents
 @using VVCyberAware.Data
 @using VVCyberAware.Shared.Models.ApiModels
@@ -11,6 +12,7 @@
 @using VVCyberAware.Shared.Models.Services.QuestionService
 @using VVCyberAware.Shared.Models.Services.SegmentService
 @using VVCyberAware.Shared.Models.Services.SubCategoryService
+@using VVCyberAware.Shared.Models.ViewModels
 @inject ICategoryService categoryService
 @inject ISegmentService segmentService
 @inject IQuestionService questionService;
@@ -38,47 +40,80 @@ else
         }
 
         <div class="segment-container">
-        <h1>@segment.Name</h1>
+            <h1>@segment.Name</h1>
 
-        @if(subCategories != null)
-        {
-            @foreach(var sub in subCategories.Where(s=>s.SegmentId == segment.Id))
+            @if(subCategories != null)
             {
-                <h3>@sub.Description</h3>
-                @if (questions != null)
+                @foreach(var sub in subCategories.Where(s=>s.SegmentId == segment.Id))
                 {
-                    @foreach (var question in questions.Where(q => q.SubCategoryId == sub.Id).ToList())
+                    <h3>@sub.Description</h3>
+                    @if (questions != null)
                     {
-                        <div class="question-box ">
-                            <form>
-                                <p class="font-weight-bold">@question.QuestionText</p>
+                        @foreach (var question in questions.Where(q => q.SubCategoryId == sub.Id).ToList())
+                        {
+                            var selectedAnswer = selectedAnswers.GetValueOrDefault(question.Id);
+                            var correctAnswer = GetCorrectAnswer(question.Id);
+                            bool isCorrect = selectedAnswer != null && selectedAnswer == correctAnswer;
 
-                                @for (int i = 0; i < question.Answers.Count(); i++)
-                                {
-                                    var answer = question.Answers.ElementAt(i);
+                            <div class="question-box ">
+                                <form>
+                                    <p class="font-weight-bold">@question.QuestionText</p>
 
-                                    <div class="form-check">
-                                        <input 
-                                            class="form-check-input" type="radio" 
-                                            id="@($"QuestionRadio_{question.Id}_{i}")" 
-                                            name="@($"QuestionRadio_{question.Id}")" 
-                                            value="@answer.Key"
-                                            @onchange="() => HandleRadioValueChanged(question.Id, answer.Key)">
-                                        <label class="form-check-label" for="@($"QuestionRadio_{question.Id}_{i}")">@answer.Key</label>
-                                    </div>
-                                }
-                            </form>
-                        </div>
+                                    @for (int i = 0; i < question.Answers.Count(); i++)
+                                    {
+                                        var answer = question.Answers.ElementAt(i);
+
+                                        <div class="form-check">
+                                            <input 
+                                                class="form-check-input" type="radio" 
+                                                id="@($"QuestionRadio_{question.Id}_{i}")" 
+                                                name="@($"QuestionRadio_{question.Id}")"
+                                                value="@answer.Key"
+                                                @onchange="() => HandleRadioValueChanged(question.Id, answer.Key)">
+                                            <label class="form-check-label" for="@($"QuestionRadio_{question.Id}_{i}")">@answer.Key</label>
+                                        </div>
+                                    }
+                                    <br \>
+                                    @if (!isCorrect && submitPressed)
+                                    {
+                                        <ion-icon style="color:darkred; font-size:4em" name="close-outline"></ion-icon>
+                                    }
+                                    else if(isCorrect && submitPressed)
+                                    {
+                                            <ion-icon style="color:forestgreen; font-size:4em" name="checkmark-outline"></ion-icon>
+                                    }
+                                    @if (submitPressed || segment.UserIsComplete.Contains(userId))
+                                    {
+                                        <div class="edit-container p-3">
+                                            <label>Förklaring: </label>
+                                            <p>Rätt svar är: "@GetCorrectAnswer(question.Id)"</p>
+										    <p>@question.Explanation</p>
+									    </div>
+                                    }
+                                </form>
+                            </div>
+                        }
                     }
                 }
             }
-        }
-		<button class="btn btn-primary" @onclick="Submit" disabled="@(!AllQuestionsAnswered)">Submit</button>
-          
-      </div>
-      <div class="d-flex justify-content-center mb-5  ">
-      <a href="/home" class="btn btn-danger" >Back</a>
-      </div>
+            @if (submitPressed)
+            {
+                <p>@correctCount / @questionsToAnswer.Count rätt svar!</p>
+            }
+            @if (correctCount == questionsToAnswer.Count && submitPressed)
+            {
+                <p>Grattis! Du kan nu gå tillbaka till home! (TIPS: Läs förklaringen på de frågor du var osäker på!)</p>
+            }
+            else if(submitPressed){
+                <p>Du hade några fel, gå tillbaka och läs förklaringarna på de som är fel, när du är klar klicka submit igen för att spara!</p>
+            }
+
+			<div class="d-flex justify-content-center mb-5  ">
+				<button class="btn btn-primary me-3" @onclick="Submit" disabled="@(!AllQuestionsAnswered)">Submit</button>
+				<a href="/home" class="btn btn-danger">Tillbaka</a>
+			</div>
+        </div>
+		    
     </div>
 }
 
@@ -93,6 +128,11 @@ else
     private Dictionary<int, string> selectedAnswers = new Dictionary<int, string>();
     private List<QuestionApiModel>? subQuestions;
     private bool AllQuestionsAnswered;
+    List<QuestionApiModel> questionsToAnswer = new List<QuestionApiModel>();
+    int correctCount;
+
+    private string userId;
+    private bool submitPressed = false;
 
     private void HandleRadioValueChanged(int questionId, string selectedAnswer)
     {
@@ -109,12 +149,6 @@ else
 
     private bool AllQuestionsAnsweredCheck()
     {
-        List<SubCategoryApiModel> subCategoriesToAnswer = subCategories.Where(s => s.SegmentId == Id).ToList();
-        List<QuestionApiModel> questionsToAnswer = new List<QuestionApiModel>();
-        foreach (var sub in subCategoriesToAnswer)
-        {
-            questionsToAnswer.AddRange(questions.Where(q => q.SubCategoryId == sub.Id)); //AddRange can add an entire list to another :D
-        }
         foreach (var question in questionsToAnswer)
         {
             if (!selectedAnswers.ContainsKey(question.Id))
@@ -125,11 +159,12 @@ else
         return true;
     }
 
-    private void Submit()
+    private async Task Submit()
     {
-        int correctCount = 0;
+        submitPressed = true;
+        correctCount = 0;
 
-        foreach (var question in questions)
+        foreach (var question in questionsToAnswer)
         {
             var selectedAnswer = selectedAnswers.GetValueOrDefault(question.Id);
             if (selectedAnswer != null && selectedAnswer == GetCorrectAnswer(question.Id))
@@ -138,14 +173,19 @@ else
             }
         }
 
-        if (correctCount == questions.Count)
+        if (correctCount == questionsToAnswer.Count)
         {
-            // All questions are correct
+            segment.UserIsComplete.Add(userId);
+            SegmentViewModel updatedSegment = new()
+                {
+                    CategoryId = segment.CategoryId,
+                    Id = segment.Id,
+                    Name = segment.Name,
+                    UserIsComplete = segment.UserIsComplete
+                };
+            await segmentService.UpdateSegmentAsync(segment.Id, updatedSegment);
         }
-        else
-        {
-            // One or more questions are wrong
-        }
+
     }
 
     private string? GetCorrectAnswer(int questionId)
@@ -174,6 +214,17 @@ else
         subCategories = await subCService.GetSubCategoriesAsync();
         questions = await questionService.GetQuestionsAsync();
 
+        List<SubCategoryApiModel> subCategoriesToAnswer = subCategories.Where(s => s.SegmentId == Id).ToList();
+        foreach (var sub in subCategoriesToAnswer)
+        {
+            questionsToAnswer.AddRange(questions.Where(q => q.SubCategoryId == sub.Id)); //AddRange can add an entire list to another
+        }
+        var httpContext = HttpContextAccessor.HttpContext;
+        if(httpContext != null)
+        {
+            userId = httpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        }
+        
     }
 }
 
