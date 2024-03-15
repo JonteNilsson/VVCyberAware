@@ -6,6 +6,7 @@ using System.Text.Json.Serialization;
 using VVCyberAware.Components;
 using VVCyberAware.Components.Account;
 using VVCyberAware.Data;
+using VVCyberAware.Middleware;
 using VVCyberAware.Shared.Models.Services.CategoryService;
 using VVCyberAware.Shared.Models.Services.QuestionService;
 using VVCyberAware.Shared.Models.Services.SegmentService;
@@ -22,6 +23,8 @@ builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
 builder.Services.AddScoped<CategoryService>();
+
+builder.Services.AddTransient<LoggingMiddleware>();
 
 builder.Services.AddAuthentication(options =>
     {
@@ -119,6 +122,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseMiddleware<LoggingMiddleware>();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
