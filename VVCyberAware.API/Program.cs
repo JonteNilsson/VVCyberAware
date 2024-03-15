@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using VVCyberAware.API.Middlewares;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
@@ -6,6 +8,12 @@ using VVCyberAware.Shared.Models.DbModels;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("C:\\Users\\jonte\\OneDrive\\Skrivbord\\logfile.txt")
+    .CreateLogger();
+builder.Host.UseSerilog();
+
+
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -41,6 +49,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseApiRequestLoggingMiddleware();
+
 
 app.UseHttpsRedirection();
 
