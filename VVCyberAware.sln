@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVCyberAware.API", "VVCyber
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VVCyberAware.Shared", "VVCyberAware.Shared\VVCyberAware.Shared.csproj", "{F7ABEE18-6445-448B-81A4-C10AC910555B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBTests", "DBTests\DBTests.csproj", "{DAEA53ED-EF35-43A8-A5B2-8CEDA59FB4F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{F7ABEE18-6445-448B-81A4-C10AC910555B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F7ABEE18-6445-448B-81A4-C10AC910555B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F7ABEE18-6445-448B-81A4-C10AC910555B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DAEA53ED-EF35-43A8-A5B2-8CEDA59FB4F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DAEA53ED-EF35-43A8-A5B2-8CEDA59FB4F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DAEA53ED-EF35-43A8-A5B2-8CEDA59FB4F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DAEA53ED-EF35-43A8-A5B2-8CEDA59FB4F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
