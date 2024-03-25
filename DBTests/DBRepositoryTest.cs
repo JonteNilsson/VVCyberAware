@@ -46,5 +46,115 @@ namespace DBTests
             // Verify that the SaveChangesAsync method of the mock DbContext was called once with CancellationToken.None
             mockDbContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once);
         }
+
+
+        //[Fact]
+        //public async Task AddSegmentTest()
+        //{
+        //    var segmentToAdd = new SegmentModel
+        //    {
+        //        Name = "TestSegment",
+        //        SubCategories = new List<SubCategoryModel> { },
+        //        CategoryId = 1,
+        //        UserIsComplete = new List<string> { }
+        //    };
+        //    await AddModelTest<SegmentModel>(segmentToAdd);
+        //}
+
+
+        // Johannes
+        // Instansiering av olika typer av modeller, lägga till temporära properties och skickar den till metod som prövar att lägga till det i en mock databas
+        [Theory]
+        [InlineData("TestSegment", typeof(SegmentModel))]
+        [InlineData("TestCategory", typeof(CategoryModel))]
+        [InlineData("TestSubCategory", typeof(SubCategoryModel))]
+        [InlineData("TestQuestion", typeof(QuestionModel))]
+        public async Task AddModelTests(string modelName, Type modelType)
+        {
+            var modelToAdd = Activator.CreateInstance(modelType);
+            // You may need to cast modelToAdd to TModel depending on your requirements
+
+            // Set properties specific to each model type
+            if (modelType == typeof(SegmentModel))
+            {
+                var segment = modelToAdd as SegmentModel;
+                segment.Name = modelName;
+                segment.CategoryId = 1;
+                segment.SubCategories = new List<SubCategoryModel>();
+                segment.UserIsComplete = new List<string>();
+                // Set other properties for SegmentModel
+            }
+            else if (modelType == typeof(CategoryModel))
+            {
+                var category = modelToAdd as CategoryModel;
+                category.Name = modelName;
+                category.Segments = new List<SegmentModel>();
+                category.Description = $"This is a test {modelName}";
+                // Set other properties for CategoryModel
+            }
+            else if (modelType == typeof(SubCategoryModel))
+            {
+                var subCategory = modelToAdd as SubCategoryModel;
+                subCategory.Description = $"This is a {modelName}";
+                subCategory.Questions = new List<QuestionModel>();
+                subCategory.SegmentId = 1;
+
+            }
+            else if (modelType == typeof(QuestionModel))
+            {
+                var question = modelToAdd as QuestionModel;
+                question.QuestionText = $"This is a {modelName}";
+                question.Answers = new Dictionary<string, bool>();
+                question.Explanation = "This explains its just a test";
+            }
+
+            await AddModelTest(modelToAdd);
+        }
+
+        // Johannes
+        // Generisk metod som tar emot en entity och försöker lägga till det i en mockdatabase
+        private async Task AddModelTest<TModel>(TModel modelToAdd) where TModel : class
+        {
+            // Arrange
+            var mockDbContext = new Mock<ApplicationDbContext>();
+            var mockDbSet = new Mock<DbSet<TModel>>();
+            mockDbContext.Setup(m => m.Set<TModel>()).Returns(mockDbSet.Object);
+            var mockRepo = new GenericRepository<TModel>(mockDbContext.Object);
+
+            // Act
+            await mockRepo.Add(modelToAdd);
+
+            // Assert
+            mockDbSet.Verify(m => m.AddAsync(modelToAdd, CancellationToken.None), Times.Once);
+            mockDbContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once);
+        }
+
+
+
+        //[Fact]  // Johannes
+        //public async Task AddSegmentTest()
+        //{
+        //    var mockDbContext = new Mock<ApplicationDbContext>();
+
+        //    var mockDbSet = new Mock<DbSet<SegmentModel>>();
+
+        //    mockDbContext.Setup(m => m.Set<SegmentModel>()).Returns(mockDbSet.Object);
+
+        //    var mockRepo = new GenericRepository<SegmentModel>(mockDbContext.Object);
+
+        //    var segmentToAdd = new SegmentModel
+        //    {
+        //        Name = "TestSegment",
+        //        SubCategories = new List<SubCategoryModel> { },
+        //        CategoryId = 1,
+        //        UserIsComplete = new List<string> { }
+        //    };
+
+        //    await mockRepo.Add(segmentToAdd);
+
+        //    mockDbSet.Verify(m => m.AddAsync(segmentToAdd, CancellationToken.None), Times.Once);
+
+        //    mockDbContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once);
+        //}
     }
 }
