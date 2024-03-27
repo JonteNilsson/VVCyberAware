@@ -89,9 +89,9 @@ namespace VVCyberAware.API.Controllers
             };
 
             await _categoryRepo.Add(model);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return Ok(newCategory);
+            return Ok(model);
         }
 
 
@@ -102,7 +102,7 @@ namespace VVCyberAware.API.Controllers
 
             if (category == null)
             {
-                return NoContent();
+                return NotFound();
             }
 
             await _categoryRepo.Delete(category.Id);
@@ -140,7 +140,7 @@ namespace VVCyberAware.API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok($"Category with ID {id} updated successfully");
+                return Ok(existingCategory);
             }
             catch (DbUpdateConcurrencyException)
             {
