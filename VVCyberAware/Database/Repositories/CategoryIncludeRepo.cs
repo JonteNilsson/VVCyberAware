@@ -13,7 +13,7 @@ namespace VVCyberAware.Database.Repositories
             _context = context;
         }
 
-        public async Task<CategoryApiModel> GetCategoryInclude(int id)
+        public async Task<CategoryApiModel?> GetCategoryInclude(int id)
         {
             var category = await _context.Categories
                 .Where(c => c.Id == id)
@@ -29,7 +29,7 @@ namespace VVCyberAware.Database.Repositories
                 {
                     Id = category.Id,
                     Name = category.Name,
-
+                    Description = category.Description,
 
                     Segments = category.Segments?.Select(seg => new SegmentApiModel
                     {
@@ -59,7 +59,7 @@ namespace VVCyberAware.Database.Repositories
                 return categoryApiModel;
             }
 
-            return null!;
+            return null;
 
         }
     }
