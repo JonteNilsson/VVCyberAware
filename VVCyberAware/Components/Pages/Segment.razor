@@ -176,6 +176,7 @@ else
         if (correctCount == questionsToAnswer.Count)
         {
             segment.UserIsComplete.Add(userId);
+            SegmentViewModel testsegment = SegmentViewModel.MapToViewModel(segment);
             SegmentViewModel updatedSegment = new()
                 {
                     CategoryId = segment.CategoryId,

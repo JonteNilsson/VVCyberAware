@@ -129,32 +129,5 @@ namespace DBTests
             mockDbContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once);
         }
 
-
-
-        //[Fact]  // Johannes
-        //public async Task AddSegmentTest()
-        //{
-        //    var mockDbContext = new Mock<ApplicationDbContext>();
-
-        //    var mockDbSet = new Mock<DbSet<SegmentModel>>();
-
-        //    mockDbContext.Setup(m => m.Set<SegmentModel>()).Returns(mockDbSet.Object);
-
-        //    var mockRepo = new GenericRepository<SegmentModel>(mockDbContext.Object);
-
-        //    var segmentToAdd = new SegmentModel
-        //    {
-        //        Name = "TestSegment",
-        //        SubCategories = new List<SubCategoryModel> { },
-        //        CategoryId = 1,
-        //        UserIsComplete = new List<string> { }
-        //    };
-
-        //    await mockRepo.Add(segmentToAdd);
-
-        //    mockDbSet.Verify(m => m.AddAsync(segmentToAdd, CancellationToken.None), Times.Once);
-
-        //    mockDbContext.Verify(m => m.SaveChangesAsync(CancellationToken.None), Times.Once);
-        //}
     }
 }

@@ -66,9 +66,9 @@ namespace VVCyberAware.API.Controllers
             };
 
             await _segmentRepo.Add(model);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return Ok(newSegment);
+            return Ok(model);
         }
 
 
