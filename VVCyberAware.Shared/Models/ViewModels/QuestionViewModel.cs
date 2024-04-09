@@ -31,6 +31,5 @@ namespace VVCyberAware.Shared.Models.ViewModels
 
             };
         }
-
     }
 }
