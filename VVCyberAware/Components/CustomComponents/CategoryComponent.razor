@@ -2,6 +2,7 @@
 @using System.Security.Claims
 @using VVCyberAware.Components.Pages
 @using VVCyberAware.Data
+@using VVCyberAware.Methods
 @using VVCyberAware.Shared.Models.ApiModels
 @using VVCyberAware.Shared.Models.DbModels
 @using static VVCyberAware.Components.Pages.Home
@@ -73,15 +74,9 @@
                 }
             }
         }
+        CalculatingProcent procent = new();
 
-        if (totalSegments != 0)
-        {
-            return (int)Math.Floor((completedSegments / (double)totalSegments) * 100);
-        }
-        else
-        {
-            return 0;
-        }
+       return procent.Calculation(completedSegments, totalSegments);
     }
 
     protected async override Task OnParametersSetAsync()
