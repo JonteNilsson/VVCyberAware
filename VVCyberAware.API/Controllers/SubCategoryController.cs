@@ -113,7 +113,7 @@ namespace VVCyberAware.API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok($"SubCategory with ID {id} updated successfully");
+                return Ok(existingSubCategory);
             }
             catch (DbUpdateConcurrencyException)
             {
