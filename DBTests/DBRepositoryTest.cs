@@ -3,6 +3,7 @@ using Moq;
 using VVCyberAware.Data;
 using VVCyberAware.Database.Repositories;
 using VVCyberAware.Shared.Models.DbModels;
+using VVCyberAware.Shared.Models.ViewModels;
 
 namespace DBTests
 {
@@ -131,4 +132,62 @@ namespace DBTests
         }
 
     }
+
+
+    public class QuestionViewModelTest // Mohannad
+    {
+        public string? FindCorrectAnswer(QuestionViewModel question)
+        {
+            foreach (var answer in question.Answers)
+            {
+                if (answer.Value)
+                {
+                    return answer.Key;
+                }
+            }
+            return null;
+        }
+        [Fact]
+        public void CorrectAnswer()
+        {
+            //arrange
+            var question = new QuestionViewModel
+            {
+                Id = 1,
+                Answers = new Dictionary<string, bool>
+                    {
+                        { "A", false },
+                        { "B", true },
+                        { "C", false },
+                    }
+            };
+            // Act
+            var result = FindCorrectAnswer(question);
+
+            // Assert
+            Assert.Equal("B", result);
+        }
+
+        [Fact]
+        public void NoAnswerFound()
+        {
+            //arrange
+            var question = new QuestionViewModel
+            {
+                Id = 1,
+                Answers = new Dictionary<string, bool>
+                    {
+                        { "A", false },
+                        { "B", false },
+                        { "C", false },
+                    }
+            };
+            // Act
+            var result = FindCorrectAnswer(question);
+
+            // Assert
+            Assert.Null(result);
+        }
+    }
+
 }
