@@ -55,6 +55,21 @@ builder.Services.AddScoped<ISubCService, SubCService>();
 builder.Services.AddScoped<UserManager<ApplicationUser>>();
 builder.Services.AddBlazoredLocalStorage();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowCypress", builder =>
+    {
+        builder.WithOrigins("http://localhost:5044/")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+
+    });
+});
+
+
+
+
+
 using (ServiceProvider sp = builder.Services.BuildServiceProvider())
 {
     var context = sp.GetRequiredService<ApplicationDbContext>();
@@ -119,6 +134,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseCors("AllowCypress");
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
