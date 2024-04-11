@@ -105,11 +105,9 @@ Then("I click on the third category {string} again to close it", () => {
 });
 
 When("I am done with all tests I press Log out", () => {
-  // Click on the logout link
   cy.get(".nav-link").click();
 });
 
 Then("I should be redirected to the login screen", () => {
-  // Assert that the current URL includes "/Account/Login"
   cy.visit("Account/Login");
 });
