@@ -8,6 +8,7 @@ namespace DBTests
 {
     public class DBRepositoryTest
     {
+
         [Fact]
         public async Task AddCategoryTest()
         {
