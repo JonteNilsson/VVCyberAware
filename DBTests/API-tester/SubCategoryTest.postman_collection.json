@@ -1,0 +1,359 @@
+{
+	"info": {
+		"_postman_id": "0cf91683-bd8b-4526-8b28-fadb2c18172d",
+		"name": "SubCategoryTest",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33871334"
+	},
+	"item": [
+		{
+			"name": "GETALL",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"    \r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7214/api/SubCategory/SubCategories",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"SubCategory",
+						"SubCategories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostNewSubCategory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"var responseData = pm.response.json();\r",
+							"var idValue = responseData.id;\r",
+							"pm.collectionVariables.set(\"id\", idValue)\r",
+							"// var SubCategory = pm.response.json();\r",
+							"\r",
+							"//pm.environment.set(\"getNewSubCategoryId\", SubCategory.id);\r",
+							"//pm.environment.set(\"VariableSub\", \"https://localhost:7214/api/SubCategory/SubCategory/\" + SubCategory.id)\r",
+							"\r",
+							"//Kolla properties \r",
+							"\r",
+							"pm.test(\"Successful POST request\", function () {\r",
+							"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Contains segmentId\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.have.any.keys(\"segmentId\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"APITESTPOST\", \r\n    \"segmentId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7214/api/SubCategory/PostSubCategory",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"SubCategory",
+						"PostSubCategory"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetNewSubCategory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Check if the Id is an int\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(typeof jsonData.id).to.eql('number');\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7214/api/SubCategory/SubCategory/{{id}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"SubCategory",
+						"SubCategory",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateSubCategory",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": {{id}},\r\n    \"description\": \"APIUPDATEDPOST\",\r\n    \"segmentId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7214/api/SubCategory/UpdateSubCategory/{{id}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"SubCategory",
+						"UpdateSubCategory",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Name is updated\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.description).to.eql(\"APIUPDATEDPOST\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7214/api/SubCategory/SubCategory/{{id}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"SubCategory",
+						"SubCategory",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7214/api/SubCategory/DeleteSubCategory/{{id}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"SubCategory",
+						"DeleteSubCategory",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CheckIfDeleted",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"SubCategory is deleted\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7214/api/SubCategory/SubCategory/{{id}}",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7214",
+					"path": [
+						"api",
+						"SubCategory",
+						"SubCategory",
+						"{{id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": ""
+		}
+	]
+}
