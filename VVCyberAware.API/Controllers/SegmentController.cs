@@ -66,9 +66,9 @@ namespace VVCyberAware.API.Controllers
             };
 
             await _segmentRepo.Add(model);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
-            return Ok(newSegment);
+            return Ok(model);
         }
 
 
@@ -120,7 +120,7 @@ namespace VVCyberAware.API.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                return Ok($"Segment with ID {id} updated successfully");
+                return Ok(existingSegment);
             }
             catch (DbUpdateConcurrencyException)
             {

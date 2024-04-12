@@ -1,0 +1,302 @@
+{
+	"info": {
+		"_postman_id": "fda6a0cb-fd9e-45a7-bfda-6394736a4f0d",
+		"name": "SegmentController tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33711545"
+	},
+	"item": [
+		{
+			"name": "GET LIST OF SEGMENTS",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// Kollar så att response koden är 200 (success)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Hämtar lista med segments, kollar att alla object minst har id, name och userIsComplete(lista med users som är färdiga med sitt segment med frågor)\r",
+							"pm.test(\"Object has atleast id, name and userIsComplete\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    for(let object of jsonData){\r",
+							"        pm.expect(object).to.have.any.keys(\"id\", \"name\", \"userIsComplete\")\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"// Kollar så att propertyn \"name\" är en string\r",
+							"pm.test(\"Name is a string\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(\"name\").to.be.a(\"string\");\r",
+							"});\r",
+							"\r",
+							"// Kollar så att alla object kommer med ett ID och att det är en integer.\r",
+							"pm.test(\"All objects has an ID\", function(){\r",
+							"    var jsonData = pm.response.json();\r",
+							"    for(let object of jsonData){\r",
+							"        pm.expect(object).to.have.property(\"id\")\r",
+							"\r",
+							"        pm.expect(object.id).to.be.a(\"number\")\r",
+							"    }\r",
+							"});\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5142/api/Segment/Segments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5142",
+					"path": [
+						"api",
+						"Segment",
+						"Segments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "POST SEGMENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							"// Kollar så att response koden är 200 (success)\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Test so Id and name is not empty\r",
+							"pm.test(\"Id, name is not empty\", function(){\r",
+							"    var segment = pm.response.json();\r",
+							"    pm.expect(segment.id && segment.name).is.not.equal(null)\r",
+							"\r",
+							"\r",
+							"    pm.environment.set('SegmentId', segment.id)\r",
+							"    pm.environment.set('GetSegmentURL', \"http://localhost:5142/api/Segment/Segment/\" + segment.id)\r",
+							"    pm.environment.set('UpdateSegmentURL', \"http://localhost:5142/api/Segment/UpdateSegment/\" + segment.id)\r",
+							"    pm.environment.set('DeleteSegmentURL', \"http://localhost:5142/api/Segment/DeleteSegment/\" + segment.id)\r",
+							"});\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 56,\r\n    \"name\": \"Del 677\",\r\n    \"subCategories\": null,\r\n    \"category\": null,\r\n    \"categoryId\": 2,\r\n    \"userIsComplete\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5142/api/Segment/PostSegment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5142",
+					"path": [
+						"api",
+						"Segment",
+						"PostSegment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET SEGMENT BY ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"// Kollar så att response koden är 200 (success)",
+							"pm.test('Status code is 200', function () {",
+							"    pm.response.to.have.status(200);",
+							"})",
+							"",
+							"// Kollar så att objektet har ett ID och det är en integer",
+							"pm.test('Object has ID as an integer', function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.be.a('number');",
+							"})",
+							"",
+							"// Testar så att propertyn name är en Del, dvs ett segment",
+							"pm.test('Object name is a Part(Del)', function () {",
+							"    var responseObject = pm.response.json();",
+							"    pm.expect(responseObject).to.be.an('object');",
+							"    pm.expect(responseObject.name).to.contain('Del');",
+							"})",
+							"",
+							"// Testar ifall userIsComplete är en Array/Lista",
+							"pm.test('userIsComplete is an Array/List', function () {",
+							"    var object = pm.response.json();",
+							"    pm.expect(object.userIsComplete).to.be.an('Array');",
+							"})",
+							"",
+							"// Testar så att segmentet är connectat med en kategori",
+							"pm.test(\"Is connected to a Category\", function(){",
+							"    var object = pm.response.json();",
+							"    pm.expect(object.categoryId).to.not.equal(null);",
+							"});",
+							"",
+							"// Enkelt test som kollar så att ett objekt kommer tillbaks",
+							"pm.test(\"Object is not null\", function(){",
+							"    var object = pm.response.json();",
+							"    pm.expect(object).to.not.equal(null);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{GetSegmentURL}}",
+					"host": [
+						"{{GetSegmentURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE SEGMENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Segment name is updated\", function () {\r",
+							"    var segment = pm.response.json();\r",
+							"    pm.expect(segment.name).to.equal(\"this is updated in postman\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{SegmentId}},\r\n  \"name\": \"this is updated in postman\",\r\n  \"userIsComplete\": [\r\n    \"this is changed in postman!!!!!\"\r\n  ],\r\n  \"categoryId\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{UpdateSegmentURL}}",
+					"host": [
+						"{{UpdateSegmentURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE SEGMENT",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{DeleteSegmentURL}}",
+					"host": [
+						"{{DeleteSegmentURL}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TRY GET DELETED SEGMNET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {\r",
+							"    pm.response.to.have.status(404);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{GetSegmentURL}}",
+					"host": [
+						"{{GetSegmentURL}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
