@@ -1,0 +1,12 @@
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+
+/* No duplicate steps, this one already in ChangeEmail.js
+Given('I am logged in', () => {});*/
+
+When('I click on settings', () => {
+  // TODO: implement step
+});
+
+Then('I should be on the settingspage', () => {
+  // TODO: implement step
+});
