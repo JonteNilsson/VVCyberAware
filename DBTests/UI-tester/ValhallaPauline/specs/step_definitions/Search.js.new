@@ -1,0 +1,17 @@
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+
+Given('that I am logged in', () => {
+  // TODO: implement step
+});
+
+When('I click in the search bar', () => {
+  // TODO: implement step
+});
+
+When('I type {string}', (a) => {
+  // TODO: implement step
+});
+
+Then('I should see the filtered result on the page', () => {
+  // TODO: implement step
+});

@@ -1,0 +1,20 @@
+import { Given, When, Then } from "@badeball/cypress-cucumber-preprocessor";
+
+Given('I am on the login page', () => {
+  // TODO: implement step
+});
+
+When('I type {string} in {string}', (a, b) => {
+  // TODO: implement step
+});
+
+/* No duplicate steps, this one already above
+When('I type {string} in {string}', (a, b) => {});*/
+
+When('I click the submit button', () => {
+  // TODO: implement step
+});
+
+Then('I should see the categories', () => {
+  // TODO: implement step
+});
